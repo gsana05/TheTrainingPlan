@@ -1,11 +1,14 @@
 package com.thetrainingplan
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.WorkoutHistoryAdaptor
 import com.thetrainingplan.databinding.ActivityMainBinding
 import com.thetrainingplan.models.User
@@ -22,7 +25,6 @@ import java.util.function.Predicate
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-    private val listOfUser = ArrayList<User>()
     private lateinit var clientListAdapter: WorkoutHistoryAdaptor
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +43,15 @@ class MainActivity : AppCompatActivity() {
         main_recycler_view.layoutManager = mLayoutManager
         main_recycler_view.adapter = clientListAdapter
 
-        /*val ob = io.reactivex.Observable
+        main_log_out_btn.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val userId = FirebaseAuth.getInstance().uid
+            if(userId == null){
+                startActivity(Intent(this, ActivityLogIn::class.java))
+            }
+        }
+
+        val ob = io.reactivex.Observable
             .fromIterable(UserModel.getData())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -71,7 +81,15 @@ class MainActivity : AppCompatActivity() {
                 Log.v("TAG", "onError called:$e")
             }
 
-        })*/
+        })
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val userId = FirebaseAuth.getInstance().uid
+        if(userId == null){
+            startActivity(Intent(this, ActivityLogIn::class.java))
+        }
     }
 }

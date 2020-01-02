@@ -35,7 +35,7 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun test(){
+   /* private fun test(){
         val ob = io.reactivex.Observable
             .fromIterable(UserModel.getData())
             .subscribeOn(Schedulers.io())
@@ -68,6 +68,6 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
 
         })
 
-    }
+    }*/
 
 }
