@@ -28,7 +28,7 @@ class WorkoutHistoryAdaptor (): RecyclerView.Adapter <WorkoutHistoryAdaptor.View
     override fun onBindViewHolder(holder: WorkoutHistoryAdaptor.ViewHolder, position: Int) {
         val user = agreements[position]
 
-        holder.itemView.recycler_view_email.text = user.email
+        holder.itemView.recycler_view_email.text = user.name
 
 
     }

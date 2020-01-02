@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var clientListAdapter: WorkoutHistoryAdaptor
+    private var mCallbackProfiles = {data:ArrayList<User?>?, exc : Exception? -> Unit}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val ob = io.reactivex.Observable
+        mCallbackProfiles = { data : ArrayList<User?>?, exception : Exception? ->
+
+            if(data != null) {
+                Log.i("Hello", "all data ${data.size}")
+                viewModel.listOfUser.value = data
+            }
+
+        }
+
+        /*val ob = io.reactivex.Observable
             .fromIterable(UserModel.getData())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -61,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
 
-        ob.subscribe(object : Observer<User>{
+        ob.subscribe(object : io.reactivex.Observer<User> {
             override fun onComplete() {
                 //main_recycler_view.adapter = WorkoutHistoryAdaptor(listOfUser)
                 Log.v("TAG","onComplete called:")
@@ -81,8 +91,15 @@ class MainActivity : AppCompatActivity() {
                 Log.v("TAG", "onError called:$e")
             }
 
-        })
+        })*/
+    }
 
+    override fun onPause() {
+        super.onPause()
+        val userId = FirebaseAuth.getInstance().uid
+        if(userId != null){
+            UserModel.removeAllUsersListeners(userId, mCallbackProfiles)
+        }
     }
 
     override fun onResume() {
@@ -90,6 +107,9 @@ class MainActivity : AppCompatActivity() {
         val userId = FirebaseAuth.getInstance().uid
         if(userId == null){
             startActivity(Intent(this, ActivityLogIn::class.java))
+        }
+        else{
+            UserModel.addAllUsersListeners(userId, mCallbackProfiles)
         }
     }
 }
