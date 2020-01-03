@@ -7,26 +7,19 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.WorkoutHistoryAdaptor
 import com.thetrainingplan.databinding.ActivityMainBinding
 import com.thetrainingplan.models.User
 import com.thetrainingplan.models.UserModel
 import com.thetrainingplan.viewmodels.MainViewModel
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.function.Predicate
-
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var clientListAdapter: WorkoutHistoryAdaptor
-    private var mCallbackProfiles = {data:ArrayList<User?>?, exc : Exception? -> Unit}
+    private var mCallbackProfiles = { _:ArrayList<User?>?, _: Exception? -> Unit}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,46 +45,51 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mCallbackProfiles = { data : ArrayList<User?>?, exception : Exception? ->
-
+        mCallbackProfiles = { data : ArrayList<User?>?, _ : Exception? ->
             if(data != null) {
                 Log.i("Hello", "all data ${data.size}")
                 viewModel.listOfUser.value = data
             }
-
         }
 
-        /*val ob = io.reactivex.Observable
-            .fromIterable(UserModel.getData())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .filter(object : Predicate<User>, io.reactivex.functions.Predicate<User> {
-                override fun test(t: User): Boolean {
-                    return t.email != "sanashee05@hotmail.com"
-                }
-            })
+        /*val userId = FirebaseAuth.getInstance().uid
+     if(userId != null){
 
-        ob.subscribe(object : io.reactivex.Observer<User> {
-            override fun onComplete() {
-                //main_recycler_view.adapter = WorkoutHistoryAdaptor(listOfUser)
-                Log.v("TAG","onComplete called:")
-            }
+         val li = UserModel.addAllUsersListenersTest(userId)
+         val lo = UserModel.getData()
 
-            override fun onSubscribe(d: Disposable) {
-                Log.v("TAG","onSubscribed called:")
-            }
+         val ob = io.reactivex.Observable
+             .fromIterable(li)
+             .subscribeOn(Schedulers.io())
+             .observeOn(AndroidSchedulers.mainThread())
+             .filter(object : Predicate<User>, io.reactivex.functions.Predicate<User> {
+                 override fun test(t: User): Boolean {
+                     return t.email != "sanashee05@hotmail.com"
+                 }
+             })
 
-            override fun onNext(t: User) {
-                //listOfUser.add(t)
-                Log.v("TAG","onNext called:" + Thread.currentThread().name)
-                Log.v("TAG","onNext called:" + t.email)
-            }
+         ob.subscribe(object : io.reactivex.Observer<User> {
+             override fun onComplete() {
+                 //main_recycler_view.adapter = WorkoutHistoryAdaptor(listOfUser)
+                 Log.v("TAG","onComplete called:")
+             }
 
-            override fun onError(e: Throwable) {
-                Log.v("TAG", "onError called:$e")
-            }
+             override fun onSubscribe(d: Disposable) {
+                 Log.v("TAG","onSubscribed called:")
+             }
 
-        })*/
+             override fun onNext(t: User) {
+                 //listOfUser.add(t)
+                 Log.v("TAG","onNext called:" + Thread.currentThread().name)
+                 Log.v("TAG","onNext called:" + t.email)
+             }
+
+             override fun onError(e: Throwable) {
+                 Log.v("TAG", "onError called:$e")
+             }
+
+         })
+     }*/
     }
 
     override fun onPause() {

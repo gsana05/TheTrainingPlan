@@ -1,6 +1,5 @@
 package com.thetrainingplan.models
 
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -10,17 +9,76 @@ object UserModel {
 
     //val currentListOfUser = MutableLiveData<ArrayList<User>>().apply { value = null }
 
-    fun getData() : ArrayList<User>{
+    /*fun getData() : ArrayList<User>{
         val list = ArrayList<User>()
         list.add(User("Gareth", "sanashee05@hotmail.com"))
         list.add(User("John", "ronaldo@hotmail.com"))
         //currentListOfUser.value = list
         return list
-    }
+    }*/
 
     private val mFirebaseRefs : HashMap<String, ListenerRegistration> = HashMap()
     private var mCachedProfiles : HashMap<String, ArrayList<User?>> = HashMap() // these are the cached profiles
     private var mProfileCallbacks = HashMap<String, ArrayList<(ArrayList<User?>, Exception?) -> Unit>>() // callbacks for that user id
+
+  /*  fun addAllUsersListenersTest(userId : String) : ArrayList<User> {
+
+        val list = ArrayList<User?>()
+
+        // return is user has already been cached and no data has changed for that user
+        if(mCachedProfiles.containsKey(userId)){ // if user data has been cached then return with this already saved user data
+            val profile = mCachedProfiles[userId]
+            if (profile != null) {
+                val theList = ArrayList<User>()
+                profile.let {
+                    for( i in it){
+                        i.let {
+                            it?.let {
+                                theList.add(it)
+                            }
+                        }
+                    }
+                }
+                return theList
+            }
+        }
+
+        // do this if it has no listener yet
+        if(!mFirebaseRefs.contains(userId)){
+            val ref = getDatabaseRef().addSnapshotListener{ querySnaphot, firebaseFirestoreException ->
+                    try {
+                        if(querySnaphot != null){
+                            for(documentSnapshot in querySnaphot){
+                                val profile = User(documentSnapshot) // gets data from database
+                                list.add(profile)
+                            }
+                        }
+                    }
+                    catch(e : Exception){ }
+
+                    // caching the data
+                    if(list.size > 0){
+                        this.mCachedProfiles[userId] = list
+                    }
+            }
+            mFirebaseRefs[userId] = ref
+        }
+
+
+        val theList2 = ArrayList<User>()
+        list.let {
+            for( i in it){
+                i.let {
+                    it?.let {
+                        theList2.add(it)
+                    }
+                }
+            }
+        }
+
+        return theList2
+    }*/
+
 
     fun addAllUsersListeners(userId : String, onComplete : (ArrayList<User?>, Exception?) -> Unit){
 
@@ -91,7 +149,7 @@ object UserModel {
 
             if(callbackList.size == 0){
                 mProfileCallbacks.remove(userId) // remove the list from the cache
-                val databaseRef = mFirebaseRefs.get(userId) // get value which is the listener
+                val databaseRef = mFirebaseRefs[userId] // get value which is the listener
                 if(databaseRef!=null){
                     databaseRef.remove() // remove the snapshot lister // change listener to unit
                     mFirebaseRefs.remove(userId) // remove the ref from our cached list
