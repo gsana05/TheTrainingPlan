@@ -22,6 +22,52 @@
                 app:layout_constraintVertical_weight="0.1"
         />
 
+        <TextView
+                android:id="@+id/main_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/main_fragment_toolbar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:text="Get started with our programs "
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+        />
+
+        <Button
+                android:id="@+id/main_strength_size_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/main_heading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:backgroundTint="@color/ssRed"
+                android:background="@drawable/white_border"
+                android:text="Strength and Size Program"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+        />
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/main_strength_size_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:backgroundTint="@color/ssRed"
+                android:background="@drawable/white_border"
+                android:text="Pure Size Program"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+        />
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_recycler_view"
                 android:layout_width="0dp"
@@ -36,6 +82,7 @@
                 android:layout_marginBottom="10dp"
                 app:data="@{viewModel.filteredAgreements}"
                 app:layout_constraintVertical_weight="0.8"
+                android:visibility="invisible"
         />
 
         <Button

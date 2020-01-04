@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mCallbackCurrentUser = { data : User?, exc : Exception? ->
+        mCallbackCurrentUser = { data : User?, _: Exception? ->
             if(data != null){
                 viewModel.currentUser.value = data
             }
