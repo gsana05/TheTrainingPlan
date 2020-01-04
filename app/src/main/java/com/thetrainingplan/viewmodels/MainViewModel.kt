@@ -14,6 +14,7 @@ import java.util.function.Predicate
 class MainViewModel(application : Application) : AndroidViewModel(application) {
 
     val listOfUser =  MutableLiveData<ArrayList<User?>>()
+    val currentUser = MutableLiveData<User>()
 
     var filteredAgreements: LiveData<List<User?>>? = Transformations.switchMap(listOfUser) { users  ->
         getFilteredList(users)

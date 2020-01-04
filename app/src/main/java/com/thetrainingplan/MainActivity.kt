@@ -19,7 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var clientListAdapter: WorkoutHistoryAdaptor
-    private var mCallbackProfiles = { _:ArrayList<User?>?, _: Exception? -> Unit}
+    private var mCallbackAllUsers = { _:ArrayList<User?>?, _: Exception? -> Unit}
+    private var mCallbackCurrentUser = { _:User?, _: Exception? -> Unit}
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +47,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mCallbackProfiles = { data : ArrayList<User?>?, _ : Exception? ->
+        mCallbackCurrentUser = { data : User?, exc : Exception? ->
+            if(data != null){
+                viewModel.currentUser.value = data
+            }
+        }
+
+        mCallbackAllUsers = { data : ArrayList<User?>?, _ : Exception? ->
             if(data != null) {
                 Log.i("Hello", "all data ${data.size}")
                 viewModel.listOfUser.value = data
@@ -96,7 +104,8 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
-            UserModel.removeAllUsersListeners(userId, mCallbackProfiles)
+            UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
+            UserModel.removeAllUsersListeners(userId, mCallbackAllUsers)
         }
     }
 
@@ -107,7 +116,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ActivityLogIn::class.java))
         }
         else{
-            UserModel.addAllUsersListeners(userId, mCallbackProfiles)
+            UserModel.addCurrentUserListener(userId, mCallbackCurrentUser)
+            UserModel.addAllUsersListeners(userId, mCallbackAllUsers)
         }
     }
 }
