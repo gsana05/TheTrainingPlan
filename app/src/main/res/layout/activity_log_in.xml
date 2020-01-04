@@ -15,25 +15,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="50dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/ic_gym_logo_round"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintDimensionRatio="1:1"
             android:scaleType="fitCenter"
             android:background="#04090f"
             android:contentDescription="@string/app_name"
+            android:backgroundTint="@color/light_grey"
+    />
+
+    <TextView
+            android:id="@+id/log_in_heading_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/log_in_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="5dp"
+            android:text="The Training Plan"
+            android:textSize="30sp"
+            android:textColor="@color/blue"
+            android:textStyle="italic"
     />
 
     <TextView
             android:id="@+id/log_in_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/log_in_title"
+            app:layout_constraintTop_toBottomOf="@+id/log_in_heading_app_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="Log in"
             android:textSize="30sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/blue"
             android:textStyle="bold"
     />
 
@@ -48,7 +63,7 @@
             app:layout_constraintBottom_toTopOf="@+id/log_in_email_input"
             android:layout_marginTop="24dp"
             android:textSize="30sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/blue"
             android:text="Email"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintVertical_bias="0"
@@ -69,9 +84,10 @@
             android:inputType="textEmailAddress"
             android:hint="Email"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             android:autofillHints=""
             tools:targetApi="o"
+            android:backgroundTint="@color/blue"
     />
 
     <TextView
@@ -84,7 +100,7 @@
             app:layout_constraintBottom_toTopOf="@+id/log_in_password_input"
             android:layout_marginTop="24dp"
             android:textSize="30sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/blue"
             android:text="Password"
     />
 
@@ -99,7 +115,8 @@
             android:layout_marginTop="10dp"
             android:padding="6dp"
             android:hint="Password"
-            android:textColor="@color/colorPrimary"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/black"
             android:textAlignment="center"
             android:inputType="textPassword"
             android:autofillHints=""
@@ -122,16 +139,18 @@
             android:id="@+id/log_in_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="Log in"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/log_in_create_account_btn"
             app:layout_constraintEnd_toEndOf="@+id/log_in_password_input"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/log_in_password_input"
-            app:layout_constraintTop_toBottomOf="@+id/log_in_password_input" />
+            app:layout_constraintTop_toBottomOf="@+id/log_in_password_input"
+            android:background="@drawable/white_border"
+            android:backgroundTint="@color/blue"
+            android:layout_marginTop="50dp"
+            android:text="Log in"
+            android:textAllCaps="false"
+            android:textColor="@color/ssWhite"
+            android:textSize="18sp" />
 
     <Button
             android:id="@+id/log_in_create_account_btn"
@@ -140,9 +159,11 @@
             app:layout_constraintTop_toBottomOf="@+id/log_in_button"
             app:layout_constraintStart_toStartOf="@+id/log_in_password_input"
             app:layout_constraintEnd_toEndOf="@+id/log_in_password_input"
+            android:background="@drawable/white_border"
+            android:backgroundTint="@color/blue"
             android:layout_marginTop="10dp"
             android:text="Create account"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/ssWhite"
             android:textSize="18sp"
             android:textAllCaps="false"
     />
