@@ -8,7 +8,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MainActivity">
+            tools:context=".MainActivity"
+            android:background="@color/light_grey"
+    >
 
         <fragment
                 android:id="@+id/main_fragment_toolbar"
@@ -32,7 +34,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Get started with our programs "
                 android:textSize="18sp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
         />
 
         <Button
@@ -45,7 +47,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
-                android:backgroundTint="@color/ssRed"
+                android:backgroundTint="@color/blue"
                 android:background="@drawable/white_border"
                 android:text="Strength and Size Program"
                 android:textAllCaps="false"
@@ -61,7 +63,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
-                android:backgroundTint="@color/ssRed"
+                android:backgroundTint="@color/blue"
                 android:background="@drawable/white_border"
                 android:text="Pure Size Program"
                 android:textAllCaps="false"
@@ -83,7 +85,7 @@
                 app:data="@{viewModel.filteredAgreements}"
                 app:layout_constraintVertical_weight="0.8"
                 android:visibility="invisible"
-        />
+                app:layout_constraintHorizontal_bias="1.0"/>
 
         <Button
                 android:id="@+id/main_log_out_btn"

@@ -46,12 +46,12 @@
             app:layout_constraintTop_toBottomOf="@+id/log_in_heading_app_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
             android:text="Log in"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textColor="@color/blue"
             android:textStyle="bold"
     />
-
 
     <TextView
             android:id="@+id/log_in_email_title"
@@ -67,13 +67,14 @@
             android:text="Email"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintVertical_bias="0"
+            android:visibility="gone"
     />
 
     <EditText
             android:id="@+id/log_in_email_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:padding="6dp"
@@ -102,6 +103,7 @@
             android:textSize="30sp"
             android:textColor="@color/blue"
             android:text="Password"
+            android:visibility="gone"
     />
 
     <EditText
@@ -112,7 +114,7 @@
             app:layout_constraintStart_toStartOf="@+id/log_in_email_input"
             app:layout_constraintEnd_toEndOf="@+id/log_in_email_input"
             app:layout_constraintBottom_toTopOf="@+id/log_in_button"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:padding="6dp"
             android:hint="Password"
             android:backgroundTint="@color/blue"
@@ -146,11 +148,11 @@
             app:layout_constraintTop_toBottomOf="@+id/log_in_password_input"
             android:background="@drawable/white_border"
             android:backgroundTint="@color/blue"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:text="Log in"
             android:textAllCaps="false"
             android:textColor="@color/ssWhite"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     <Button
             android:id="@+id/log_in_create_account_btn"
@@ -164,7 +166,7 @@
             android:layout_marginTop="10dp"
             android:text="Create account"
             android:textColor="@color/ssWhite"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textAllCaps="false"
     />
 
