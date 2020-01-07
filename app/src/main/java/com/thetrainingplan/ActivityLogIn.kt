@@ -1,64 +1,67 @@
 package com.thetrainingplan
 
-import android.content.Intent
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
-import com.thetrainingplan.models.UserModel
-import kotlinx.android.synthetic.main.activity_log_in.*
+import com.thetrainingplan.databinding.ActivityLogInBinding
+import com.thetrainingplan.viewmodels.AuthViewModel
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 
 class ActivityLogIn : AppCompatActivity() {
 
+    private lateinit var viewModel: AuthViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_log_in)
+        //setContentView(R.layout.activity_log_in)
+
+        // reference to view model
+        viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
+
+        val binding: ActivityLogInBinding = DataBindingUtil.setContentView(this, R.layout.activity_log_in)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+        viewModel.isLoggedIn.observe(this, Observer {
+            if(it){
+                dismissKeyboard()
+                finish()
+            }
+        })
+
+        viewModel.isInputValid.observe(this, Observer {
+            if(!it){
+
+                alert ("Please enter email and password"){
+                    okButton {  }
+                }.show()
+
+            }
+        })
+
+        viewModel.logInExc.observe(this, Observer {
+            alert ("${it.message}"){
+                okButton { }
+            }.show()
+            dismissKeyboard()
+        })
 
 
-        log_in_button.setOnClickListener {
-            doLogIn()
-        }
-
-        log_in_create_account_btn.setOnClickListener {
+        /*log_in_create_account_btn.setOnClickListener {
             startActivity(Intent(this, ActivitySignUp::class.java))
-        }
+        }*/
 
     }
 
-    private fun doLogIn(){
-
-        val email = log_in_email_input.text.toString().trim()
-        val password = log_in_password_input.text.toString().trim()
-
-        if(email.isEmpty()){
-            log_in_email_input.error = "enter email"
-            log_in_email_input.requestFocus()
-            return
-        }
-
-        if(password.isEmpty()){
-            log_in_password_input.error = "enter password"
-            log_in_password_input.requestFocus()
-            return
-        }
-
-        UserModel.logIn(email, password){  isUser : Boolean?, exception : Exception? ->
-            if(isUser != null && isUser){
-                finish()
-            }
-            else{
-                exception?.let {
-                    alert ("${it.message}"){
-                        okButton {  }
-                    }.show()
-                }?:run{
-                    alert ("Unable to log in"){
-                        okButton {  }
-                    }.show()
-                }
-            }
-        }
+    private fun dismissKeyboard(){
+        val inputManager:InputMethodManager =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
     override fun onResume() {
