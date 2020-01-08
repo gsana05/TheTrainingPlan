@@ -28,20 +28,15 @@ class ActivityLogIn : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.isLoggedIn.observe(this, Observer {
-            if(it){
-                dismissKeyboard()
-                finish()
-            }
-        })
-
-        viewModel.isInputValid.observe(this, Observer {
+        viewModel.isUserLoggedIn.observe(this, Observer {
             if(!it){
-
                 alert ("Please enter email and password"){
                     okButton {  }
                 }.show()
-
+            }
+            else{
+                dismissKeyboard()
+                finish()
             }
         })
 
@@ -51,11 +46,6 @@ class ActivityLogIn : AppCompatActivity() {
             }.show()
             dismissKeyboard()
         })
-
-
-        /*log_in_create_account_btn.setOnClickListener {
-            startActivity(Intent(this, ActivitySignUp::class.java))
-        }*/
 
     }
 
