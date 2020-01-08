@@ -2,24 +2,37 @@ package com.thetrainingplan
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.thetrainingplan.databinding.ActivitySignUpBinding
 import com.thetrainingplan.models.UserModel
+import com.thetrainingplan.viewmodels.AuthViewModel
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 
 class ActivitySignUp : AppCompatActivity() {
 
+    private lateinit var viewModel: AuthViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+        //setContentView(R.layout.activity_sign_up)
+        // reference to view model
+        viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
+
+        val binding: ActivitySignUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         sign_up_button.setOnClickListener {
             doSignUp()
         }
 
-        sign_up_cancel_btn.setOnClickListener {
+        viewModel.joinFinishCreateAccountActivityEvent.observe(this, Observer {
             finish()
-        }
+        })
     }
 
     private fun doSignUp(){

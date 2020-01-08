@@ -8,40 +8,49 @@ import com.thetrainingplan.util.LiveEvent
 
 class AuthViewModel (application : Application) : AndroidViewModel(application)  {
 
-    val email =  MutableLiveData<String>()
-    val password =  MutableLiveData<String>()
-    var isUserLoggedIn = MutableLiveData<Boolean>()
-    var logInExc = MutableLiveData<Exception>()
-    var isLoggingIn = MutableLiveData<Boolean>().apply { value = false }
-    val startCreateAccountActivityEvent = LiveEvent<Void>()
+    val signInEmail =  MutableLiveData<String>()
+    val signInPassword =  MutableLiveData<String>()
+    var signInIsUserLoggedIn = MutableLiveData<Boolean>()
+    var signInExc = MutableLiveData<Exception>()
+    var isSigningIn = MutableLiveData<Boolean>().apply { value = false }
+    val signInStartCreateAccountActivityEvent = LiveEvent<Void>()
+    val joinFinishCreateAccountActivityEvent = LiveEvent<Void>()
 
     fun signIn(){
 
-        if( email.value == null || password.value == null){
-            isUserLoggedIn.value = false
+        if( signInEmail.value == null || signInPassword.value == null){
+            signInIsUserLoggedIn.value = false
             return
         }
 
-        isLoggingIn.value = true
+        isSigningIn.value = true
 
-        email.value?.let {email ->
-            password.value?.let { password ->
+        signInEmail.value?.let { email ->
+            signInPassword.value?.let { password ->
                 UserModel.logIn(email, password){ isUser : Boolean?, exception : Exception? ->
 
                     if(exception != null){
-                        logInExc.value = exception
+                        signInExc.value = exception
                     }
                     else{
-                        isUserLoggedIn.value = isUser != null && isUser
+                        signInIsUserLoggedIn.value = isUser != null && isUser
                     }
-                    isLoggingIn.value = false
+                    isSigningIn.value = false
                 }
             }
         }
 
     }
 
+    fun signUp(){
+
+    }
+
     fun startActivityCreateAccount(){
-        startCreateAccountActivityEvent.call()
+        signInStartCreateAccountActivityEvent.call()
+    }
+
+    fun finishCreateAccountActivity(){
+        joinFinishCreateAccountActivityEvent.call()
     }
 }

@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
              .observeOn(AndroidSchedulers.mainThread())
              .filter(object : Predicate<User>, io.reactivex.functions.Predicate<User> {
                  override fun test(t: User): Boolean {
-                     return t.email != "sanashee05@hotmail.com"
+                     return t.signInEmail != "sanashee05@hotmail.com"
                  }
              })
 
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
              override fun onNext(t: User) {
                  //listOfUser.add(t)
                  Log.v("TAG","onNext called:" + Thread.currentThread().name)
-                 Log.v("TAG","onNext called:" + t.email)
+                 Log.v("TAG","onNext called:" + t.signInEmail)
              }
 
              override fun onError(e: Throwable) {

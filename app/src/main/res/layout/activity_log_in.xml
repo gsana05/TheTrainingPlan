@@ -92,7 +92,7 @@
                 android:autofillHints=""
                 tools:targetApi="o"
                 android:backgroundTint="@color/blue"
-                android:text="@={viewModel.email}"
+                android:text="@={viewModel.signInEmail}"
         />
 
         <TextView
@@ -127,7 +127,7 @@
                 android:inputType="textPassword"
                 android:autofillHints=""
                 tools:targetApi="o"
-                android:text="@={viewModel.password}"
+                android:text="@={viewModel.signInPassword}"
         />
 
         <ProgressBar
@@ -139,7 +139,7 @@
                 app:layout_constraintStart_toStartOf="@+id/log_in_button"
                 app:layout_constraintEnd_toEndOf="@+id/log_in_button"
                 android:indeterminateTint="@color/blue"
-                android:visibility="@{viewModel.isLoggingIn == false ? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{viewModel.isSigningIn == false ? View.INVISIBLE : View.VISIBLE}"
         />
 
         <Button
@@ -159,7 +159,7 @@
                 android:textColor="@color/ssWhite"
                 android:textSize="16sp"
                 android:onClick="@{() -> viewModel.signIn()}"
-                android:visibility="@{viewModel.isLoggingIn == true ? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{viewModel.isSigningIn == true ? View.INVISIBLE : View.VISIBLE}"
         />
 
         <Button

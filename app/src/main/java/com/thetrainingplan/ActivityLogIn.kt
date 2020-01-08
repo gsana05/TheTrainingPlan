@@ -29,7 +29,7 @@ class ActivityLogIn : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.isUserLoggedIn.observe(this, Observer {
+        viewModel.signInIsUserLoggedIn.observe(this, Observer {
             if(!it){
                 alert ("Please enter email and password"){
                     okButton {  }
@@ -41,14 +41,14 @@ class ActivityLogIn : AppCompatActivity() {
             }
         })
 
-        viewModel.logInExc.observe(this, Observer {
+        viewModel.signInExc.observe(this, Observer {
             alert ("${it.message}"){
                 okButton { }
             }.show()
             dismissKeyboard()
         })
 
-        viewModel.startCreateAccountActivityEvent.observe(this, Observer {
+        viewModel.signInStartCreateAccountActivityEvent.observe(this, Observer {
             val intent = Intent(this, ActivitySignUp::class.java)
             startActivity(intent)
         })
