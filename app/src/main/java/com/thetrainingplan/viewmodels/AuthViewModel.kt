@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.thetrainingplan.models.UserModel
+import com.thetrainingplan.util.LiveEvent
 
 class AuthViewModel (application : Application) : AndroidViewModel(application)  {
 
@@ -12,6 +13,7 @@ class AuthViewModel (application : Application) : AndroidViewModel(application) 
     var isUserLoggedIn = MutableLiveData<Boolean>()
     var logInExc = MutableLiveData<Exception>()
     var isLoggingIn = MutableLiveData<Boolean>().apply { value = false }
+    val startCreateAccountActivityEvent = LiveEvent<Void>()
 
     fun signIn(){
 
@@ -37,5 +39,9 @@ class AuthViewModel (application : Application) : AndroidViewModel(application) 
             }
         }
 
+    }
+
+    fun startActivityCreateAccount(){
+        startCreateAccountActivityEvent.call()
     }
 }

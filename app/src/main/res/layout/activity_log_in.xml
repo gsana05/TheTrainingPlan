@@ -176,6 +176,7 @@
                 android:textColor="@color/ssWhite"
                 android:textSize="16sp"
                 android:textAllCaps="false"
+                android:onClick="@{() -> viewModel.startActivityCreateAccount()}"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

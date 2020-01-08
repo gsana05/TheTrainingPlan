@@ -1,6 +1,7 @@
 package com.thetrainingplan
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -45,6 +46,11 @@ class ActivityLogIn : AppCompatActivity() {
                 okButton { }
             }.show()
             dismissKeyboard()
+        })
+
+        viewModel.startCreateAccountActivityEvent.observe(this, Observer {
+            val intent = Intent(this, ActivitySignUp::class.java)
+            startActivity(intent)
         })
 
     }
