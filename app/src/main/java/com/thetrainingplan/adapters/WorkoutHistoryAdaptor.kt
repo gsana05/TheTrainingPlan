@@ -9,7 +9,7 @@ import com.thetrainingplan.R
 import com.thetrainingplan.models.User
 import kotlinx.android.synthetic.main.main_recycler_view_item.view.*
 
-class WorkoutHistoryAdaptor (): RecyclerView.Adapter <WorkoutHistoryAdaptor.ViewHolder>(), BindableAdapter<User> {
+class WorkoutHistoryAdaptor : RecyclerView.Adapter <WorkoutHistoryAdaptor.ViewHolder>(), BindableAdapter<User> {
     override fun setData(items: List<User>?) {
         agreements = items ?: emptyList()
         notifyDataSetChanged()

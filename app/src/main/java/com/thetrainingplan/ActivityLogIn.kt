@@ -31,7 +31,7 @@ class ActivityLogIn : AppCompatActivity() {
 
         viewModel.signInIsUserLoggedIn.observe(this, Observer {
             if(!it){
-                alert ("Please fill in all fields"){
+                alert (getString(R.string.please_fill_in_all_fields)){
                     okButton {  }
                 }.show()
             }
