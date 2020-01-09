@@ -7,78 +7,9 @@ import com.google.firebase.firestore.ListenerRegistration
 
 object UserModel {
 
-    //val currentListOfUser = MutableLiveData<ArrayList<User>>().apply { value = null }
-
-    /*fun getData() : ArrayList<User>{
-        val list = ArrayList<User>()
-        list.add(User("Gareth", "sanashee05@hotmail.com"))
-        list.add(User("John", "ronaldo@hotmail.com"))
-        //currentListOfUser.value = list
-        return list
-    }*/
-
-  /*  fun addAllUsersListenersTest(userId : String) : ArrayList<User> {
-
-        val list = ArrayList<User?>()
-
-        // return is user has already been cached and no data has changed for that user
-        if(mCachedAllUsers.containsKey(userId)){ // if user data has been cached then return with this already saved user data
-            val profile = mCachedAllUsers[userId]
-            if (profile != null) {
-                val theList = ArrayList<User>()
-                profile.let {
-                    for( i in it){
-                        i.let {
-                            it?.let {
-                                theList.add(it)
-                            }
-                        }
-                    }
-                }
-                return theList
-            }
-        }
-
-        // do this if it has no listener yet
-        if(!mFirebaseRefsAllUsers.contains(userId)){
-            val ref = getDatabaseRef().addSnapshotListener{ querySnaphot, firebaseFirestoreException ->
-                    try {
-                        if(querySnaphot != null){
-                            for(documentSnapshot in querySnaphot){
-                                val profile = User(documentSnapshot) // gets data from database
-                                list.add(profile)
-                            }
-                        }
-                    }
-                    catch(e : Exception){ }
-
-                    // caching the data
-                    if(list.size > 0){
-                        this.mCachedAllUsers[userId] = list
-                    }
-            }
-            mFirebaseRefsAllUsers[userId] = ref
-        }
-
-
-        val theList2 = ArrayList<User>()
-        list.let {
-            for( i in it){
-                i.let {
-                    it?.let {
-                        theList2.add(it)
-                    }
-                }
-            }
-        }
-
-        return theList2
-    }*/
-
     private val mCurrentUserFirebaseRef : HashMap<String, ListenerRegistration> = HashMap()
     private val mCurrentUserCache : HashMap<String, User> = HashMap()
     private val mCurrentUserCallbacks = HashMap<String, ArrayList<(User?, Exception?) -> Unit>>()
-
 
     fun addCurrentUserListener(userId : String, onComplete: (User?, Exception?) -> Unit){
 
@@ -274,7 +205,8 @@ object UserModel {
                     callback(true, null)
                 }
                 else{
-                    callback(false, it.exception)
+                    // user has auth but data didn't save to collection
+                    callback(true, Exception("Auth created but user data not saved"))
                 }
             }
         }

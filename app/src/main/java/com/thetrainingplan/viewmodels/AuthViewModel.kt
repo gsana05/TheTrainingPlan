@@ -13,8 +13,6 @@ class AuthViewModel (application : Application) : AndroidViewModel(application) 
     var signInIsUserLoggedIn = MutableLiveData<Boolean>()
     var signInExc = MutableLiveData<Exception>()
     var isSigningIn = MutableLiveData<Boolean>().apply { value = false }
-    val signInStartCreateAccountActivityEvent = LiveEvent<Void>()
-    val joinFinishCreateAccountActivityEvent = LiveEvent<Void>()
 
     fun signIn(){
 
@@ -42,9 +40,46 @@ class AuthViewModel (application : Application) : AndroidViewModel(application) 
 
     }
 
-    fun signUp(){
+    var joinName = MutableLiveData<String>()
+    var joinEmail = MutableLiveData<String>()
+    var joinPassword = MutableLiveData<String>()
+    var isUserJoined = MutableLiveData<Boolean>()
+    var userException = MutableLiveData<Exception>()
+    var isJoiningProgress = MutableLiveData<Boolean>().apply { value = false }
+
+    fun joinAndSignIn(){
+
+        val name = joinName.value
+        val email =  joinEmail.value
+        val password = joinPassword.value
+
+        if(name == null || email == null || password == null){
+            isUserJoined.value = false
+            return
+        }
+
+        isJoiningProgress.value = true
+
+        UserModel.signUp(name, email, password){ isSignedUp : Boolean?, exception : Exception? ->
+
+            if(exception != null && isSignedUp != null && isSignedUp){ // auth created but user object not saved - let user log in
+                userException.value = exception
+                isUserJoined.value = isSignedUp
+            }
+            else if(exception != null){ // auth not created
+                userException.value = exception
+            }
+            else{ // successful auth and saved user object
+                isUserJoined.value = isSignedUp != null && isSignedUp
+            }
+
+            isJoiningProgress.value = false
+        }
 
     }
+
+    val signInStartCreateAccountActivityEvent = LiveEvent<Void>()
+    val joinFinishCreateAccountActivityEvent = LiveEvent<Void>()
 
     fun startActivityCreateAccount(){
         signInStartCreateAccountActivityEvent.call()
@@ -53,4 +88,5 @@ class AuthViewModel (application : Application) : AndroidViewModel(application) 
     fun finishCreateAccountActivity(){
         joinFinishCreateAccountActivityEvent.call()
     }
+
 }
