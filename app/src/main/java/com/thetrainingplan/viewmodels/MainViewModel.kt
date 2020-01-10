@@ -29,12 +29,12 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
 
     private fun applyFilters(listOfAgreements : List<User?>) : List<User?>{
 
+        return listOfAgreements
+        /*return listOfAgreements.filter {agreement ->
 
-        return listOfAgreements.filter {agreement ->
+            agreement!!.name == "Gareth Sanashee"
 
-            agreement!!.email.length > 3
-
-        }
+        }*/
     }
 
 }

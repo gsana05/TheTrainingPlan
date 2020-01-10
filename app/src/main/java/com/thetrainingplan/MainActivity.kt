@@ -14,6 +14,8 @@ import com.thetrainingplan.models.User
 import com.thetrainingplan.models.UserModel
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.okButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,6 +58,9 @@ class MainActivity : AppCompatActivity() {
         mCallbackAllUsers = { data : ArrayList<User?>?, _ : Exception? ->
             if(data != null) {
                 Log.i("Hello", "all data ${data.size}")
+                alert ("Size of all users ${data.size}"){
+                    okButton {  }
+                }.show()
                 viewModel.listOfUser.value = data
             }
         }
@@ -98,6 +103,13 @@ class MainActivity : AppCompatActivity() {
 
          })
      }*/
+    }
+
+    fun getData() : ArrayList<User>{
+        val list = ArrayList<User>()
+        list.add(User("test name", "email here"))
+        list.add(User("test name 2", "email here 2"))
+        return list
     }
 
     override fun onPause() {

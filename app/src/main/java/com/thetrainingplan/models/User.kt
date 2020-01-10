@@ -5,7 +5,7 @@ import java.lang.Exception
 
 class User {
     var name: String? = null
-    var email: String
+    var email: String? = null
 
     constructor(name : String, email: String){
         this.email = email
@@ -16,7 +16,7 @@ class User {
     constructor(snapshot: DocumentSnapshot){
         val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
         name = data["name"] as String?
-        email = data["signInEmail"] as String
+        email = data["signInEmail"] as String?
     }
 
     // write to database

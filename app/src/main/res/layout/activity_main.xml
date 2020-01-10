@@ -35,6 +35,7 @@
                 android:text="Get started with our programs "
                 android:textSize="18sp"
                 android:textColor="@color/black"
+                android:visibility="gone"
         />
 
         <Button
@@ -52,6 +53,7 @@
                 android:text="Strength and Size Program"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
+                android:visibility="gone"
         />
 
         <Button
@@ -68,6 +70,7 @@
                 android:text="Pure Size Program"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
+                android:visibility="gone"
         />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -84,7 +87,6 @@
                 android:layout_marginBottom="10dp"
                 app:data="@{viewModel.filteredAgreements}"
                 app:layout_constraintVertical_weight="0.8"
-                android:visibility="invisible"
                 app:layout_constraintHorizontal_bias="1.0"/>
 
         <Button

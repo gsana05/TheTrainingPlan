@@ -127,15 +127,12 @@ object UserModel {
                     val callbackList = mAllUsersCallbacks[userId]
                     val list = ArrayList<User?>()
 
-                    try {
-                        if(querySnaphot != null){
-                            for(documentSnapshot in querySnaphot){
-                                val profile = User(documentSnapshot) // gets data from database
-                                list.add(profile)
-                            }
+                    if(querySnaphot != null){
+                        for(documentSnapshot in querySnaphot){
+                            val profile = User(documentSnapshot) // gets data from database
+                            list.add(profile)
                         }
                     }
-                    catch(e : Exception){ }
 
                     // caching the data
                     if(list.size > 0){
