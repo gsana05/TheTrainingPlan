@@ -11,6 +11,11 @@ object UserModel {
     private val mCurrentUserCache : HashMap<String, User> = HashMap()
     private val mCurrentUserCallbacks = HashMap<String, ArrayList<(User?, Exception?) -> Unit>>()
 
+    fun clearCache(){
+        mCurrentUserCache.clear()
+        mCachedAllUsers.clear()
+    }
+
     fun addCurrentUserListener(userId : String, onComplete: (User?, Exception?) -> Unit){
 
         var callbacks = ArrayList<(User?,Exception?)->Unit>()

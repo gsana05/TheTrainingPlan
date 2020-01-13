@@ -45,24 +45,40 @@ class MainActivity : AppCompatActivity() {
             FirebaseAuth.getInstance().signOut()
             val userId = FirebaseAuth.getInstance().uid
             if(userId == null){
+
+                UserModel.clearCache()
                 startActivity(Intent(this, ActivityLogIn::class.java))
             }
         }
 
-        mCallbackCurrentUser = { data : User?, _: Exception? ->
-            if(data != null){
-                viewModel.currentUser.value = data
-            }
-        }
+        mCallbackCurrentUser = { data : User?, exc: Exception? ->
 
-        mCallbackAllUsers = { data : ArrayList<User?>?, _ : Exception? ->
-            if(data != null) {
-                Log.i("Hello", "all data ${data.size}")
-                alert ("Size of all users ${data.size}"){
+            if(exc != null){
+                alert("current user exc: = ${exc.message}") {
                     okButton {  }
                 }.show()
-                viewModel.listOfUser.value = data
             }
+            else{
+                viewModel.currentUser.value = data
+            }
+
+
+            /*if(data != null){
+                viewModel.currentUser.value = data
+            }
+            else{
+                Log.v("", "")
+            }*/
+        }
+
+        mCallbackAllUsers = { data : ArrayList<User?>?, exc : Exception? ->
+            if(exc != null){
+                alert("exc = ${exc.message}") {
+                    okButton {  }
+                }.show()
+            }
+            viewModel.listOfUser.value = data
+
         }
 
         /*val userId = FirebaseAuth.getInstance().uid
