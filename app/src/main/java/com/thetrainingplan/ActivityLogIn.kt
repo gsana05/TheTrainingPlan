@@ -57,7 +57,7 @@ class ActivityLogIn : AppCompatActivity() {
 
     private fun dismissKeyboard(){
         val inputManager:InputMethodManager =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
+        inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
     override fun onResume() {

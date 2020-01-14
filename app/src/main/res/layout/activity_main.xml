@@ -85,9 +85,10 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                app:data="@{viewModel.filteredAgreements}"
                 app:layout_constraintVertical_weight="0.8"
-                app:layout_constraintHorizontal_bias="1.0"/>
+                app:layout_constraintHorizontal_bias="1.0"
+                tools:listitem="@layout/main_recycler_view_item"
+                />
 
         <Button
                 android:id="@+id/main_log_out_btn"

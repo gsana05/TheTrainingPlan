@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var clientListAdapter: WorkoutHistoryAdaptor
     private var mCallbackAllUsers = { _:ArrayList<User?>?, _: Exception? -> Unit}
     private var mCallbackCurrentUser = { _:User?, _: Exception? -> Unit}
+    val theUsers = ArrayList<User>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +37,6 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        clientListAdapter = WorkoutHistoryAdaptor()
-        val mLayoutManager = LinearLayoutManager(applicationContext)
-        main_recycler_view.layoutManager = mLayoutManager
-        main_recycler_view.adapter = clientListAdapter
 
         main_log_out_btn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -77,7 +74,23 @@ class MainActivity : AppCompatActivity() {
                     okButton {  }
                 }.show()
             }
-            viewModel.listOfUser.value = data
+
+            theUsers.clear()
+            data?.let { list->
+                for(user in list){
+                    user?.let {
+                        theUsers.add(it)
+                    }
+                }
+            }
+
+            clientListAdapter = WorkoutHistoryAdaptor(theUsers)
+            val mLayoutManager = LinearLayoutManager(applicationContext)
+            main_recycler_view.layoutManager = mLayoutManager
+            main_recycler_view.adapter = clientListAdapter
+
+
+            //viewModel.listOfUser.value = data
 
         }
 
