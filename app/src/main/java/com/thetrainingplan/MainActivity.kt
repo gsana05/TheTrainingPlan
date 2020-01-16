@@ -3,11 +3,9 @@ package com.thetrainingplan
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -35,10 +33,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
     }
 
     private lateinit var viewModel: MainViewModel
-    //private lateinit var clientListAdapter: WorkoutHistoryAdaptor
     private var mCallbackAllUsers = { _:ArrayList<User?>?, _: Exception? -> Unit}
     private var mCallbackCurrentUser = { _:User?, _: Exception? -> Unit}
-    val theUsers = ArrayList<User>()
+    private val theUsers = ArrayList<User>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,13 +149,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
 
          })
      }*/
-    }
-
-    fun getData() : ArrayList<User>{
-        val list = ArrayList<User>()
-        list.add(User("test name", "email here"))
-        list.add(User("test name 2", "email here 2"))
-        return list
     }
 
     override fun onPause() {
