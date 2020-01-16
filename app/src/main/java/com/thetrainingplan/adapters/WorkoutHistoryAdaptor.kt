@@ -9,10 +9,13 @@ import com.bnpleasing.BindableAdapter
 import com.thetrainingplan.R
 import com.thetrainingplan.databinding.MainRecyclerViewItemBinding
 import com.thetrainingplan.models.User
+import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.main_recycler_view_item.view.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.okButton
 
-class WorkoutHistoryAdaptor(val users : ArrayList<User>) : RecyclerView.Adapter <WorkoutHistoryAdaptor.ViewHolder>(){
+class WorkoutHistoryAdaptor(val users : ArrayList<User>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter <WorkoutHistoryAdaptor.ViewHolder>(){
     /*override fun setData(items: List<User>?) {
         agreements = items ?: emptyList()
         notifyDataSetChanged()
@@ -40,7 +43,19 @@ class WorkoutHistoryAdaptor(val users : ArrayList<User>) : RecyclerView.Adapter 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.recyclerviewMovieBinding.user = users[position]
+        val user = users[position]
+
+        holder.recyclerviewMovieBinding.user = user
+
+        holder.recyclerviewMovieBinding.recyclerViewButton.setOnClickListener {
+            listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.recyclerViewButton, users[position])
+        }
+
+        /*holder.itemView.setOnClickListener {
+            holder.itemView.context.alert("${user.name}") {
+                okButton {  }
+            }.show()
+        }*/
         /*val user = users[position]
 
         holder.itemView.recycler_view_email.text = user.name

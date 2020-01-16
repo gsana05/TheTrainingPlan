@@ -4,7 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -12,15 +15,27 @@ import com.thetrainingplan.adapters.WorkoutHistoryAdaptor
 import com.thetrainingplan.databinding.ActivityMainBinding
 import com.thetrainingplan.models.User
 import com.thetrainingplan.models.UserModel
+import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
+
+    override fun onRecyclerViewItemClick(view: View, user: User) {
+        when(view.id){
+            R.id.recycler_view_button -> {
+                alert ("${user.name}"){
+                    okButton {  }
+                }.show()
+                Toast.makeText(applicationContext, "Book Button Clicked", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var clientListAdapter: WorkoutHistoryAdaptor
+    //private lateinit var clientListAdapter: WorkoutHistoryAdaptor
     private var mCallbackAllUsers = { _:ArrayList<User?>?, _: Exception? -> Unit}
     private var mCallbackCurrentUser = { _:User?, _: Exception? -> Unit}
     val theUsers = ArrayList<User>()
@@ -84,10 +99,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            clientListAdapter = WorkoutHistoryAdaptor(theUsers)
+            main_recycler_view.also {
+                it.layoutManager = LinearLayoutManager(applicationContext)
+                it.adapter = WorkoutHistoryAdaptor(theUsers, this)
+            }
+
+          /*  clientListAdapter = WorkoutHistoryAdaptor(theUsers, this)
             val mLayoutManager = LinearLayoutManager(applicationContext)
             main_recycler_view.layoutManager = mLayoutManager
-            main_recycler_view.adapter = clientListAdapter
+            main_recycler_view.adapter = clientListAdapter*/
 
 
             //viewModel.listOfUser.value = data
