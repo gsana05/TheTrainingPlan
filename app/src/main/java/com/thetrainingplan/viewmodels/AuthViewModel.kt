@@ -37,7 +37,6 @@ class AuthViewModel (application : Application) : AndroidViewModel(application) 
                 }
             }
         }
-
     }
 
     var joinName = MutableLiveData<String>()
@@ -54,6 +53,11 @@ class AuthViewModel (application : Application) : AndroidViewModel(application) 
         val password = joinPassword.value
 
         if(name == null || email == null || password == null){
+            isUserJoined.value = false
+            return
+        }
+
+        if(password.length > 6){
             isUserJoined.value = false
             return
         }
