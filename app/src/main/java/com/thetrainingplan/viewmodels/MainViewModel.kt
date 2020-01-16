@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.thetrainingplan.models.User
 import com.thetrainingplan.models.UserModel
+import com.thetrainingplan.util.LiveEvent
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -35,6 +36,12 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
             agreement!!.name == "Gareth Sanashee"
 
         }*/
+    }
+
+    val startProfileActivityEvent = LiveEvent<Void>()
+
+    fun startProfileActivity(){
+        startProfileActivityEvent.call()
     }
 
 }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -49,7 +50,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-
         main_log_out_btn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val userId = FirebaseAuth.getInstance().uid
@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         }
 
         mCallbackCurrentUser = { data : User?, exc: Exception? ->
-
             if(exc != null){
                 alert("current user exc: = ${exc.message}") {
                     okButton {  }
@@ -70,14 +69,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
             else{
                 viewModel.currentUser.value = data
             }
-
-
-            /*if(data != null){
-                viewModel.currentUser.value = data
-            }
-            else{
-                Log.v("", "")
-            }*/
         }
 
         mCallbackAllUsers = { data : ArrayList<User?>?, exc : Exception? ->
