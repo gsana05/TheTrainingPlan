@@ -11,7 +11,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ActivityProfile"></activity>
+        <activity
+                android:name=".ActivityProfile"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden"
+                />
         <activity
                 android:name=".ActivityLogIn"
                 android:screenOrientation="portrait"
