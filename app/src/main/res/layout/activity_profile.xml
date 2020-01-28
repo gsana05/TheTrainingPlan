@@ -66,6 +66,7 @@
                 android:backgroundTint="@color/blue"
                 android:text="Save"
                 android:textAllCaps="false"
+                android:onClick="@{() -> viewModel.updateUserProfile()}"
                 />
 
         <Button

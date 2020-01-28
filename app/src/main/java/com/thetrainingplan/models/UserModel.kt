@@ -217,6 +217,22 @@ object UserModel {
         }
     }
 
+    fun updateUserProfile(userId : String, user : User, callback : (Boolean?, Exception?) -> Unit){
+        getDatabaseRef().document(userId).set(user.toMap()).addOnCompleteListener {task ->
+            if(task.isSuccessful){
+                callback(true, null)
+            }
+            else{
+                if(task.exception != null){
+                    callback(false, task.exception)
+                }
+                else{
+                    callback(false, Exception("Unknown error"))
+                }
+            }
+        }
+    }
+
     private fun getDatabaseRef(): CollectionReference {
         return FirebaseFirestore.getInstance().collection("users")
     }
