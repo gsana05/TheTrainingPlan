@@ -3,6 +3,7 @@ package com.thetrainingplan
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.databinding.ActivityMainBinding
@@ -44,6 +45,11 @@ class ActivityProfile : AppCompatActivity() {
 
             }
         }
+
+
+        viewModel.finishProfileActivityEvent.observe(this, Observer {
+            finish()
+        })
     }
 
     override fun onResume() {
