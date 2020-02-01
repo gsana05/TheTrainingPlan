@@ -50,16 +50,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        main_log_out_btn.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val userId = FirebaseAuth.getInstance().uid
-            if(userId == null){
-
-                UserModel.clearCache()
-                startActivity(Intent(this, ActivityLogIn::class.java))
-            }
-        }
-
         mCallbackCurrentUser = { data : User?, exc: Exception? ->
             if(exc != null){
                 alert("current user exc: = ${exc.message}") {

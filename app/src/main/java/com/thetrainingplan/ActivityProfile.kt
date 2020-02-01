@@ -1,5 +1,6 @@
 package com.thetrainingplan
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -19,6 +20,7 @@ class ActivityProfile : AppCompatActivity() {
 
     private lateinit var viewModel: ProfileViewModel
     private var mCallbackCurrentUser = { _: User?, _: Exception? -> Unit}
+    private var isLoggedIn = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,10 @@ class ActivityProfile : AppCompatActivity() {
             }
         }
 
+        viewModel.logOutActivityEvent.observe(this, Observer {
+            isLoggedIn = false
+            finish()
+        })
 
         viewModel.finishProfileActivityEvent.observe(this, Observer {
             finish()
@@ -65,6 +71,17 @@ class ActivityProfile : AppCompatActivity() {
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
             UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
+            if(!isLoggedIn){
+                UserModel.logOut(){data:Boolean?, exc : Exception? ->
+                    if(data != null && data){
+                        alert ("Logged out"){
+                            okButton {  }
+                        }.show()
+                    }
+
+                }
+
+            }
         }
     }
 }

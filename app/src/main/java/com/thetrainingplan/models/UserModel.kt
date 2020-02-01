@@ -1,9 +1,11 @@
 package com.thetrainingplan.models
 
+import android.content.Intent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.thetrainingplan.ActivityLogIn
 
 object UserModel {
 
@@ -184,6 +186,12 @@ object UserModel {
                     callback(false, it.exception)
                 }
             }
+    }
+
+    fun logOut(callback : (Boolean?, Exception?) -> Unit){
+        clearCache()
+        FirebaseAuth.getInstance().signOut()
+        callback(true, null)
     }
 
     fun signUp(name : String, email : String, password : String, callback : (Boolean?, Exception?) -> Unit){

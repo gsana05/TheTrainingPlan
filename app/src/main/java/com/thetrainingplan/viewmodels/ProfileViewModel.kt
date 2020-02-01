@@ -13,6 +13,9 @@ class ProfileViewModel(application : Application) : AndroidViewModel(application
 
     val currentProfileUser = MutableLiveData<User>()
     val isUpdatingUserProfile = MutableLiveData<Boolean>().apply { value = false }
+    val finishProfileActivityEvent = LiveEvent<Void>()
+    val logOutActivityEvent = LiveEvent<Void>()
+
 
     fun updateUserProfile(){
         val userId = FirebaseAuth.getInstance().uid
@@ -31,7 +34,11 @@ class ProfileViewModel(application : Application) : AndroidViewModel(application
         }
     }
 
-    val finishProfileActivityEvent = LiveEvent<Void>()
+    fun logOut(){
+        logOutActivityEvent.call()
+    }
+
+
 
     fun finishProfileActivity(){
         finishProfileActivityEvent.call()
