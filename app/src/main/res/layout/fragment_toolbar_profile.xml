@@ -30,6 +30,7 @@
                 android:tint="@color/light_grey"
                 app:layout_constraintHorizontal_weight="0.3"
                 android:onClick="@{() -> viewModel.finishProfileActivity()}"
+                android:contentDescription="@string/app_name"
                 />
 
         <TextView
@@ -44,7 +45,7 @@
                 android:textSize="24sp"
                 app:layout_constraintHorizontal_weight="0.7"
                 android:textAlignment="center"
-                android:text="Profile"
+                android:text="@string/profile"
                 />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

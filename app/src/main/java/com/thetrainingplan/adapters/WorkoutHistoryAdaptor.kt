@@ -9,7 +9,7 @@ import com.thetrainingplan.databinding.MainRecyclerViewItemBinding
 import com.thetrainingplan.models.User
 import com.thetrainingplan.util.RecyclerViewClickListener
 
-class WorkoutHistoryAdaptor(val users : ArrayList<User>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter <WorkoutHistoryAdaptor.ViewHolder>(){
+class WorkoutHistoryAdaptor(private val users : ArrayList<User>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter <WorkoutHistoryAdaptor.ViewHolder>(){
     /*override fun setData(items: List<User>?) {
         agreements = items ?: emptyList()
         notifyDataSetChanged()

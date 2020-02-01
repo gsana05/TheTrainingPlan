@@ -12,4 +12,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="get_started_with_our_programs">Get started with our programs</string>
+    <string name="strength_and_size_program">Strength and Size Program</string>
+    <string name="pure_size_program">Pure Size Program</string>
+    <string name="save">Save</string>
+    <string name="log_out">Log Out</string>
+    <string name="profile">Profile</string>
 </resources>

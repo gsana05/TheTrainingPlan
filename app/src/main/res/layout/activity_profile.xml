@@ -47,6 +47,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/profile_view"
                 android:layout_marginTop="50dp"
                 android:src="@mipmap/ic_gym_logo_round"
+                android:contentDescription="@string/app_name"
             />
 
         <EditText
@@ -62,6 +63,9 @@
                 android:textAlignment="center"
                 android:inputType="text"
                 android:text="@={viewModel.currentProfileUser.name}"
+                android:autofillHints=""
+                tools:targetApi="o"
+                android:hint="@string/name"
             />
 
         <EditText
@@ -75,6 +79,9 @@
                 android:textAlignment="center"
                 android:inputType="textEmailAddress"
                 android:text="@={viewModel.currentProfileUser.email}"
+                android:autofillHints=""
+                tools:targetApi="o"
+                android:hint="@string/email"
                 />
 
         <Button
@@ -88,7 +95,7 @@
                 android:textColor="@color/ssWhite"
                 android:backgroundTint="@color/blue"
                 android:background="@drawable/blue_button"
-                android:text="Save"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:onClick="@{() -> viewModel.updateUserProfile()}"
                 android:visibility="@{viewModel.isUpdatingUserProfile == true ? View.INVISIBLE : View.VISIBLE}"
@@ -116,11 +123,23 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/ssWhite"
                 android:background="@drawable/red_button"
-                android:text="Log Out"
+                android:text="@string/log_out"
                 android:textAllCaps="false"
                 android:onClick="@{() -> viewModel.logOut()}"
+                android:visibility="@{viewModel.isLoggingOut == true ? View.INVISIBLE : View.VISIBLE}"
                 />
-        
+
+        <ProgressBar
+                android:id="@+id/profile_sign_out_button_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/profile_sign_out_button"
+                app:layout_constraintStart_toStartOf="@+id/profile_sign_out_button"
+                app:layout_constraintEnd_toEndOf="@+id/profile_sign_out_button"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_sign_out_button"
+                android:indeterminateTint="@color/blue"
+                android:visibility="@{viewModel.isLoggingOut == true ? View.VISIBLE : View.INVISIBLE}"
+                />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,11 +1,9 @@
 package com.thetrainingplan.models
 
-import android.content.Intent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.thetrainingplan.ActivityLogIn
 
 object UserModel {
 
@@ -13,7 +11,7 @@ object UserModel {
     private val mCurrentUserCache : HashMap<String, User> = HashMap()
     private val mCurrentUserCallbacks = HashMap<String, ArrayList<(User?, Exception?) -> Unit>>()
 
-    fun clearCache(){
+    private fun clearCache(){
         mCurrentUserCache.clear()
         mCachedAllUsers.clear()
     }
@@ -209,7 +207,7 @@ object UserModel {
     private fun saveSignUpDetails(name : String, email : String, callback : (Boolean?, Exception?) -> Unit){
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
-            val user = User(name, email)
+            val user = User(userId, name, email)
             getDatabaseRef().document(userId).set(user.toMap()).addOnCompleteListener {
                 if(it.isSuccessful){
                     callback(true, null)

@@ -1,17 +1,14 @@
 package com.thetrainingplan
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
-import com.thetrainingplan.databinding.ActivityMainBinding
 import com.thetrainingplan.databinding.ActivityProfileBinding
 import com.thetrainingplan.models.User
 import com.thetrainingplan.models.UserModel
-import com.thetrainingplan.viewmodels.MainViewModel
 import com.thetrainingplan.viewmodels.ProfileViewModel
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
@@ -50,6 +47,7 @@ class ActivityProfile : AppCompatActivity() {
 
         viewModel.logOutActivityEvent.observe(this, Observer {
             isLoggedIn = false
+            viewModel.isLoggingOut.value = false
             finish()
         })
 
@@ -72,7 +70,7 @@ class ActivityProfile : AppCompatActivity() {
         if(userId != null){
             UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
             if(!isLoggedIn){
-                UserModel.logOut(){data:Boolean?, exc : Exception? ->
+                UserModel.logOut{data:Boolean?, _ : Exception? ->
                     if(data != null && data){
                         alert ("Logged out"){
                             okButton {  }
