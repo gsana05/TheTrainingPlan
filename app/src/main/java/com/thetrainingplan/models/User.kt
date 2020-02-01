@@ -4,7 +4,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import java.lang.Exception
 
 class User {
-    var userId : String
+    var userId : String? = null
     var name: String? = null
     var email: String? = null
 
@@ -17,7 +17,7 @@ class User {
     @Throws(Exception::class)
     constructor(snapshot: DocumentSnapshot){
         val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
-        userId = data["userId"] as String
+        userId = data["userId"] as String?
         name = data["name"] as String?
         email = data["email"] as String?
     }
