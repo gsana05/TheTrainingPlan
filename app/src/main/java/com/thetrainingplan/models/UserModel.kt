@@ -2,6 +2,7 @@ package com.thetrainingplan.models
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 
@@ -50,7 +51,8 @@ object UserModel {
                     var profile : User? = null
                     try {
                         if(documentSnapshot != null){
-                            profile = User(documentSnapshot) // gets data from database
+                            profile = getUser(documentSnapshot)
+                            //profile = User(documentSnapshot) // gets data from database
                         }
                     }
                     catch(e : Exception){}
@@ -134,7 +136,7 @@ object UserModel {
 
                     if(querySnaphot != null){
                         for(documentSnapshot in querySnaphot){
-                            val profile = User(documentSnapshot) // gets data from database
+                            val profile = getUser(documentSnapshot) // gets data from database
                             list.add(profile)
                         }
                     }
@@ -208,7 +210,8 @@ object UserModel {
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
             val user = User(userId, name, email)
-            getDatabaseRef().document(userId).set(user.toMap()).addOnCompleteListener {
+
+            getDatabaseRef().document(userId).set(toMap(user)).addOnCompleteListener {
                 if(it.isSuccessful){
                     callback(true, null)
                 }
@@ -224,7 +227,7 @@ object UserModel {
     }
 
     fun updateUserProfile(userId : String, user : User, callback : (Boolean?, Exception?) -> Unit){
-        getDatabaseRef().document(userId).set(user.toMap()).addOnCompleteListener {task ->
+        getDatabaseRef().document(userId).set(toMap(user)).addOnCompleteListener { task ->
             if(task.isSuccessful){
                 callback(true, null)
             }
@@ -237,6 +240,22 @@ object UserModel {
                 }
             }
         }
+    }
+
+    private fun getUser(snapshot: DocumentSnapshot) : User{
+        val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
+        val userId = data["userId"] as String?
+        val name = data["name"] as String?
+        val email = data["email"] as String?
+        return User(userId, name, email)
+    }
+
+    private fun toMap(user : User):HashMap<String, Any?>{
+        val map:HashMap<String, Any?> = HashMap()
+        map["userId"]=user.userId
+        map["name"]=user.name
+        map["email"]=user.email
+        return map
     }
 
     private fun getDatabaseRef(): CollectionReference {
