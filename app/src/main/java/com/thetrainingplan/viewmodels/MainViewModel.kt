@@ -37,4 +37,11 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
         startProfileActivityEvent.call()
     }
 
+    val startEnrollActivityEvent = LiveEvent<Void>()
+
+    fun startEnrollTrainingProgramActivity(){
+        startEnrollActivityEvent.call()
+    }
+
+
 }

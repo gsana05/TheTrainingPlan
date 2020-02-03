@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -48,6 +49,11 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        viewModel.startEnrollActivityEvent.observe(this, Observer {
+            val intent = Intent(this, ActivityEnrollTrainingProgram::class.java)
+            startActivity(intent)
+        })
 
         mCallbackCurrentUser = { data : User?, exc: Exception? ->
             if(exc != null){
