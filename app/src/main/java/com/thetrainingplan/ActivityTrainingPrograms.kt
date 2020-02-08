@@ -25,7 +25,7 @@ class ActivityTrainingPrograms : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        training_programs_view_pager.adapter = TrainingProgramsAdapter(getData())
+        training_programs_view_pager.adapter = TrainingProgramsAdapter()
     }
 
     fun getData() : ArrayList<User>{

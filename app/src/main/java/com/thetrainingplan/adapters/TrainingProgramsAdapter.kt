@@ -11,14 +11,14 @@ import com.thetrainingplan.R
 import com.thetrainingplan.models.User
 import kotlinx.android.synthetic.main.main_recycler_view_item.view.*
 
-class TrainingProgramsAdapter(private val players : ArrayList<User>) : PagerAdapter()/*, BindableAdapter<User>*/ {
+class TrainingProgramsAdapter : PagerAdapter(), BindableViewPagerAdapter<User> {
 
-   /* private var players = emptyList<User>()
+    private var players = emptyList<User>()
 
     override fun setData(items: List<User>?) {
        players = items ?: emptyList()
        notifyDataSetChanged()
-   }*/
+   }
 
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
