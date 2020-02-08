@@ -34,10 +34,10 @@ class TrainingProgramsAdapter : PagerAdapter(), BindableViewPagerAdapter<User> {
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val layout = LayoutInflater.from(container.context).inflate(R.layout.main_recycler_view_item, container, false)
+        val layout = LayoutInflater.from(container.context).inflate(R.layout.training_program_item, container, false)
         val userPlayer = players[position]
 
-        layout.recycler_view_email.text = userPlayer!!.name
+        //layout.recycler_view_email.text = userPlayer!!.name
 
         /*Glide.with(layout.view_pager_image).clear(layout.view_pager_image)
         if(userPlayer.profileImageDownloadUrl!=null) {
