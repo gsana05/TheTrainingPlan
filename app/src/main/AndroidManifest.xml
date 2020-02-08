@@ -12,11 +12,16 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".ActivityEnrollTrainingProgram"
+                android:name=".ActivityTrainingPrograms"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden"
                 />
+        <activity
+                android:name=".ActivityEnrollTrainingProgram"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden" />
         <activity
                 android:name=".ActivityProfile"
                 android:screenOrientation="portrait"
