@@ -34,7 +34,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="50dp"
-                        android:src="@mipmap/ic_gym_logo_round"
+                        android:src="@mipmap/ic_launcher"
                         android:backgroundTint="@color/light_grey"
                         android:textSize="30sp"
                         android:textStyle="bold"

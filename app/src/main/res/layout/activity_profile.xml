@@ -46,7 +46,7 @@
                 app:layout_constraintStart_toStartOf="@+id/profile_view"
                 app:layout_constraintEnd_toEndOf="@+id/profile_view"
                 android:layout_marginTop="50dp"
-                android:src="@mipmap/ic_gym_logo_round"
+                android:src="@mipmap/ic_launcher"
                 android:contentDescription="@string/app_name"
             />
 
