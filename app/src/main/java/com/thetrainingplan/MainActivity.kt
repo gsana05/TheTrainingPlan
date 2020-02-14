@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
                 alert ("${user.name}"){
                     okButton {  }
                 }.show()
-                Toast.makeText(applicationContext, "Book Button Clicked", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Book Button Pressed", Toast.LENGTH_LONG).show()
             }
         }
     }
