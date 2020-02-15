@@ -51,10 +51,12 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         binding.viewModel = viewModel
 
         viewModel.startEnrollActivityEvent.observe(this, Observer {
-            val intent = Intent(this, ActivityTrainingPrograms::class.java)
-            startActivity(intent)
+            /*val intent = Intent(this, ActivityTrainingPrograms::class.java)
+            startActivity(intent)*/
             /*val intent = Intent(this, ActivityEnrollTrainingProgram::class.java)
             startActivity(intent)*/
+            val intent = Intent(this, MainActivityNavigation::class.java)
+            startActivity(intent)
         })
 
         mCallbackCurrentUser = { data : User?, exc: Exception? ->

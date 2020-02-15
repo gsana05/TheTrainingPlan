@@ -22,4 +22,12 @@
         Powerbuilding is a combination of powerlifting and bodybuilding training principles in order to get brutally strong whilst still building as much muscle as possible.</string>
     <string name="get_started">Get Started</string>
     <string name="fat_loss_program">Fat Loss Program</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="euro">€</string> <!--green-->
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 </resources>
