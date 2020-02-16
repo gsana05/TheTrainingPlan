@@ -10,6 +10,11 @@
         tools:openDrawer="start"
         >
 
+    <include
+            layout="@layout/app_bar_activity_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     <com.google.android.material.navigation.NavigationView
             android:id="@+id/shop_nav_view"
             android:layout_width="wrap_content"

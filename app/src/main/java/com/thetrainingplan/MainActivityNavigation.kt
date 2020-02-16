@@ -14,15 +14,12 @@ class MainActivityNavigation : NkaActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_navigation)
 
-        /*copy this to other activities*//*
-        val i = shop_navigation_toolbar
-        setSupportActionBar(shop_navigation_toolbar as Toolbar?)
+        //copy this to other activities
+        setSupportActionBar(shop_navigation_toolbar)
 
         // hiding the label in title bar
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        setupMenu(shop_drawer_layout as DrawerLayout,
-            shop_nav_view as NavigationView, shop_navigation_toolbar as Toolbar
-        )*/
+        setupMenu(shop_drawer_layout, shop_nav_view, shop_navigation_toolbar)
     }
 }

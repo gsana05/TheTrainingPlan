@@ -21,11 +21,13 @@ open class NkaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
 
     fun setupMenu(parentLayout: DrawerLayout, navView: NavigationView, navBar: Toolbar){
+        //button toggle for side nav bar
         val toggle = ActionBarDrawerToggle(
             this, parentLayout, navBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
         parentLayout.addDrawerListener(toggle)
         toggle.syncState()
+        //navBar.setNavigationIcon(R.drawable.ic_weightlifting) // how to change slider button icon
 
         navView.setNavigationItemSelectedListener(this)
 
