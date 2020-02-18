@@ -17,10 +17,12 @@ import com.thetrainingplan.models.UserModel
 import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_navigation.*
+import kotlinx.android.synthetic.main.app_bar_activity_navigation.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 
-class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
+class MainActivity : NkaActivity(), RecyclerViewClickListener {
 
     override fun onRecyclerViewItemClick(view: View, user: User) {
         when(view.id){
@@ -49,6 +51,14 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        //copy this to other activities
+        setSupportActionBar(shop_navigation_toolbar)
+
+        // hiding the label in title bar
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
+
+        setupMenu(shop_drawer_layout_main, shop_nav_view_main, shop_navigation_toolbar)
 
         viewModel.startEnrollActivityEvent.observe(this, Observer {
             /*val intent = Intent(this, ActivityTrainingPrograms::class.java)
