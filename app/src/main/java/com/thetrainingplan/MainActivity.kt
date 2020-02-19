@@ -17,8 +17,6 @@ import com.thetrainingplan.models.UserModel
 import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main_navigation.*
-import kotlinx.android.synthetic.main.app_bar_activity_navigation.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 
@@ -63,9 +61,7 @@ class MainActivity : NkaActivity(), RecyclerViewClickListener {
         viewModel.startEnrollActivityEvent.observe(this, Observer {
             /*val intent = Intent(this, ActivityTrainingPrograms::class.java)
             startActivity(intent)*/
-            /*val intent = Intent(this, ActivityEnrollTrainingProgram::class.java)
-            startActivity(intent)*/
-            val intent = Intent(this, MainActivityNavigation::class.java)
+            val intent = Intent(this, ActivityEnrollTrainingProgram::class.java)
             startActivity(intent)
         })
 

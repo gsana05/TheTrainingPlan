@@ -27,7 +27,7 @@ open class NkaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         )
         parentLayout.addDrawerListener(toggle)
         toggle.syncState()
-        //navBar.setNavigationIcon(R.drawable.ic_weightlifting) // how to change slider button icon
+        navBar.setNavigationIcon(R.drawable.ic_menu_icon) // how to change slider button icon
 
         navView.setNavigationItemSelectedListener(this)
 
@@ -70,10 +70,10 @@ open class NkaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
         }*/
 
-        findViewById<TextView>(R.id.title_bar_change)?.let {
+       /* findViewById<TextView>(R.id.title_bar_change)?.let {
             it.setOnClickListener {
                 //startActivity(Intent(this, ActivityLocation::class.java))
             }
-        }
+        }*/
     }
 }
