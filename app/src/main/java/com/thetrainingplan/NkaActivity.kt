@@ -6,11 +6,14 @@ import android.view.View
 import android.widget.TextView
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.nav_header_nka_activity.view.*
 
 
 open class NkaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -31,11 +34,12 @@ open class NkaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         navView.setNavigationItemSelectedListener(this)
 
-        /*val headerView = navView.getHeaderView(0)
+        val headerView = navView.getHeaderView(0)
 
-        headerView.side_bar_settings_text.setOnClickListener {
-            //startActivity(Intent(this,ActivityContact::class.java))
-        }*/
+        headerView.side_bar_profile_text.setOnClickListener {
+            parentLayout.closeDrawer(GravityCompat.START) // close side navigation when leaving main activity
+            startActivity(Intent(this,ActivityProfile::class.java))
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

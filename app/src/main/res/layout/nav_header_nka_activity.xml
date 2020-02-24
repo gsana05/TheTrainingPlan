@@ -10,7 +10,12 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -23,8 +28,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:background="@color/background_grey"
-                    android:src="@drawable/ic_accounticon"
+                    android:background="@color/blue"
                     android:scaleType="fitXY"
                     app:layout_constraintDimensionRatio="4:3"
                     />
@@ -52,13 +56,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="40dp"
                     android:layout_marginStart="30dp"
-                    android:tint="@color/nka_grey"
+                    android:tint="@color/blue"
                     android:src="@drawable/ic_accounticon"
-                    app:layout_constraintDimensionRatio="3:5"
+                    app:layout_constraintDimensionRatio="1:1"
                     />
 
             <TextView
-                    android:id="@+id/side_bar_location_text"
+                    android:id="@+id/side_bar_profile_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toEndOf="@id/side_bar_location_icon"
@@ -66,8 +70,9 @@
                     app:layout_constraintBottom_toBottomOf="@id/side_bar_location_icon"
                     android:layout_marginStart="15dp"
                     android:textSize="15sp"
-                    android:textColor="@color/nka_grey"
-                    android:text="Location"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:text="@string/profile"
                     />
 
             <ImageView
@@ -76,74 +81,46 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/side_bar_location_icon"
                     app:layout_constraintStart_toStartOf="@+id/side_bar_location_icon"
-                    android:layout_marginTop="40dp"
-                    android:tint="@color/nka_grey"
+                    android:layout_marginTop="20dp"
+                    android:tint="@color/blue"
                     android:src="@drawable/ic_accounticon"
-                    app:layout_constraintDimensionRatio="3:4"
+                    app:layout_constraintDimensionRatio="1:1"
                     />
 
             <TextView
                     android:id="@+id/side_bar_settings_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@+id/side_bar_location_text"
+                    app:layout_constraintStart_toStartOf="@+id/side_bar_profile_text"
                     app:layout_constraintTop_toTopOf="@+id/side_bar_settings_icon"
                     app:layout_constraintBottom_toBottomOf="@+id/side_bar_settings_icon"
-                    android:textColor="@color/nka_grey"
-                    android:text="Settings"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:text="Statistics"
                     />
 
-            <TextView
-                    android:id="@+id/side_bar_currency_heading"
-                    android:layout_width="wrap_content"
+            <ImageView
+                    android:id="@+id/side_bar_states_icon"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/side_bar_settings_text"
+                    app:layout_constraintTop_toBottomOf="@+id/side_bar_settings_icon"
                     app:layout_constraintStart_toStartOf="@+id/side_bar_settings_icon"
-                    android:textColor="@color/nka_red"
-                    android:layout_marginTop="30dp"
-                    android:textSize="12sp"
-                    android:text="Select your currency"
+                    android:layout_marginTop="20dp"
+                    android:tint="@color/blue"
+                    android:src="@drawable/ic_settings_applications_24px"
+                    app:layout_constraintDimensionRatio="1:1"
                     />
 
             <TextView
-                    android:id="@+id/side_bar_pound_icon"
+                    android:id="@+id/side_bar_stats_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/side_bar_currency_heading"
-                    app:layout_constraintStart_toStartOf="@+id/side_bar_currency_heading"
-                    android:layout_marginTop="10dp"
-                    android:textSize="25sp"
+                    app:layout_constraintStart_toStartOf="@+id/side_bar_settings_text"
+                    app:layout_constraintTop_toTopOf="@+id/side_bar_states_icon"
+                    app:layout_constraintBottom_toBottomOf="@+id/side_bar_states_icon"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textColor="@color/nka_grey"
-                    android:text="£"
-                    />
-
-            <TextView
-                    android:id="@+id/side_bar_dollar_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@+id/side_bar_pound_icon"
-                    app:layout_constraintTop_toTopOf="@+id/side_bar_pound_icon"
-                    app:layout_constraintBottom_toBottomOf="@+id/side_bar_pound_icon"
-                    android:layout_marginStart="30dp"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/nka_red"
-                    android:text="$"
-                    />
-
-            <TextView
-                    android:id="@+id/side_bar_euro_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@+id/side_bar_dollar_icon"
-                    app:layout_constraintTop_toTopOf="@+id/side_bar_dollar_icon"
-                    app:layout_constraintBottom_toBottomOf="@+id/side_bar_dollar_icon"
-                    android:layout_marginStart="30dp"
-                    android:textStyle="bold"
-                    android:textSize="25sp"
-                    android:textColor="@color/nka_grey"
-                    android:text="@string/euro"
+                    android:text="Settings"
                     />
 
             <Button
@@ -152,11 +129,11 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/side_bar_euro_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/side_bar_stats_text"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
-                    android:background="@color/nka_black"
+                    android:background="@drawable/blue_button"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
                     android:textSize="18sp"
@@ -171,7 +148,8 @@
                     app:layout_constraintStart_toStartOf="@+id/side_bar_contact_button"
                     app:layout_constraintEnd_toEndOf="@+id/side_bar_contact_button"
                     android:layout_marginTop="20dp"
-                    android:background="@color/nka_red"
+                    android:background="@drawable/blue_button"
+                    android:backgroundTint="@color/ssRed"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:text="Log out"
