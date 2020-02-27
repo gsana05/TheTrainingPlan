@@ -16,7 +16,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.nav_header_nka_activity.view.*
 
 
-open class NkaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+open class TrainingPlanActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     companion object {
         const val FilterShopActivity = "com.nkatech.ActivityFilterShop2"

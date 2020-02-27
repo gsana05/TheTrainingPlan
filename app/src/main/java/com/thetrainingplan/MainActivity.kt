@@ -1,11 +1,9 @@
 package com.thetrainingplan
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 
-class MainActivity : NkaActivity(), RecyclerViewClickListener {
+class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
     override fun onRecyclerViewItemClick(view: View, user: User) {
         when(view.id){
