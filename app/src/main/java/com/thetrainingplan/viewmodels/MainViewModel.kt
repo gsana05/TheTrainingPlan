@@ -31,10 +31,10 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
         }*//*
     }*/
 
-    val startProfileActivityEvent = LiveEvent<Void>()
+    val startGoalsActivityEvent = LiveEvent<Void>()
 
-    fun startProfileActivity(){
-        startProfileActivityEvent.call()
+    fun startGoalsActivity(){
+        startGoalsActivityEvent.call()
     }
 
     val startEnrollActivityEvent = LiveEvent<Void>()

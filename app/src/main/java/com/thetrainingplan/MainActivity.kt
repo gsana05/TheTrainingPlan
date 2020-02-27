@@ -66,6 +66,12 @@ class MainActivity : NkaActivity(), RecyclerViewClickListener {
             startActivity(intent)
         })
 
+        viewModel.startGoalsActivityEvent.observe(this, Observer {
+            alert ("Button pressed"){
+                okButton {  }
+            }.show()
+        })
+
         mCallbackCurrentUser = { data : User?, exc: Exception? ->
             if(exc != null){
                 alert("current user exc: = ${exc.message}") {
@@ -107,45 +113,6 @@ class MainActivity : NkaActivity(), RecyclerViewClickListener {
             //viewModel.listOfUser.value = data
 
         }
-
-        /*val userId = FirebaseAuth.getInstance().uid
-     if(userId != null){
-
-         val li = UserModel.addAllUsersListenersTest(userId)
-         val lo = UserModel.getData()
-
-         val ob = io.reactivex.Observable
-             .fromIterable(li)
-             .subscribeOn(Schedulers.io())
-             .observeOn(AndroidSchedulers.mainThread())
-             .filter(object : Predicate<User>, io.reactivex.functions.Predicate<User> {
-                 override fun test(t: User): Boolean {
-                     return t.signInEmail != "sanashee05@hotmail.com"
-                 }
-             })
-
-         ob.subscribe(object : io.reactivex.Observer<User> {
-             override fun onComplete() {
-                 //main_recycler_view.adapter = WorkoutHistoryAdaptor(listOfUser)
-                 Log.v("TAG","onComplete called:")
-             }
-
-             override fun onSubscribe(d: Disposable) {
-                 Log.v("TAG","onSubscribed called:")
-             }
-
-             override fun onNext(t: User) {
-                 //listOfUser.add(t)
-                 Log.v("TAG","onNext called:" + Thread.currentThread().name)
-                 Log.v("TAG","onNext called:" + t.signInEmail)
-             }
-
-             override fun onError(e: Throwable) {
-                 Log.v("TAG", "onError called:$e")
-             }
-
-         })
-     }*/
     }
 
     override fun onPause() {

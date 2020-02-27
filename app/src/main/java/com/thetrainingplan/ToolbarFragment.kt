@@ -26,10 +26,10 @@ class ToolbarFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.startProfileActivityEvent.observe(this, Observer {
+        /*viewModel.startProfileActivityEvent.observe(this, Observer {
             val intent = Intent(activity, ActivityProfile::class.java)
             startActivity(intent)
-        })
+        })*/
 
         return binding.root
     }
