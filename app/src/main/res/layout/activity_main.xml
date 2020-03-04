@@ -22,6 +22,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_main_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.3"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.8"/>
+
+
             <androidx.appcompat.widget.Toolbar
                     android:id="@+id/shop_navigation_toolbar"
                     android:layout_width="match_parent"
@@ -79,7 +95,7 @@
                     android:layout_marginEnd="20dp"
                     app:cardCornerRadius="5dp"
                     app:cardBackgroundColor="@color/white"
-                    app:cardElevation="4dp"
+                    app:cardElevation="5dp"
                     >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,7 +129,7 @@
                             app:layout_constraintTop_toTopOf="@id/main_view_goals_heading_view"
                             app:layout_constraintStart_toStartOf="@id/main_view_goals_heading_view"
                             app:layout_constraintBottom_toTopOf="@+id/main_view_goals_sub_heading"
-                            android:layout_marginStart="30dp"
+                            android:layout_marginStart="20dp"
                             android:textAlignment="center"
                             android:textSize="16sp"
                             android:textColor="@color/white"
@@ -168,33 +184,18 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-
-            <!--<View
-                    android:id="@+id/main_view_today"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintTop_toBottomOf="@+id/main_view_goals"
-                    app:layout_constraintStart_toStartOf="@+id/main_view_goals"
-                    app:layout_constraintEnd_toStartOf="@+id/main_view_todo_list"
-                    app:layout_constraintBottom_toTopOf="@+id/main_view_month_plan"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/blue_button"
-                    />-->
-
             <androidx.cardview.widget.CardView
                     android:id="@+id/main_view_today"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintTop_toBottomOf="@+id/main_view_goals"
+                    app:layout_constraintTop_toBottomOf="@+id/guideline_main_top"
                     app:layout_constraintStart_toStartOf="@+id/main_view_goals"
-                    app:layout_constraintEnd_toStartOf="@+id/main_view_todo_list"
-                    app:layout_constraintBottom_toTopOf="@+id/main_view_month_plan"
+                    app:layout_constraintEnd_toEndOf="@+id/main_view_goals"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline_main"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
                     app:cardCornerRadius="5dp"
                     app:cardBackgroundColor="@color/white"
-                    app:cardElevation="4dp"
+                    app:cardElevation="5dp"
                     >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -218,7 +219,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            app:layout_constraintGuide_percent="0.5"/>
+                            app:layout_constraintGuide_percent="0.2"/>
 
 
                     <TextView
@@ -227,20 +228,64 @@
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="@+id/main_view_today_heading_view"
                             app:layout_constraintStart_toStartOf="@+id/main_view_today_heading_view"
-                            app:layout_constraintEnd_toEndOf="@+id/main_view_today_heading_view"
-                            app:layout_constraintBottom_toBottomOf="@+id/main_view_today_heading_view"
+                            app:layout_constraintBottom_toTopOf="@+id/today_view_goals_sub_heading"
+                            android:layout_marginStart="20dp"
                             android:textAlignment="center"
                             android:textSize="16sp"
                             android:textColor="@color/white"
-                            android:text="TODAY'S GOALS"
+                            android:text="TODAY'S TASKS"
                             android:textStyle="bold"
+                            app:layout_constraintVertical_chainStyle="packed"
                             />
 
+                    <TextView
+                            android:id="@+id/today_view_goals_sub_heading"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/today_view_goals_heading"
+                            app:layout_constraintStart_toStartOf="@+id/today_view_goals_heading"
+                            app:layout_constraintBottom_toTopOf="@id/guideline_today_view"
+                            android:text="You have set 5 tasks"
+                            android:textSize="16sp"
+                            android:textColor="@color/white"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/main_recycler_view"
+                            app:layout_constraintTop_toBottomOf="@id/guideline_today_view"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/today_view_goals_add_task"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintVertical_bias="0.0"
+                            app:layout_constraintVertical_weight="0.8"
+                            tools:listitem="@layout/main_recycler_view_item" />
+
+                    <Button
+                            android:id="@+id/today_view_goals_add_task"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/main_recycler_view"
+                            app:layout_constraintBottom_toBottomOf="@+id/main_recycler_view"
+                            android:layout_marginEnd="10dp"
+                            android:textColor="@color/blue"
+                            android:textAllCaps="false"
+                            android:background="@drawable/white_button_blue_border"
+                            android:text="Add a task"
+                            />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <View
+            <!--<View
                     android:id="@+id/main_view_todo_list"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -249,32 +294,39 @@
                     app:layout_constraintEnd_toEndOf="@+id/main_view_goals"
                     app:layout_constraintBottom_toBottomOf="@id/main_view_today"
                     android:background="@drawable/blue_button"
-                    />
+                    />-->
 
-            <View
+           <!-- <View
                     android:id="@+id/main_view_month_plan"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintTop_toBottomOf="@id/main_view_today"
                     app:layout_constraintStart_toStartOf="@id/main_view_today"
-                    app:layout_constraintEnd_toEndOf="@id/main_view_todo_list"
+                    app:layout_constraintEnd_toEndOf="@+id/main_view_today"
                     app:layout_constraintBottom_toTopOf="@+id/main_view_diary_history"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/blue_button"
-                    />
+                    />-->
 
             <View
                     android:id="@+id/main_view_diary_history"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintTop_toBottomOf="@+id/main_view_month_plan"
-                    app:layout_constraintStart_toStartOf="@+id/main_view_month_plan"
+                    app:layout_constraintTop_toBottomOf="@id/guideline_main"
+                    app:layout_constraintStart_toStartOf="@+id/main_view_today"
                     app:layout_constraintEnd_toStartOf="@+id/main_view_stats"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/blue_button"
                     />
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+            </androidx.cardview.widget.CardView>
 
             <View
                     android:id="@+id/main_view_stats"
@@ -283,7 +335,7 @@
                     app:layout_constraintTop_toTopOf="@+id/main_view_diary_history"
                     app:layout_constraintBottom_toBottomOf="@+id/main_view_diary_history"
                     app:layout_constraintStart_toEndOf="@+id/main_view_diary_history"
-                    app:layout_constraintEnd_toEndOf="@+id/main_view_month_plan"
+                    app:layout_constraintEnd_toEndOf="@+id/main_view_today"
                     android:background="@drawable/blue_button"
                     />
 
@@ -307,24 +359,6 @@
                     android:drawableStart="@drawable/ic_thumb_up_alt_24px"
                     android:drawableEnd="@drawable/ic_settings_applications_24px"
                     />-->
-
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/main_recycler_view"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/shop_navigation_toolbar"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:layout_constraintVertical_weight="0.8"
-                    tools:listitem="@layout/main_recycler_view_item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
