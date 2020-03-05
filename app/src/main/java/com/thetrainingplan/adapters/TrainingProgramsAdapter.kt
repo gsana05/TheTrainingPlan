@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
-import com.bnpleasing.BindableAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.R
 import com.thetrainingplan.models.User

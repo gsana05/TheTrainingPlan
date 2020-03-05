@@ -1,4 +1,4 @@
-package com.bnpleasing
+package com.thetrainingplan.adapters
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
