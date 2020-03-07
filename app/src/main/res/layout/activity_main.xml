@@ -150,6 +150,16 @@
                             app:layout_constraintVertical_chainStyle="packed"
                             />
 
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@+id/main_view_goals_heading"
+                            app:layout_constraintEnd_toEndOf="@id/main_view_goals_heading_view"
+                            android:layout_marginEnd="10dp"
+                            android:tint="@color/white"
+                            android:src="@drawable/ic_emoji_events_24px"
+                            />
+
                     <Button
                             android:id="@+id/main_view_goals_add_goal_label"
                             android:layout_width="wrap_content"
@@ -251,6 +261,16 @@
                             app:layout_constraintVertical_chainStyle="packed"
                             />
 
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@+id/today_view_goals_heading"
+                            app:layout_constraintEnd_toEndOf="@+id/main_view_today_heading_view"
+                            android:layout_marginEnd="10dp"
+                            android:tint="@color/white"
+                            android:src="@drawable/ic_check_box_24px"
+                            />
+
 
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/main_recycler_view"
@@ -344,6 +364,16 @@
                             android:text="23/03/2020"
                             />
 
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@+id/main_view_diary_view_heading"
+                            app:layout_constraintEnd_toEndOf="@+id/main_view_diary_view"
+                            android:tint="@color/white"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_calendar_today_24px"
+                            />
+
                     <androidx.constraintlayout.widget.Guideline
                             android:id="@+id/main_view_diary_guideline"
                             android:layout_width="wrap_content"
@@ -424,6 +454,16 @@
                             android:textColor="@color/white"
                             android:text="Your 24 hours"
                             app:layout_constraintVertical_chainStyle="packed"
+                            />
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@+id/main_view_stats_heading"
+                            app:layout_constraintEnd_toEndOf="@+id/main_view_stats_view"
+                            android:layout_marginEnd="10dp"
+                            android:tint="@color/white"
+                            android:src="@drawable/ic_equalizer_24px"
                             />
 
                     <androidx.constraintlayout.widget.Guideline
