@@ -23,5 +23,7 @@ class GoalsActivity : AppCompatActivity() {
         val binding: ActivityGoalsBinding = DataBindingUtil.setContentView(this, R.layout.activity_goals)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+
     }
 }

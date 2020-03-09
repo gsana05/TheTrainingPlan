@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.thetrainingplan.databinding.FragmentToolbarProfileBinding
 import com.thetrainingplan.viewmodels.ProfileViewModel
@@ -20,6 +21,9 @@ class ToolbarProfileFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        viewModel.finishProfileActivityEvent.observe(this, Observer {
+            activity?.finish()
+        })
 
         return binding.root
     }

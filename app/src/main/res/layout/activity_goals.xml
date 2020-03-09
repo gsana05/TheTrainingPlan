@@ -13,5 +13,70 @@
             android:layout_height="match_parent"
             tools:context=".GoalsActivity">
 
+        <fragment
+                android:id="@+id/goals_toolbar_fragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/goals_view"
+                app:layout_constraintVertical_weight="0.1"
+                android:name="com.thetrainingplan.ToolbarProfileFragment"
+                />
+
+        <View
+                android:id="@+id/goals_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/goals_toolbar_fragment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_weight="0.9"
+                android:background="@color/light_grey"
+                />
+
+        <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="@+id/goals_view"
+                app:layout_constraintStart_toStartOf="@+id/goals_view"
+                app:layout_constraintEnd_toEndOf="@+id/goals_view"
+                android:textOff="Add goal"
+                android:textOn="View goals"
+                android:thumb="@drawable/sw_thumb"
+                app:track="@drawable/sw_track"
+                app:showText="true"
+                app:switchTextAppearance="@style/SwitchTextAppearance"
+                android:checked="true"
+                />
+
+        <TextView
+                android:id="@+id/settings_rules_switch_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/settings_switch"
+                app:layout_constraintBottom_toBottomOf="@+id/settings_switch"
+                app:layout_constraintStart_toStartOf="@+id/settings_switch"
+                app:layout_constraintEnd_toStartOf="@+id/settings_exit_league_switch_list"
+                android:text="Add goal"
+                android:textColor="@color/ssWhite"
+                />
+
+        <TextView
+                android:id="@+id/settings_exit_league_switch_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/settings_switch"
+                app:layout_constraintBottom_toBottomOf="@+id/settings_switch"
+                app:layout_constraintEnd_toEndOf="@+id/settings_switch"
+                app:layout_constraintStart_toEndOf="@+id/settings_rules_switch_map"
+                android:text="View goals"
+                android:textColor="@color/ssWhite"
+                />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
