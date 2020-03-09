@@ -172,6 +172,7 @@
                             android:textColor="@color/blue"
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
+                            android:onClick="@{() -> viewModel.startGoalsActivity()}"
                             />
 
                     <Button

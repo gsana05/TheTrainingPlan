@@ -11,12 +11,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".GoalsActivity"></activity>
         <activity
-                android:name=".MainActivityNavigation"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden" />
+                android:windowSoftInputMode="stateHidden"
+                android:name=".GoalsActivity"/>
         <activity
                 android:name=".ActivityTrainingPrograms"
                 android:screenOrientation="portrait"
