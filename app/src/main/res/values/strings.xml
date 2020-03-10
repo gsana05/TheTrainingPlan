@@ -30,4 +30,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="euro">€</string> <!--green-->
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="add_goal">Add goal</string>
+    <string name="view_goals">View goals</string>
 </resources>

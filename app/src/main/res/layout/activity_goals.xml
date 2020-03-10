@@ -45,13 +45,13 @@
                 app:layout_constraintTop_toTopOf="@+id/goals_view"
                 app:layout_constraintStart_toStartOf="@+id/goals_view"
                 app:layout_constraintEnd_toEndOf="@+id/goals_view"
-                android:textOff="Add goal"
-                android:textOn="View goals"
+                android:textOff="@string/add_goal"
+                android:textOn="@string/view_goals"
                 android:thumb="@drawable/sw_thumb"
                 app:track="@drawable/sw_track"
                 app:showText="true"
                 app:switchTextAppearance="@style/SwitchTextAppearance"
-                android:checked="true"
+                android:onClick="@{() -> viewModel.switchPressed()}"
                 />
 
         <TextView
@@ -62,8 +62,9 @@
                 app:layout_constraintBottom_toBottomOf="@+id/settings_switch"
                 app:layout_constraintStart_toStartOf="@+id/settings_switch"
                 app:layout_constraintEnd_toStartOf="@+id/settings_exit_league_switch_list"
-                android:text="Add goal"
-                android:textColor="@color/ssWhite"
+                android:text="@string/add_goal"
+                android:textColor="@color/black"
+                android:visibility="@{viewModel.isChecked == true ? View.VISIBLE : View.INVISIBLE}"
                 />
 
         <TextView
@@ -74,9 +75,48 @@
                 app:layout_constraintBottom_toBottomOf="@+id/settings_switch"
                 app:layout_constraintEnd_toEndOf="@+id/settings_switch"
                 app:layout_constraintStart_toEndOf="@+id/settings_rules_switch_map"
-                android:text="View goals"
-                android:textColor="@color/ssWhite"
+                android:text="@string/view_goals"
+                android:textColor="@color/black"
+                android:visibility="@{viewModel.isChecked == true ? View.INVISIBLE : View.VISIBLE}"
                 />
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/settings_switch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/black"
+                app:cardElevation="5dp"
+                android:visibility="@{viewModel.isChecked == false ? View.VISIBLE : View.GONE}"
+                >
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/settings_switch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="5dp"
+                android:visibility="@{viewModel.isChecked == true ? View.VISIBLE : View.GONE}"
+                >
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
