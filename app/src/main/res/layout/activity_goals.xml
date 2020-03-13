@@ -213,6 +213,64 @@
                         android:rotation="180"
                         />
 
+                <TextView
+                        android:id="@+id/goals_spinner_goal_date_deadline_heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/goals_spinner_goal_type"
+                        app:layout_constraintStart_toStartOf="@+id/goals_spinner_goal_type"
+                        android:layout_marginTop="20dp"
+                        android:textColor="@color/blue"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="SET DATE DEADLINE: "
+                        />
+
+                <EditText
+                        android:id="@+id/goals_spinner_goal_date_deadline_input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/goals_spinner_goal_date_deadline_heading"
+                        app:layout_constraintStart_toStartOf="@+id/goals_spinner_goal_date_deadline_heading"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="5dp"
+                        android:paddingTop="10dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="10dp"
+                        android:background="@drawable/white_button_blue_border"
+                        android:scrollbars="vertical"
+                        android:inputType="date"
+                        android:focusable="false"
+                        />
+
+                <Button
+                        android:id="@+id/goals_submit_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/goals_spinner_goal_date_deadline_input"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/goals_spinner_goal_date_deadline_input"
+                        app:layout_constraintEnd_toEndOf="@id/goals_spinner_goal_date_deadline_input"
+                        android:background="@drawable/blue_button"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:text="Submit goal"
+                        />
+
+                <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@+id/goals_submit_button"
+                        app:layout_constraintBottom_toBottomOf="@+id/goals_submit_button"
+                        app:layout_constraintStart_toStartOf="@+id/goals_submit_button"
+                        app:layout_constraintEnd_toEndOf="@+id/goals_submit_button"
+                        android:indeterminateTint="@color/blue"
+                        android:visibility="invisible"
+                        />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
