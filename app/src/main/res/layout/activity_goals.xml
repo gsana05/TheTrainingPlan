@@ -245,11 +245,22 @@
                         android:focusable="false"
                         />
 
+                <TextView
+                        android:id="@+id/goals_number_of_days"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/goals_spinner_goal_date_deadline_input"
+                        app:layout_constraintBottom_toTopOf="@id/goals_submit_button"
+                        app:layout_constraintStart_toStartOf="@id/goals_spinner_goal_date_deadline_input"
+                        app:layout_constraintEnd_toEndOf="@id/goals_spinner_goal_date_deadline_input"
+                        android:text="NUMBER OF DAYS"
+                        />
+
                 <Button
                         android:id="@+id/goals_submit_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/goals_spinner_goal_date_deadline_input"
+                        app:layout_constraintTop_toBottomOf="@+id/goals_number_of_days"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@id/goals_spinner_goal_date_deadline_input"
                         app:layout_constraintEnd_toEndOf="@id/goals_spinner_goal_date_deadline_input"

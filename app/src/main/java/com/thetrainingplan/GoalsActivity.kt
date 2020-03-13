@@ -32,6 +32,7 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -69,6 +70,10 @@ class GoalsActivity : AppCompatActivity() {
 
                 val textView = goals_spinner_goal_date_deadline_input as TextView
                 textView.text = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
+
+                val millionSeconds = timeInMillies - Calendar.getInstance().timeInMillis
+                goals_number_of_days.text = TimeUnit.MILLISECONDS.toDays(millionSeconds).toString() + "days"
+
 
             }, year, month, day)
 
