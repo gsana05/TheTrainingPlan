@@ -102,13 +102,47 @@
                     android:layout_height="match_parent">
 
                 <TextView
-                        android:id="@+id/goals_add_goal_enter_heading"
+                        android:id="@+id/goals_add_goal_date_heading"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="20dp"
+                        android:textColor="@color/blue"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="DATE OF GOAL SET: "
+                        />
+
+                <EditText
+                        android:id="@+id/goals_add_goal_date_input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/goals_add_goal_date_heading"
+                        app:layout_constraintStart_toStartOf="@+id/goals_add_goal_date_heading"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="5dp"
+                        android:paddingTop="10dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="10dp"
+                        android:background="@drawable/white_button_blue_border"
+                        android:scrollbars="vertical"
+                        android:inputType="date"
+                        android:maxLines="3"
+                        android:maxLength="90"
+                        android:focusable="false"
+                        />
+
+                <TextView
+                        android:id="@+id/goals_add_goal_enter_heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/goals_add_goal_date_input"
+                        app:layout_constraintStart_toStartOf="@+id/goals_add_goal_date_input"
+                        android:layout_marginTop="20dp"
                         android:textColor="@color/blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -125,6 +159,8 @@
                         android:layout_marginEnd="20dp"
                         android:layout_marginTop="5dp"
                         android:paddingTop="10dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
                         android:paddingBottom="10dp"
                         android:background="@drawable/white_button_blue_border"
                         android:scrollbars="vertical"
