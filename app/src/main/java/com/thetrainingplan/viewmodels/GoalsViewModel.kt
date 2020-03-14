@@ -18,6 +18,8 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     var dateGoalDeadlineInMillie = MutableLiveData<Long>()
     var numberOfDaysToGoal = MutableLiveData<String>()
     var numberOfDaysToGoalInMillie = MutableLiveData<Long>()
+    var spinnerPosition = MutableLiveData<Int>()
+    var showAlert = MutableLiveData<Boolean>()
 
     init {
         getCurrentDate()
@@ -61,7 +63,33 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
         //val elapsedSeconds = different / secondsInMilli
 
-        numberOfDaysToGoal.value = "DAYS: $elapsedDays and HOURS $elapsedHours"
+        numberOfDaysToGoal.value = "$elapsedDays days and $elapsedHours hours"
+    }
+
+    fun submitGoal(){
+
+        showAlert.value = false
+
+        if(dateOfGoalSet.value == null){
+            showAlert.value = true
+            return
+        }
+
+
+        val isGoalSetEmpty = goalSet.value?.isEmpty()
+
+        if((goalSet.value == null) || (isGoalSetEmpty != null && isGoalSetEmpty)){
+            showAlert.value = true
+            return
+        }
+
+        if(dateGoalDeadline.value == null){
+            showAlert.value = true
+            return
+        }
+
+        spinnerPosition.value
+
     }
 
 }

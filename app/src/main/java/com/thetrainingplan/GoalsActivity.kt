@@ -17,10 +17,14 @@ import com.thetrainingplan.models.GoalTypeSpinner
 import com.thetrainingplan.viewmodels.GoalsViewModel
 import kotlinx.android.synthetic.main.activity_goals.*
 import android.view.MotionEvent
+import android.widget.AdapterView
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.lifecycle.Observer
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.okButton
 
 class GoalsActivity : AppCompatActivity() {
 
@@ -36,6 +40,15 @@ class GoalsActivity : AppCompatActivity() {
         val binding: ActivityGoalsBinding = DataBindingUtil.setContentView(this, R.layout.activity_goals)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+
+        viewModel.showAlert.observe(this, Observer {
+            if(it){
+                alert ("fill in all fields"){
+                    okButton {  }
+                }.show()
+            }
+        })
 
         // show a date picker
         goals_spinner_goal_date_deadline_input.setOnClickListener {
@@ -79,7 +92,18 @@ class GoalsActivity : AppCompatActivity() {
         }
         goals_spinner_goal_type.adapter = spinnerAdapterMinDealSize
 
+        goals_spinner_goal_type.onItemSelectedListener= object : AdapterView.OnItemSelectedListener{
 
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                parent?.let {
+                    viewModel.spinnerPosition.value = position
+                }
+            }
+        }
     }
 
     // custom spinner that takes null values
