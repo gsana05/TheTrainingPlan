@@ -246,13 +246,30 @@
                         />
 
                 <TextView
-                        android:id="@+id/goals_number_of_days"
+                        android:id="@+id/goals_number_of_days_heading"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/goals_spinner_goal_date_deadline_input"
-                        app:layout_constraintBottom_toTopOf="@id/goals_submit_button"
                         app:layout_constraintStart_toStartOf="@id/goals_spinner_goal_date_deadline_input"
                         app:layout_constraintEnd_toEndOf="@id/goals_spinner_goal_date_deadline_input"
+                        android:layout_marginTop="40dp"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:text="COUNT DOWN TO GOAL"
+                        />
+
+                <TextView
+                        android:id="@+id/goals_number_of_days"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/goals_number_of_days_heading"
+                        app:layout_constraintStart_toStartOf="@id/goals_spinner_goal_date_deadline_input"
+                        app:layout_constraintEnd_toEndOf="@id/goals_spinner_goal_date_deadline_input"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
                         android:text="NUMBER OF DAYS"
                         />
 

@@ -71,8 +71,16 @@ class GoalsActivity : AppCompatActivity() {
                 val textView = goals_spinner_goal_date_deadline_input as TextView
                 textView.text = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
 
-                val millionSeconds = timeInMillies - Calendar.getInstance().timeInMillis
-                goals_number_of_days.text = TimeUnit.MILLISECONDS.toDays(millionSeconds).toString() + "days"
+                /*val millionSeconds = timeInMillies - Calendar.getInstance().timeInMillis
+                goals_number_of_days.text = TimeUnit.MILLISECONDS.toDays(millionSeconds).toString() + "days"*/
+
+                val cal = Calendar.getInstance()
+                //val SimpleDateFormat = SimpleDateFormat("EEE MMM dd hh:mm:ss 'GMT'Z yyyy")
+                val now = cal.time
+                //val i = SimpleDateFormat.format(cal.time)
+
+
+                printDifference(now, c.time)
 
 
             }, year, month, day)
@@ -130,6 +138,41 @@ class GoalsActivity : AppCompatActivity() {
 
         inputField.text = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
     }
+
+    //1 minute = 60 seconds
+//1 hour = 60 x 60 = 3600
+//1 day = 3600 x 24 = 86400
+    fun printDifference(startDate : Date, endDate : Date) {
+    //milliseconds
+    var different = endDate.time - startDate.time
+
+    val secondsInMilli = 1000
+    val minutesInMilli = secondsInMilli * 60
+    val hoursInMilli = minutesInMilli * 60
+    val daysInMilli = hoursInMilli * 24
+
+    val elapsedDays = different / daysInMilli
+        different %= daysInMilli
+
+    val elapsedHours = different / hoursInMilli
+        different %= hoursInMilli
+
+    val elapsedMinutes = different / minutesInMilli
+        different %= minutesInMilli
+
+    val elapsedSeconds = different / secondsInMilli
+
+    System.out.printf(
+        "%d days, %d hours, %d minutes, %d seconds%n",
+        elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds)
+
+
+        System.out.printf(
+            "%d days, %d hours, %d minutes, %d seconds%n",
+            elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds)
+
+        goals_number_of_days.text = getString(R.string.timeUntilGoalDeadline, elapsedDays, elapsedHours)
+}
 
     fun updateUI(){
         // min deal size

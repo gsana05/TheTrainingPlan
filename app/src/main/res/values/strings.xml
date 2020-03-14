@@ -33,4 +33,5 @@
     <string name="add_goal">Add goal</string>
     <string name="view_goals">View goals</string>
     <string name="goals">GOALS</string>
+    <string name="timeUntilGoalDeadline">%1d days and %2d hours</string>
 </resources>
