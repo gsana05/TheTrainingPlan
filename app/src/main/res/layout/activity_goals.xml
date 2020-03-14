@@ -168,6 +168,7 @@
                         android:inputType="text"
                         android:maxLines="3"
                         android:maxLength="90"
+                        android:text="@{viewModel.goalSet}"
                         />
 
                 <TextView
@@ -244,6 +245,7 @@
                         android:scrollbars="vertical"
                         android:inputType="date"
                         android:focusable="false"
+                        android:text="@{viewModel.dateGoalDeadline}"
                         />
 
                 <TextView
@@ -271,7 +273,7 @@
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp"
-                        android:text="NUMBER OF DAYS"
+                        android:text="@{viewModel.numberOfDaysToGoal}"
                         />
 
                 <Button
