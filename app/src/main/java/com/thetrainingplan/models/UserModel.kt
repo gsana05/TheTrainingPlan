@@ -242,12 +242,64 @@ object UserModel {
         }
     }
 
+    fun getUser( userId : String, callback: (User?, Exception?) -> Unit){
+        getDatabaseRef().document(userId).get().addOnCompleteListener {
+            if(it.isSuccessful){
+                it.result?.let {snapshot ->
+                    val user = getUser(snapshot)
+                    callback(user, null)
+                }?:run {
+                    callback(null, (Exception("User not found in database")))
+                }
+            }
+            else{
+                callback(null, it.exception)
+            }
+        }
+    }
+
+    fun updateGoals(userId : String, goalsId : String, callback: (Boolean?, Exception?) -> Unit){
+
+        getUser(userId){user : User?, exc : Exception? ->
+            if(user != null){
+                var newListOfGoals = ArrayList<String>()
+
+                val currentListOfGoals = user.goals
+
+                currentListOfGoals?.let {
+                    for(i in currentListOfGoals){
+                        if(goalsId == i){
+                            callback(false, Exception("Unique Id already exists"))
+                        }
+                    }
+                    newListOfGoals = currentListOfGoals
+                }
+
+                newListOfGoals.add(goalsId)
+
+                getDatabaseRef().document(userId).update("goals", newListOfGoals).addOnCompleteListener {
+                    if(it.isSuccessful){
+                        callback(true, null)
+                    }
+                    else{
+                        callback(false, it.exception)
+                    }
+                }
+            }
+            else{
+                callback(false, java.lang.Exception("User not found"))
+            }
+        }
+    }
+
+
     private fun getUser(snapshot: DocumentSnapshot) : User{
         val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
         val userId = data["userId"] as String?
         val name = data["name"] as String?
         val email = data["email"] as String?
-        return User(userId, name, email)
+        val goals = data["goals"] as ArrayList<String>?
+        return User(userId, name, email, goals)
     }
 
     private fun toMap(user : User):HashMap<String, Any?>{
@@ -255,6 +307,7 @@ object UserModel {
         map["userId"]=user.userId
         map["name"]=user.name
         map["email"]=user.email
+        map["goals"]=user.goals
         return map
     }
 

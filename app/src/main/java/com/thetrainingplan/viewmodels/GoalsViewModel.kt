@@ -1,8 +1,12 @@
 package com.thetrainingplan.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import com.thetrainingplan.models.Goal
+import com.thetrainingplan.models.GoalModel
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -90,9 +94,19 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
         spinnerPosition.value
 
-
         //save data to database //todo
-
+        val userId = FirebaseAuth.getInstance().uid
+        if(userId != null){
+            val goal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value)
+            GoalModel.addGoal(userId, goal){ data : Boolean?, exception : Exception? ->
+                if(data != null && data){
+                    Log.v("", "")
+                }
+                else{
+                    Log.v("", "")
+                }
+            }
+        }
     }
 
 }
