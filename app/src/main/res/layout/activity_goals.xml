@@ -112,7 +112,7 @@
                         android:textColor="@color/blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="DATE OF GOAL SET: "
+                        android:text="@string/date_of_goal_set"
                         />
 
                 <EditText
@@ -134,6 +134,7 @@
                         android:maxLines="3"
                         android:maxLength="90"
                         android:focusable="false"
+                        android:text="@{viewModel.dateOfGoalSet}"
                         />
 
                 <TextView

@@ -88,9 +88,6 @@ class GoalsActivity : AppCompatActivity() {
             dpd.show()
         }
 
-
-        generateDate(goals_add_goal_date_input)
-
         //disable slide finger on switch
         settings_switch.setOnTouchListener { _, event -> event.actionMasked == MotionEvent.ACTION_MOVE }
 
@@ -126,17 +123,6 @@ class GoalsActivity : AppCompatActivity() {
 
         updateUI()
 
-    }
-
-    private fun generateDate(inputField : TextView){
-
-        val c = Calendar.getInstance()
-
-        c.get(Calendar.YEAR)
-        c.get(Calendar.MONTH)
-        c.get(Calendar.DAY_OF_MONTH)
-
-        inputField.text = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
     }
 
     //1 minute = 60 seconds
