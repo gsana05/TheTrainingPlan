@@ -90,6 +90,9 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
         spinnerPosition.value
 
+
+        //save data to database //todo
+
     }
 
 }
