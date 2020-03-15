@@ -291,6 +291,7 @@
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:text="Submit goal"
+                        android:visibility="@{viewModel.isSubmittingGoal == true ? View.INVISIBLE : View.VISIBLE}"
                         android:onClick="@{() -> viewModel.submitGoal()}"
                         />
 
@@ -302,7 +303,7 @@
                         app:layout_constraintStart_toStartOf="@+id/goals_submit_button"
                         app:layout_constraintEnd_toEndOf="@+id/goals_submit_button"
                         android:indeterminateTint="@color/blue"
-                        android:visibility="invisible"
+                        android:visibility="@{viewModel.isSubmittingGoal == true ? View.VISIBLE : View.INVISIBLE}"
                         />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

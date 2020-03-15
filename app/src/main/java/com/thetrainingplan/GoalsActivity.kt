@@ -50,6 +50,16 @@ class GoalsActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.hasGoalSavedToDatabase.observe(this, Observer {
+            if(it){
+                settings_switch.isChecked = true
+                val dialog = alert ("Goal has been saved successfully"){
+                    okButton {}
+                }.show()
+                dialog.setCancelable(false)
+            }
+        })
+
         // show a date picker
         goals_spinner_goal_date_deadline_input.setOnClickListener {
             val c = Calendar.getInstance()
