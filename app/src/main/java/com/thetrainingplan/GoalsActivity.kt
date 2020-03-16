@@ -98,7 +98,10 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
 
             view_goals_recycler_view.also {
                 it.layoutManager = LinearLayoutManager(applicationContext)
-                it.adapter = GoalsAdapter(ArrayList(mapGoalList.values), this)
+
+                val sortedListByDeadlineDate = ArrayList(mapGoalList.values)
+                sortedListByDeadlineDate.sortBy { list -> list.goalDateDeadline }
+                it.adapter = GoalsAdapter(sortedListByDeadlineDate, this)
             }
         }
 
