@@ -266,6 +266,7 @@ object UserModel {
 
                 val currentListOfGoals = user.goals
 
+                // dont allow the same generated ids to occur
                 currentListOfGoals?.let {
                     for(i in currentListOfGoals){
                         if(goalsId == i){

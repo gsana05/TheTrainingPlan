@@ -21,10 +21,12 @@ import org.jetbrains.anko.okButton
 
 class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
-    override fun onRecyclerViewItemClick(view: View, user: User) {
+    override fun onRecyclerViewItemClick(view: View, user: Any) {
+
+        val theUser = user as User
         when(view.id){
             R.id.recycler_view_button -> {
-                alert ("${user.name}"){
+                alert ("${theUser.name}"){
                     okButton {  }
                 }.show()
                 Toast.makeText(applicationContext, "Book Button Pressed", Toast.LENGTH_LONG).show()

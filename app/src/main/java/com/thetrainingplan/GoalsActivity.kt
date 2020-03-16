@@ -13,22 +13,43 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.thetrainingplan.databinding.ActivityGoalsBinding
-import com.thetrainingplan.models.GoalTypeSpinner
 import com.thetrainingplan.viewmodels.GoalsViewModel
 import kotlinx.android.synthetic.main.activity_goals.*
 import android.view.MotionEvent
 import android.widget.AdapterView
+import android.widget.Toast
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.thetrainingplan.adapters.GoalsAdapter
+import com.thetrainingplan.models.*
+import com.thetrainingplan.util.RecyclerViewClickListener
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
+import kotlin.collections.HashMap
 
-class GoalsActivity : AppCompatActivity() {
+class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
+    override fun onRecyclerViewItemClick(view: View, goal: Any) {
+
+        val mGoal = goal as Goal
+        when(view.id){
+            R.id.goals_item_button -> {
+                alert ("${mGoal.goal}"){
+                    okButton {  }
+                }.show()
+                Toast.makeText(applicationContext, "Book Button Pressed", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     private lateinit var viewModel: GoalsViewModel
+    private var mCallbackCurrentUser = { _: User?, _: Exception? -> Unit}
+    private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
+    private var listOfGoalPins = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +80,44 @@ class GoalsActivity : AppCompatActivity() {
                 dialog.setCancelable(false)
             }
         })
+
+        val mapGoalList = HashMap<String, Goal>()
+        mCallbackCurrentGoal = { data : Goal?, exc: Exception? ->
+            if(data != null){
+                data.id?.let { mapGoalList.put(it, data) }
+            }
+
+            view_goals_recycler_view.also {
+                it.layoutManager = LinearLayoutManager(applicationContext)
+                it.adapter = GoalsAdapter(ArrayList(mapGoalList.values), this)
+            }
+
+        }
+
+
+        mCallbackCurrentUser = { data : User?, exc: Exception? ->
+            if(exc != null){
+                alert("current user exc: = ${exc.message}") {
+                    okButton {  }
+                }.show()
+            }
+            else{
+
+                if(data != null){
+                    data.goals?.let { listOfPin ->
+                        listOfGoalPins = listOfPin
+                        for(pin in listOfPin){
+                            // add goal listener
+                            GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
+                        }
+                    }
+
+                }
+
+            }
+        }
+
+
 
         // show a date picker
         goals_spinner_goal_date_deadline_input.setOnClickListener {
@@ -113,6 +172,22 @@ class GoalsActivity : AppCompatActivity() {
                     viewModel.spinnerPosition.value = position
                 }
             }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val userId = FirebaseAuth.getInstance().uid
+        if(userId != null){
+            UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val userId = FirebaseAuth.getInstance().uid
+        if(userId != null){
+            UserModel.addCurrentUserListener(userId, mCallbackCurrentUser)
         }
     }
 

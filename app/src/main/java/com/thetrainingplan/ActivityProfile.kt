@@ -39,6 +39,7 @@ class ActivityProfile : AppCompatActivity() {
             else{
 
                 if(data != null){
+                    val i = data.goals
                     viewModel.currentProfileUser.value = data
                 }
 

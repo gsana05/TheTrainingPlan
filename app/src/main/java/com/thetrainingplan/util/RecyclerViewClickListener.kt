@@ -4,5 +4,5 @@ import android.view.View
 import com.thetrainingplan.models.User
 
 interface RecyclerViewClickListener {
-    fun onRecyclerViewItemClick(view: View, user: User)
+    fun onRecyclerViewItemClick(view: View, user: Any)
 }
