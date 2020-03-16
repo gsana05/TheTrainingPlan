@@ -52,7 +52,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:textColor="@color/blue"
+                android:textColor="@color/black"
                 android:text="@{goal.goal}"
                 android:textSize="16sp"
                 />
@@ -80,7 +80,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:text="@{U.goalType(goal.goalType)}"
-                android:textColor="@color/blue"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 />
 
@@ -105,7 +105,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/goal_item_set_date_heading"
                 app:layout_constraintStart_toEndOf="@+id/goal_item_set_date_heading"
                 android:layout_marginStart="10dp"
-                android:text="12/09.23"
+                android:textColor="@color/black"
+                android:text="@{U.formatDate(goal.goalSetDate, false)}"
                 />
 
         <TextView
@@ -130,7 +131,8 @@
                 app:layout_constraintStart_toEndOf="@+id/goal_item_deadline_date_heading"
                 app:layout_constraintEnd_toEndOf="@id/goals_item_view"
                 android:layout_marginStart="10dp"
-                android:text="12/09.23"
+                android:textColor="@color/black"
+                android:text="@{U.formatDate(goal.goalDateDeadline, false)}"
                 />
 
         <Button
