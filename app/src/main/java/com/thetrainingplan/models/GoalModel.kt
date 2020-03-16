@@ -10,6 +10,18 @@ import kotlin.collections.HashMap
 
 object GoalModel {
 
+    const val OTHER_ID = 0
+    const val SPIRITUAL_ID = 1
+    const val PHYSICAL_ID = 2
+    const val PSYCHOLOGY_ID = 3
+    const val EMOTIONAL_ID = 4
+
+    const val OTHER = "Other"
+    const val SPIRITUAL = "Spiritual"
+    const val PHYSICAL = "Physical"
+    const val PSYCHOLOGY = "Psychology"
+    const val EMOTIONAL = "Emotional"
+
     private var mCachedGoals : HashMap<String, Goal> = HashMap() // these are the cached profiles
     private var mFirebaseRefsGoals : HashMap<String, ListenerRegistration> = HashMap() // these are our watches on the database
     private var mProfileCallbacksGoals = HashMap<String, ArrayList<(Goal?, Exception?) -> Unit>>() // callbacks for that user id

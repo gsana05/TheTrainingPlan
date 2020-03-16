@@ -4,6 +4,7 @@ package com.thetrainingplan
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import androidx.annotation.ArrayRes
+import com.thetrainingplan.models.GoalModel
 import java.text.DateFormat
 import java.text.NumberFormat
 import java.util.*
@@ -14,6 +15,31 @@ import kotlin.math.min
 class U {
 
     companion object {
+
+        @JvmStatic
+        fun goalType(type: Int): String {
+          when(type){
+              GoalModel.OTHER_ID -> {
+                  return GoalModel.OTHER
+              }
+              GoalModel.SPIRITUAL_ID -> {
+                  return GoalModel.SPIRITUAL
+              }
+              GoalModel.PHYSICAL_ID -> {
+                  return GoalModel.PHYSICAL
+              }
+              GoalModel.PSYCHOLOGY_ID -> {
+                  return GoalModel.PSYCHOLOGY
+              }
+              GoalModel.EMOTIONAL_ID -> {
+                  return GoalModel.EMOTIONAL
+              }
+              else -> {
+                  return "Error - Please contact support"
+              }
+          }
+        }
+
         @JvmStatic
         fun formatCurrencyShort(amount: Double): String {
             val test = amount.toInt()

@@ -5,9 +5,8 @@
     <data>
         <import type="android.view.View"/>
         <variable name="viewModel" type="com.thetrainingplan.viewmodels.GoalsViewModel"/>
-        <variable
-                name="goal"
-                type="com.thetrainingplan.models.Goal" />
+        <variable name="goal" type="com.thetrainingplan.models.Goal" />
+        <import type="com.thetrainingplan.U"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,7 +79,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
-                android:text="testing"
+                android:text="@{U.goalType(goal.goalType)}"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
                 />
@@ -97,7 +96,6 @@
                 android:textColor="@color/blue"
                 android:textSize="16sp"
                 />
-
 
         <TextView
                 android:id="@+id/goal_item_set_date"

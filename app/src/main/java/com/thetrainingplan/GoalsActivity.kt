@@ -33,6 +33,7 @@ import org.jetbrains.anko.okButton
 import kotlin.collections.HashMap
 
 class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
+
     override fun onRecyclerViewItemClick(view: View, any: Any) {
 
         val mGoal = any as Goal
@@ -117,11 +118,8 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
                             // add goal listener
                             GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
                         }
-
                     }
-
                 }
-
             }
         }
 
@@ -157,10 +155,10 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
         // min deal size
         val listOfGoalTypes = ArrayList<GoalTypeSpinner?>()
         listOfGoalTypes.add(null)
-        listOfGoalTypes.add(GoalTypeSpinner(1, "Spiritual"))
-        listOfGoalTypes.add(GoalTypeSpinner(2, "Physical"))
-        listOfGoalTypes.add(GoalTypeSpinner(3, "Psychology"))
-        listOfGoalTypes.add(GoalTypeSpinner(4, "Emotional"))
+        listOfGoalTypes.add(GoalTypeSpinner(GoalModel.SPIRITUAL_ID, GoalModel.SPIRITUAL))
+        listOfGoalTypes.add(GoalTypeSpinner(GoalModel.PHYSICAL_ID, GoalModel.PHYSICAL))
+        listOfGoalTypes.add(GoalTypeSpinner(GoalModel.PSYCHOLOGY_ID, GoalModel.PSYCHOLOGY))
+        listOfGoalTypes.add(GoalTypeSpinner(GoalModel.EMOTIONAL_ID, GoalModel.EMOTIONAL))
 
 
         val spinnerAdapterMinDealSize = CustomDropDownAdapter<GoalTypeSpinner?>(this, listOfGoalTypes){ _, item, view ->
