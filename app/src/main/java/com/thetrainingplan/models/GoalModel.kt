@@ -10,13 +10,13 @@ import kotlin.collections.HashMap
 
 object GoalModel {
 
-    var mCachedGoals : HashMap<String, Goal> = HashMap() // these are the cached profiles
-    var mFirebaseRefsGoals : HashMap<String, ListenerRegistration> = HashMap() // these are our watches on the database
-    var mProfileCallbacksGoals = HashMap<String, ArrayList<(Goal?, Exception?) -> Unit>>() // callbacks for that user id
+    private var mCachedGoals : HashMap<String, Goal> = HashMap() // these are the cached profiles
+    private var mFirebaseRefsGoals : HashMap<String, ListenerRegistration> = HashMap() // these are our watches on the database
+    private var mProfileCallbacksGoals = HashMap<String, ArrayList<(Goal?, Exception?) -> Unit>>() // callbacks for that user id
 
-    fun numberOfGoalsListeners() : Int? {
+   /* fun numberOfGoalsListeners() : Int? {
         return mFirebaseRefsGoals.size
-    }
+    }*/
 
     fun addGoalSingleListener(pin : String, callback : (Goal?, Exception?) -> Unit){
 
@@ -51,7 +51,6 @@ object GoalModel {
                     var goal : Goal? = null
 
                     if(documentSnapshot != null){
-                        val i = documentSnapshot
                         goal = getGoal(documentSnapshot) // gets data from database
                     }
 
@@ -61,7 +60,7 @@ object GoalModel {
                     // END - GET USER AND CACHE //
 
                     if(callbackList!=null) {
-                        for (callback in callbackList) {
+                        for (callbackGoal in callbackList) {
                             callback(goal, firebaseFirestoreException) //RETURN DATA
                         }
                     }

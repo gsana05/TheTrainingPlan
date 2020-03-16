@@ -16,16 +16,17 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
     var isChecked = MutableLiveData<Boolean>().apply { value = false }
     var dateOfGoalSet = MutableLiveData<String>()
-    var dateOfGoalSetInMillie = MutableLiveData<Long>()
+    private var dateOfGoalSetInMillie = MutableLiveData<Long>()
     var goalSet = MutableLiveData<String>()
     var dateGoalDeadline = MutableLiveData<String>()
     var dateGoalDeadlineInMillie = MutableLiveData<Long>()
     var numberOfDaysToGoal = MutableLiveData<String>()
-    var numberOfDaysToGoalInMillie = MutableLiveData<Long>()
+    private var numberOfDaysToGoalInMillie = MutableLiveData<Long>()
     var spinnerPosition = MutableLiveData<Int>()
     var showAlert = MutableLiveData<Boolean>()
     var isSubmittingGoal = MutableLiveData<Boolean>()
     var hasGoalSavedToDatabase = MutableLiveData<Boolean>()
+    var saveGoalException = MutableLiveData<Exception>()
 
     init {
         getCurrentDate()
@@ -43,7 +44,6 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     }
 
     fun switchPressed(){
-        val i = isChecked.value
         isChecked.value?.let {
             isChecked.value = !it
         }
@@ -99,22 +99,30 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
         isSubmittingGoal.value = true
 
-        //save data to database //todo
+
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
             val goal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value)
             GoalModel.addGoal(userId, goal){ data : Boolean?, exception : Exception? ->
                 isSubmittingGoal.value = false
-                if(data != null && data){
-                    hasGoalSavedToDatabase.value = true
-                    switchPressed()
-                    //isChecked.value = false
-                    Log.v("", "")
+
+                if(exception != null){
+                    saveGoalException.value = exception
+                    hasGoalSavedToDatabase.value = false
                 }
                 else{
-                    hasGoalSavedToDatabase.value = false
-                    Log.v("", "")
+                    if(data != null && data){
+                        hasGoalSavedToDatabase.value = true
+                        switchPressed()
+                        //isChecked.value = false
+                        Log.v("", "")
+                    }
+                    else{
+                        hasGoalSavedToDatabase.value = false
+                        Log.v("", "")
+                    }
                 }
+
             }
         }
         else{

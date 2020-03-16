@@ -33,9 +33,9 @@ import org.jetbrains.anko.okButton
 import kotlin.collections.HashMap
 
 class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
-    override fun onRecyclerViewItemClick(view: View, goal: Any) {
+    override fun onRecyclerViewItemClick(view: View, any: Any) {
 
-        val mGoal = goal as Goal
+        val mGoal = any as Goal
         when(view.id){
             R.id.goals_item_button -> {
                 alert ("${mGoal.goal}"){
@@ -71,6 +71,14 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
             }
         })
 
+        viewModel.saveGoalException.observe(this, Observer {
+            if(it != null){
+                alert ("$it"){
+                    okButton {  }
+                }.show()
+            }
+        })
+
         viewModel.hasGoalSavedToDatabase.observe(this, Observer {
             if(it){
                 settings_switch.isChecked = true
@@ -82,7 +90,7 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
         })
 
         val mapGoalList = HashMap<String, Goal>()
-        mCallbackCurrentGoal = { data : Goal?, exc: Exception? ->
+        mCallbackCurrentGoal = { data : Goal?, _: Exception? ->
             if(data != null){
                 data.id?.let { mapGoalList.put(it, data) }
             }
@@ -91,10 +99,6 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
                 it.layoutManager = LinearLayoutManager(applicationContext)
                 it.adapter = GoalsAdapter(ArrayList(mapGoalList.values), this)
             }
-
-            val i0 = GoalModel.numberOfGoalsListeners()
-            val i = GoalModel.numberOfGoalsListeners()
-
         }
 
 
@@ -188,9 +192,6 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
             for(pin in listOfGoalPins){
                 GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)
             }
-
-            val ipp = GoalModel.numberOfGoalsListeners()
-            val i = GoalModel.numberOfGoalsListeners()
         }
     }
 

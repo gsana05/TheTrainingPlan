@@ -21,9 +21,9 @@ import org.jetbrains.anko.okButton
 
 class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
-    override fun onRecyclerViewItemClick(view: View, user: Any) {
+    override fun onRecyclerViewItemClick(view: View, any : Any) {
 
-        val theUser = user as User
+        val theUser = any as User
         when(view.id){
             R.id.recycler_view_button -> {
                 alert ("${theUser.name}"){
@@ -55,7 +55,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         setSupportActionBar(shop_navigation_toolbar)
 
         // hiding the label in title bar
-        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         setupMenu(shop_drawer_layout_main, shop_nav_view_main, shop_navigation_toolbar)
 
