@@ -14,6 +14,10 @@ object GoalModel {
     var mFirebaseRefsGoals : HashMap<String, ListenerRegistration> = HashMap() // these are our watches on the database
     var mProfileCallbacksGoals = HashMap<String, ArrayList<(Goal?, Exception?) -> Unit>>() // callbacks for that user id
 
+    fun numberOfGoalsListeners() : Int? {
+        return mFirebaseRefsGoals.size
+    }
+
     fun addGoalSingleListener(pin : String, callback : (Goal?, Exception?) -> Unit){
 
         var callbacks = ArrayList<(Goal?, Exception?) -> Unit>()
@@ -71,8 +75,24 @@ object GoalModel {
 
     }
 
-    fun removeGoalSigleListener(){
+    fun removeGoalSingleListener(pin : String, onComplete : (Goal?, Exception?) -> Unit){
+        val callbackList = mProfileCallbacksGoals[pin] // gets the list of callbacks for that user which was added in addListener
 
+        if(callbackList != null && callbackList.contains(onComplete)){
+            callbackList.remove(onComplete) // removes one call back at a time
+
+            if(callbackList.size == 0){
+                mProfileCallbacksGoals.remove(pin) // remove the list from the cache
+                val databaseRef = mFirebaseRefsGoals[pin] // get value which is the listener
+                if(databaseRef!=null){
+                    databaseRef.remove() // remove the snapshot lister // change listener to unit
+                    mFirebaseRefsGoals.remove(pin) // remove the ref from our cached list
+                }
+            }
+            else {
+                mProfileCallbacksGoals[pin] = callbackList // put the callback list back into list without the one just removed
+            }
+        }
     }
 
     fun addGoal(userId : String, goal : Goal, callback : (Boolean?, Exception?) -> Unit){

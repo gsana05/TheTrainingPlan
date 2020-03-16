@@ -92,6 +92,9 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
                 it.adapter = GoalsAdapter(ArrayList(mapGoalList.values), this)
             }
 
+            val i0 = GoalModel.numberOfGoalsListeners()
+            val i = GoalModel.numberOfGoalsListeners()
+
         }
 
 
@@ -110,6 +113,7 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
                             // add goal listener
                             GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
                         }
+
                     }
 
                 }
@@ -180,6 +184,13 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
             UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
+
+            for(pin in listOfGoalPins){
+                GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)
+            }
+
+            val ipp = GoalModel.numberOfGoalsListeners()
+            val i = GoalModel.numberOfGoalsListeners()
         }
     }
 
