@@ -167,7 +167,7 @@
                         android:scrollbars="vertical"
                         android:inputType="text"
                         android:maxLines="3"
-                        android:maxLength="90"
+                        android:maxLength="70"
                         android:text="@={viewModel.goalSet}"
                         />
 

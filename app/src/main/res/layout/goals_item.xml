@@ -47,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@+id/goals_item_heading_label"
-                app:layout_constraintBottom_toBottomOf="@+id/goals_item_heading_label"
+                app:layout_constraintBottom_toTopOf="@+id/goals_item_type"
                 app:layout_constraintStart_toEndOf="@+id/goals_item_heading_label"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
@@ -55,6 +55,8 @@
                 android:textColor="@color/black"
                 android:text="@{goal.goal}"
                 android:textSize="16sp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 />
 
         <TextView
@@ -64,6 +66,7 @@
                 app:layout_constraintTop_toBottomOf="@id/goals_item_heading_label"
                 app:layout_constraintStart_toStartOf="@id/goals_item_heading_label"
                 app:layout_constraintBottom_toTopOf="@+id/goal_item_set_date"
+                android:layout_marginTop="5dp"
                 android:text="Type:"
                 android:textSize="16sp"
                 android:textColor="@color/blue"
