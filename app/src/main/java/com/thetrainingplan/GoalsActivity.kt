@@ -1,7 +1,10 @@
 package com.thetrainingplan
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -39,10 +42,11 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
         val mGoal = any as Goal
         when(view.id){
             R.id.goals_item_button -> {
-                alert ("${mGoal.goal}"){
-                    okButton {  }
-                }.show()
-                Toast.makeText(applicationContext, "Book Button Pressed", Toast.LENGTH_LONG).show()
+
+                val intent = Intent(this, ActivityUpdateGoals::class.java)
+                intent.putExtra("id", mGoal.id)
+                startActivity(intent)
+
             }
         }
     }
@@ -182,6 +186,48 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
                 }
             }
         }
+    }
+
+
+/*    private fun notificationAlert(notificationTitle : String?, notificationBody : String?, notificationLink : String?){
+        val builder = AlertDialog.Builder(this)
+        val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
+        val inflatedLayout: View = layoutInflater.inflate(R.layout.activity_notification_alert, viewGroup, false)
+        builder.setView(inflatedLayout)
+
+        val dialog = builder.show()
+
+        val title: TextView = inflatedLayout.findViewById(R.id.notification_alert_title)
+        notificationTitle?.let {
+            title.text = it
+        }
+
+        val body: TextView = inflatedLayout.findViewById(R.id.notification_alert_body)
+        notificationBody?.let {
+            body.text = it
+        }
+
+        val link: Button = inflatedLayout.findViewById(R.id.notification_alert_link_button)
+        if(notificationLink != null){
+            link.visibility = View.VISIBLE
+            link.setOnClickListener {
+                goToUrl(notificationLink)
+            }
+        }
+        else{
+            link.visibility = View.GONE
+        }
+
+        val dismissBtn: Button = inflatedLayout.findViewById(R.id.notification_alert_dismiss_button)
+        dismissBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+    }*/
+
+    private fun goToUrl(url: String){
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
     }
 
     override fun onPause() {
