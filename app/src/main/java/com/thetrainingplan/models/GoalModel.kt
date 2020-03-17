@@ -106,7 +106,7 @@ object GoalModel {
         }
     }
 
-    fun addGoal(userId : String, goal : Goal, callback : (Boolean?, Exception?) -> Unit){
+    fun addOrUpdateGoal(userId : String, goal : Goal, isNew : Boolean, callback : (Boolean?, Exception?) -> Unit){
 
         if(goal.id == null){
             goal.id = UUID.randomUUID().toString()
@@ -116,15 +116,27 @@ object GoalModel {
             getDatabaseRefGoals().document(goalId).set(toMap(goal)).addOnCompleteListener {
                 if(it.isSuccessful){
                     //call a firebase function to add goal id to the users list
-                    goal.id?.let {idGoal ->
-                        UserModel.updateGoals(userId, idGoal, callback)
+                    if(isNew){
+                        goal.id?.let {idGoal ->
+                            UserModel.updateGoals(userId, idGoal, callback)
+                        }
                     }
+                    else{
+                        callback(true, null)
+                    }
+
                 }
                 else{
                     callback(false, it.exception)
                 }
             }
         }
+    }
+
+    fun updateGoal(userId : String, goal : Goal, callback : (Boolean?, Exception?) -> Unit){
+
+
+
     }
 
     private fun getGoal(snapshot: DocumentSnapshot) : Goal{

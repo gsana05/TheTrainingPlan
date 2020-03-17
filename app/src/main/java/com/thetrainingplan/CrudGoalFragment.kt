@@ -35,6 +35,10 @@ class CrudGoalFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        viewModel.finishUpdateGoals.observe(this, Observer {
+
+        })
+
         binding.goalsAddGoalDateInput.isEnabled = false
 
         val listOfGoalTypes = ArrayList<GoalTypeSpinner?>()

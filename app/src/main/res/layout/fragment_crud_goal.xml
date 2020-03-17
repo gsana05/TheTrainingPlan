@@ -227,7 +227,7 @@
                         android:textSize="16sp"
                         android:text="Update goal"
                         android:visibility="@{viewModel.isSubmittingGoal == true ? View.INVISIBLE : View.VISIBLE}"
-                        android:onClick="@{() -> viewModel.submitGoal()}"
+                        android:onClick="@{() -> viewModel.submitGoal(false)}"
                         />
 
                 <ProgressBar

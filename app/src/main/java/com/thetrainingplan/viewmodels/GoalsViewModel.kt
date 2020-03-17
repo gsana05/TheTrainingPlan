@@ -30,6 +30,7 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     var saveGoalException = MutableLiveData<Exception>()
     var goal = MutableLiveData<Goal?>()
     val finishUpdateGoalsActivityEvent = LiveEvent<Void>()
+    val finishUpdateGoals = LiveEvent<Void>()
 
     init {
         getCurrentDate()
@@ -80,7 +81,7 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         numberOfDaysToGoal.value = "$elapsedDays days and $elapsedHours hours"
     }
 
-    fun submitGoal(){
+    fun submitGoal(isNew : Boolean){
 
         showAlert.value = false
 
@@ -109,27 +110,44 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
-            val goal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value)
-            GoalModel.addGoal(userId, goal){ data : Boolean?, exception : Exception? ->
-                isSubmittingGoal.value = false
 
-                if(exception != null){
-                    saveGoalException.value = exception
-                    hasGoalSavedToDatabase.value = false
+            var setGoal : Goal? = null
+            if(isNew){
+                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value)
+            }
+            else{
+                goal.value?.id?.let {goalPin ->
+                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value)
                 }
-                else{
-                    if(data != null && data){
-                        hasGoalSavedToDatabase.value = true
-                        switchPressed()
-                        //isChecked.value = false
-                        Log.v("", "")
-                    }
-                    else{
+
+            }
+
+
+            setGoal?.let {
+                GoalModel.addOrUpdateGoal(userId, it, isNew){ data : Boolean?, exception : Exception? ->
+                    isSubmittingGoal.value = false
+
+                    if(exception != null){
+                        saveGoalException.value = exception
                         hasGoalSavedToDatabase.value = false
-                        Log.v("", "")
-                    }
-                }
+                    } else{
+                        if(data != null && data){
+                            hasGoalSavedToDatabase.value = true
+                            if(isNew){
+                                switchPressed()
+                            }
+                            else{
+                                finishUpdateGoals.call()
+                            }
 
+
+                        } else{
+                            hasGoalSavedToDatabase.value = false
+                            Log.v("", "")
+                        }
+                    }
+
+                }
             }
         }
         else{

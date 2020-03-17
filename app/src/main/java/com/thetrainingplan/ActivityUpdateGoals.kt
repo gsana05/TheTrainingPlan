@@ -11,6 +11,8 @@ import com.thetrainingplan.databinding.ActivityUpdateGoalsBinding
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.viewmodels.GoalsViewModel
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 class ActivityUpdateGoals : AppCompatActivity() {
 
@@ -29,6 +31,10 @@ class ActivityUpdateGoals : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        viewModel.finishUpdateGoals.observe(this, Observer {
+            finish()
+        })
+
         goalId = intent.getStringExtra("id")
         goalId?.let {
             val mapGoalList = HashMap<String, Goal>()
@@ -41,6 +47,7 @@ class ActivityUpdateGoals : AppCompatActivity() {
                             viewModel.goal.value = goal
                             viewModel.goalSet.value = goal.goal
                             viewModel.dateGoalDeadlineInMillie.value = goal.goalDateDeadline
+                            viewModel.dateGoalDeadline.value = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(viewModel.dateGoalDeadlineInMillie.value)
                         }
                     }
                 }
