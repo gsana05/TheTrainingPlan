@@ -35,7 +35,7 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 import kotlin.collections.HashMap
 
-class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
+class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onRecyclerViewItemClick(view: View, any: Any) {
 
@@ -56,6 +56,7 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
     private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
     private var listOfGoalPins = ArrayList<String>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_goals)
@@ -66,7 +67,6 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
         val binding: ActivityGoalsBinding = DataBindingUtil.setContentView(this, R.layout.activity_goals)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
 
         viewModel.showAlert.observe(this, Observer {
             if(it){

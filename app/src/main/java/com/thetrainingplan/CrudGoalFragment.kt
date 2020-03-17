@@ -35,10 +35,6 @@ class CrudGoalFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.finishUpdateGoals.observe(this, Observer {
-
-        })
-
         binding.goalsAddGoalDateInput.isEnabled = false
 
         val listOfGoalTypes = ArrayList<GoalTypeSpinner?>()
@@ -69,9 +65,24 @@ class CrudGoalFragment : Fragment() {
         }
 
         viewModel.goal.observe(this, Observer {
-            it?.goalType?.let {type ->
-                binding.fragmentGoalsSpinnerGoalType.setSelection(type)
+            it?.let {
+                it.goalType?.let {type ->
+                    binding.fragmentGoalsSpinnerGoalType.setSelection(type)
+                }
+                viewModel.dateGoalDeadlineInMillie.value = it.goalDateDeadline
+                viewModel.dateGoalDeadline.value = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(it.goalDateDeadline)
+
+
+
+                val deadlineDate = it.goalDateDeadline?.let { it1 -> Date(it1) }
+
+                if (deadlineDate != null) {
+                    viewModel.printDifference(Calendar.getInstance().time, deadlineDate)
+                }
+
             }
+
+
         })
 
         // show a date picker
@@ -89,7 +100,6 @@ class CrudGoalFragment : Fragment() {
 
                 viewModel.dateGoalDeadlineInMillie.value = c.timeInMillis
                 viewModel.dateGoalDeadline.value = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
-
 
                 viewModel.printDifference(Calendar.getInstance().time, c.time)
 
