@@ -15,8 +15,7 @@
                 android:name=".ActivityUpdateGoals"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden"
-                />
+                android:windowSoftInputMode="stateHidden" />
         <activity
                 android:name=".GoalsActivity"
                 android:screenOrientation="portrait"

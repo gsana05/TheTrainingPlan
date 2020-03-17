@@ -3,21 +3,18 @@ package com.thetrainingplan
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.thetrainingplan.adapters.GoalsAdapter
 import com.thetrainingplan.databinding.ActivityGoalsBinding
 import com.thetrainingplan.databinding.ActivityUpdateGoalsBinding
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.viewmodels.GoalsViewModel
-import com.thetrainingplan.viewmodels.UpdateGoalsViewModel
-import kotlinx.android.synthetic.main.activity_goals.*
 
 class ActivityUpdateGoals : AppCompatActivity() {
 
-    private lateinit var viewModel: UpdateGoalsViewModel
+    private lateinit var viewModel: GoalsViewModel
     private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
     private var goalId : String? = null
 
@@ -26,7 +23,7 @@ class ActivityUpdateGoals : AppCompatActivity() {
         //setContentView(R.layout.activity_update_goals)
 
         // reference to view model
-        viewModel = ViewModelProviders.of(this).get(UpdateGoalsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(GoalsViewModel::class.java)
 
         val binding: ActivityUpdateGoalsBinding = DataBindingUtil.setContentView(this, R.layout.activity_update_goals)
         binding.lifecycleOwner = this
@@ -48,6 +45,10 @@ class ActivityUpdateGoals : AppCompatActivity() {
             }
             GoalModel.addGoalSingleListener(it, mCallbackCurrentGoal)
         }
+
+        viewModel.finishUpdateGoalsActivityEvent.observe(this, Observer{
+            finish()
+        })
     }
 
     override fun onPause() {

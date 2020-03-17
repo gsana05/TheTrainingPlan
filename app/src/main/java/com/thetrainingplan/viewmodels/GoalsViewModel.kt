@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
+import com.thetrainingplan.util.LiveEvent
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,9 +28,15 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     var isSubmittingGoal = MutableLiveData<Boolean>()
     var hasGoalSavedToDatabase = MutableLiveData<Boolean>()
     var saveGoalException = MutableLiveData<Exception>()
+    var goal = MutableLiveData<Goal?>()
+    val finishUpdateGoalsActivityEvent = LiveEvent<Void>()
 
     init {
         getCurrentDate()
+    }
+
+    fun finishUpdateGoalsActivity(){
+        finishUpdateGoalsActivityEvent.call()
     }
 
     private fun getCurrentDate(){
