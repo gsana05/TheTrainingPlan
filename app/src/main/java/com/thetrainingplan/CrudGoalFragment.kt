@@ -1,5 +1,6 @@
 package com.thetrainingplan
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,6 +17,10 @@ import com.thetrainingplan.databinding.FragmentCrudGoalBinding
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.models.GoalTypeSpinner
 import com.thetrainingplan.viewmodels.GoalsViewModel
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CrudGoalFragment : Fragment() {
 
@@ -60,10 +65,34 @@ class CrudGoalFragment : Fragment() {
         }
 
         viewModel.goal.observe(this, Observer {
-            it?.goalType?.let {
-                binding.fragmentGoalsSpinnerGoalType.setSelection(it)
+            it?.goalType?.let {type ->
+                binding.fragmentGoalsSpinnerGoalType.setSelection(type)
             }
         })
+
+        // show a date picker
+        binding.goalsSpinnerGoalDateDeadlineInput.setOnClickListener {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
+            val dpd = DatePickerDialog(inflater.context, DatePickerDialog.OnDateSetListener { _, yearDP, monthOfYear, dayOfMonth ->
+                // Display Selected date in text box
+                c.set(Calendar.YEAR, yearDP)
+                c.set(Calendar.MONTH, monthOfYear)
+                c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                viewModel.dateGoalDeadlineInMillie.value = c.timeInMillis
+                viewModel.dateGoalDeadline.value = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
+
+
+                viewModel.printDifference(Calendar.getInstance().time, c.time)
+
+            }, year, month, day)
+
+            dpd.show()
+        }
 
         return binding.root
 

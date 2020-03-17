@@ -103,7 +103,7 @@
                         android:inputType="text"
                         android:maxLines="3"
                         android:maxLength="70"
-                        android:text="@{viewModel.goal.goal}"
+                        android:text="@={viewModel.goalSet}"
                         />
 
                 <TextView
@@ -180,7 +180,7 @@
                         android:scrollbars="vertical"
                         android:inputType="date"
                         android:focusable="false"
-                        android:text="@{U.formatDate(viewModel.goal.goalDateDeadline, true)}"
+                        android:text="@{U.formatDate(viewModel.dateGoalDeadlineInMillie, true)}"
                         />
 
                 <TextView
@@ -225,7 +225,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:text="Submit goal"
+                        android:text="Update goal"
                         android:visibility="@{viewModel.isSubmittingGoal == true ? View.INVISIBLE : View.VISIBLE}"
                         android:onClick="@{() -> viewModel.submitGoal()}"
                         />

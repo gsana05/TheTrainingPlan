@@ -39,6 +39,8 @@ class ActivityUpdateGoals : AppCompatActivity() {
                         val goal = mapGoalList[goalPin]
                         goal?.let {goal ->
                             viewModel.goal.value = goal
+                            viewModel.goalSet.value = goal.goal
+                            viewModel.dateGoalDeadlineInMillie.value = goal.goalDateDeadline
                         }
                     }
                 }
