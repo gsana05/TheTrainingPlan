@@ -63,7 +63,7 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
                 }.show()
             }
             else -> {
-                alert ("Somethig went wrong"){
+                alert ("Something went wrong"){
                     okButton {  }
                 }.show()
             }
@@ -136,8 +136,10 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
                 }
 
                 //sort list by deadline date coming soon
+
                 val sortedListByDeadlineDate = ArrayList(mapGoalList.values)
-                sortedListByDeadlineDate.sortBy { list -> list.goalDateDeadline }
+                viewModel.numberOfOpenGoals.value = sortedListByDeadlineDate.size
+                    sortedListByDeadlineDate.sortBy { list -> list.goalDateDeadline }
                 it.adapter = GoalsAdapter(sortedListByDeadlineDate, this)
             }
         }

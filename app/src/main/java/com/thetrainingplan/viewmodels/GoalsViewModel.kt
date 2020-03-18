@@ -32,6 +32,7 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     var goal = MutableLiveData<Goal?>()
     val finishUpdateGoalsActivityEvent = LiveEvent<Void>()
     val finishUpdateGoals = LiveEvent<Void>()
+    var numberOfOpenGoals = MutableLiveData<Int>()
 
     init {
         getCurrentDate()
