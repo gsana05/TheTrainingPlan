@@ -36,4 +36,9 @@
     <string name="timeUntilGoalDeadline">%1d days and %2d hours</string>
     <string name="date_of_goal_set">DATE OF GOAL SET:</string>
     <string name="update_goals">Update Goals</string>
+
+    <plurals name="numberOfGoals">
+        <item quantity="one">YOU HAVE %d GOAL</item>
+        <item quantity="other">YOU HAVE %d GOALS</item>
+    </plurals>
 </resources>
