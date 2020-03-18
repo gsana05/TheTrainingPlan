@@ -113,6 +113,20 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
             view_goals_recycler_view.also {
                 it.layoutManager = LinearLayoutManager(applicationContext)
 
+                // get all the deleted goals
+                val deletedGoals = ArrayList<String>()
+                for(goal in ArrayList(mapGoalList.values)){
+                    if(goal.isDeleted == true){
+                        goal.id?.let { it1 -> deletedGoals.add(it1) }
+                    }
+                }
+
+                //remove deleted goals from the list that will go on the UI
+                for(deleted in deletedGoals){
+                    mapGoalList.remove(deleted)
+                }
+
+                //sort list by deadline date coming soon
                 val sortedListByDeadlineDate = ArrayList(mapGoalList.values)
                 sortedListByDeadlineDate.sortBy { list -> list.goalDateDeadline }
                 it.adapter = GoalsAdapter(sortedListByDeadlineDate, this)
