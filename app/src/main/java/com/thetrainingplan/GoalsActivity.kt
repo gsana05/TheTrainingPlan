@@ -140,8 +140,9 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
                 val sortedListByDeadlineDate = ArrayList(mapGoalList.values)
                 viewModel.numberOfOpenGoals.value = sortedListByDeadlineDate.size
 
+                // plurals for goals or goal
                 val item = resources.getQuantityString(R.plurals.numberOfGoals, sortedListByDeadlineDate.size, sortedListByDeadlineDate.size)
-                view_goals_recycler_view_heading.setText(item)
+                view_goals_recycler_view_heading.text = item
 
                     sortedListByDeadlineDate.sortBy { list -> list.goalDateDeadline }
                 it.adapter = GoalsAdapter(sortedListByDeadlineDate, this)

@@ -38,7 +38,7 @@
     <string name="update_goals">Update Goals</string>
 
     <plurals name="numberOfGoals">
-        <item quantity="one">YOU HAVE %d GOAL</item>
-        <item quantity="other">YOU HAVE %d GOALS</item>
+        <item quantity="one">YOU HAVE %d OPEN GOAL</item>
+        <item quantity="other">YOU HAVE %d OPEN GOALS</item>
     </plurals>
 </resources>
