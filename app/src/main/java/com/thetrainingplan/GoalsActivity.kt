@@ -48,6 +48,16 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
                 startActivity(intent)
 
             }
+            R.id.goals_item_button_completed -> {
+                alert ("Task completed"){
+                    okButton {  }
+                }.show()
+            }
+            else -> {
+                alert ("Somethig went wrong"){
+                    okButton {  }
+                }.show()
+            }
         }
     }
 

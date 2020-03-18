@@ -118,7 +118,7 @@ object GoalModel {
                     //call a firebase function to add goal id to the users list
                     if(isNew){
                         goal.id?.let {idGoal ->
-                            UserModel.updateGoals(userId, idGoal, callback)
+                            UserModel.updateGoals(userId, idGoal, false, callback)
                         }
                     }
                     else{
@@ -133,10 +133,15 @@ object GoalModel {
         }
     }
 
-    fun updateGoal(userId : String, goal : Goal, callback : (Boolean?, Exception?) -> Unit){
-
-
-
+    fun updateIsDeleteGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        getDatabaseRefGoals().document(goalPin).update("isDeleted", true).addOnCompleteListener {task ->
+            if(task.isSuccessful){
+                callback(true, null)
+            }
+            else{
+                callback(false, task.exception)
+            }
+        }
     }
 
     private fun getGoal(snapshot: DocumentSnapshot) : Goal{
@@ -148,7 +153,8 @@ object GoalModel {
         val typeValue = data["goalType"] as Number
         val goalType = typeValue.toInt()
         val goalDateDeadline =data["goalDateDeadline"] as Long?
-        return Goal(id, userId, goalSetDate, goal, goalType, goalDateDeadline)
+        val isDeleted = data["isDeleted"] as Boolean?
+        return Goal(id, userId, goalSetDate, goal, goalType, goalDateDeadline, isDeleted)
     }
 
     private fun toMap(goal : Goal):HashMap<String, Any?>{
@@ -159,6 +165,7 @@ object GoalModel {
         map["goal"]=goal.goal
         map["goalType"]=goal.goalType
         map["goalDateDeadline"]=goal.goalDateDeadline
+        map["isDeleted"]=goal.isDeleted
         return map
     }
 

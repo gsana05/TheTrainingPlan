@@ -26,6 +26,7 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     var spinnerPosition = MutableLiveData<Int>()
     var showAlert = MutableLiveData<Boolean>()
     var isSubmittingGoal = MutableLiveData<Boolean>()
+    var isDeletingGoal = MutableLiveData<Boolean>()
     var hasGoalSavedToDatabase = MutableLiveData<Boolean>()
     var saveGoalException = MutableLiveData<Exception>()
     var goal = MutableLiveData<Goal?>()
@@ -81,6 +82,22 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         numberOfDaysToGoal.value = "$elapsedDays days and $elapsedHours hours"
     }
 
+    fun updateIsDelete(){
+        goal.value?.id?.let {goalPin ->
+            isDeletingGoal.value = true
+            GoalModel.updateIsDeleteGoal(goalPin){ data : Boolean?, exc : Exception? ->
+                isDeletingGoal.value = true
+                if(data != null && data){
+                    hasGoalSavedToDatabase.value = true
+                    finishUpdateGoals.call()
+                }
+                else{
+                    hasGoalSavedToDatabase.value = false
+                }
+            }
+        }
+    }
+
     fun submitGoal(isNew : Boolean){
 
         showAlert.value = false
@@ -113,11 +130,11 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
             var setGoal : Goal? = null
             if(isNew){
-                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value)
+                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, false)
             }
             else{
                 goal.value?.id?.let {goalPin ->
-                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value)
+                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, false)
                 }
 
             }
