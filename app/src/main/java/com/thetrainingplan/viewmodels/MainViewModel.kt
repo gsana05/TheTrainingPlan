@@ -7,8 +7,13 @@ import com.thetrainingplan.util.LiveEvent
 
 class MainViewModel(application : Application) : AndroidViewModel(application) {
 
+    init {
+
+    }
+
     //val listOfUser =  MutableLiveData<ArrayList<User?>>()
     val currentUser = MutableLiveData<User>()
+    val numberOfOpenGoals = MutableLiveData<Int>()
 
     /*var filteredAgreements: LiveData<List<User?>>? = Transformations.switchMap(listOfUser) { users  ->
         getFilteredList(users)

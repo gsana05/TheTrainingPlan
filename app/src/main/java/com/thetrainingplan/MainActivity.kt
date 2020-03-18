@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.WorkoutHistoryAdaptor
 import com.thetrainingplan.databinding.ActivityMainBinding
+import com.thetrainingplan.models.Goal
+import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.models.User
 import com.thetrainingplan.models.UserModel
 import com.thetrainingplan.util.RecyclerViewClickListener
@@ -78,7 +80,27 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 }.show()
             }
             else{
-                viewModel.currentUser.value = data
+                if(data != null){
+                    viewModel.currentUser.value = data
+
+                    val listOpenGoals = ArrayList<Goal>()
+                    data.goals?.let {
+                        for(goalId in it){
+                            GoalModel.getGoal(goalId){ data : Goal?, exc : Exception? ->
+                                if(data != null){
+
+                                    if(data.isCompleted == true || data.isDeleted == true){
+                                        //listOpenGoals.remove(data)
+                                    }
+                                    else{
+                                        listOpenGoals.add(data)
+                                    }
+                                    viewModel.numberOfOpenGoals.value = listOpenGoals.size
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 

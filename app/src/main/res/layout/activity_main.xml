@@ -146,7 +146,7 @@
                             app:layout_constraintStart_toStartOf="@id/main_view_goals_heading"
                             app:layout_constraintBottom_toBottomOf="@id/guideline"
                             android:textColor="@color/ssWhite"
-                            android:text="You have set 5 goals!"
+                            android:text="@{`You have ` + viewModel.numberOfOpenGoals + ` goals!`}"
                             app:layout_constraintVertical_chainStyle="packed"
                             />
 

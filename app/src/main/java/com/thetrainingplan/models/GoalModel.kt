@@ -106,6 +106,24 @@ object GoalModel {
         }
     }
 
+    fun getGoal(goalId : String, callback: (Goal?, Exception?) -> Unit){
+        getDatabaseRefGoals().document(goalId).get().addOnCompleteListener {
+            if(it.isSuccessful){
+                val result = it.result
+                if (result != null) {
+                    val goal = getGoal(result)
+                    callback(goal, null)
+                }
+                else{
+                    callback(null, it.exception)
+                }
+            }
+            else{
+                callback(null, it.exception)
+            }
+        }
+    }
+
     fun addOrUpdateGoal(userId : String, goal : Goal, isNew : Boolean, callback : (Boolean?, Exception?) -> Unit){
 
         if(goal.id == null){
