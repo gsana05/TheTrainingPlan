@@ -258,7 +258,6 @@
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:text="Delete"
-                        android:onClick="@{() -> viewModel.updateIsDelete()}"
                         android:visibility="@{viewModel.isDeletingGoal == true ? View.INVISIBLE : View.VISIBLE}"
                         />
 

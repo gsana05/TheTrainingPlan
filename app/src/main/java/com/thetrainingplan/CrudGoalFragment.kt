@@ -17,6 +17,10 @@ import com.thetrainingplan.databinding.FragmentCrudGoalBinding
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.models.GoalTypeSpinner
 import com.thetrainingplan.viewmodels.GoalsViewModel
+import kotlinx.android.synthetic.main.fragment_crud_goal.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,6 +38,18 @@ class CrudGoalFragment : Fragment() {
         val binding: FragmentCrudGoalBinding = FragmentCrudGoalBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+
+        binding.goalsDeleteButton.setOnClickListener {
+            inflater.context.alert ("Do you want to delete this goal?"){
+                yesButton {
+                    viewModel.updateIsDelete()
+                }
+                noButton {
+
+                }
+            }.show()
+        }
 
         binding.goalsAddGoalDateInput.isEnabled = false
 

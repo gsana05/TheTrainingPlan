@@ -31,8 +31,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.GoalsAdapter
 import com.thetrainingplan.models.*
 import com.thetrainingplan.util.RecyclerViewClickListener
+import kotlinx.android.synthetic.main.activity_goals.goals_spinner_goal_date_deadline_input
+import kotlinx.android.synthetic.main.fragment_crud_goal.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.okButton
+import org.jetbrains.anko.yesButton
 import kotlin.collections.HashMap
 
 class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
