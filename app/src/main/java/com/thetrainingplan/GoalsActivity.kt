@@ -53,8 +53,13 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
 
             }
             R.id.goals_item_button_completed -> {
-                alert ("Task completed"){
-                    okButton {  }
+                alert ("Excellent! Press OK to confirm you have completed your goal"){
+                    yesButton {
+                        mGoal.id?.let { it1 -> viewModel.completedGoal(it1) }
+                    }
+                    noButton {
+
+                    }
                 }.show()
             }
             else -> {
@@ -118,15 +123,15 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
                 it.layoutManager = LinearLayoutManager(applicationContext)
 
                 // get all the deleted goals
-                val deletedGoals = ArrayList<String>()
+                val deletedOrCompletedGoals = ArrayList<String>()
                 for(goal in ArrayList(mapGoalList.values)){
-                    if(goal.isDeleted == true){
-                        goal.id?.let { it1 -> deletedGoals.add(it1) }
+                    if(goal.isDeleted == true || goal.isCompleted == true){
+                        goal.id?.let { it1 -> deletedOrCompletedGoals.add(it1) }
                     }
                 }
 
                 //remove deleted goals from the list that will go on the UI
-                for(deleted in deletedGoals){
+                for(deleted in deletedOrCompletedGoals){
                     mapGoalList.remove(deleted)
                 }
 

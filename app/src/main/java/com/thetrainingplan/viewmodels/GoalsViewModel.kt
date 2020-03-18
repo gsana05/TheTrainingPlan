@@ -82,6 +82,18 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         numberOfDaysToGoal.value = "$elapsedDays days and $elapsedHours hours"
     }
 
+    fun completedGoal(goalPin : String){
+        GoalModel.updateIsCompletedGoal(goalPin){data : Boolean?, exc : Exception? ->
+            if(data != null && data){
+
+            }
+            else{
+
+            }
+
+        }
+    }
+
     fun updateIsDelete(){
         goal.value?.id?.let {goalPin ->
             isDeletingGoal.value = true
@@ -130,11 +142,11 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
             var setGoal : Goal? = null
             if(isNew){
-                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, false)
+                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, false, false)
             }
             else{
                 goal.value?.id?.let {goalPin ->
-                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, false)
+                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, false, false)
                 }
 
             }

@@ -258,13 +258,14 @@ object UserModel {
         }
     }
 
-    fun updateGoals(userId : String, goalsId : String, isDelete : Boolean, callback: (Boolean?, Exception?) -> Unit){
+    fun updateGoals(userId : String, goalsId : String, callback: (Boolean?, Exception?) -> Unit){
 
         getUser(userId){user : User?, exc : Exception? ->
             if(user != null){
                 var newListOfGoals = ArrayList<String>()
 
                 val currentListOfGoals = user.goals
+
                 // dont allow the same generated ids to occur
                 currentListOfGoals?.let {
                     for(i in currentListOfGoals){
@@ -275,12 +276,7 @@ object UserModel {
                     newListOfGoals = currentListOfGoals
                 }
 
-                if(isDelete){
-                    newListOfGoals.add(goalsId)
-                }
-                else{
-                    newListOfGoals.remove(goalsId)
-                }
+                newListOfGoals.add(goalsId)
 
                 getDatabaseRef().document(userId).update("goals", newListOfGoals).addOnCompleteListener {
                     if(it.isSuccessful){
@@ -296,7 +292,6 @@ object UserModel {
             }
         }
     }
-
 
     private fun getUser(snapshot: DocumentSnapshot) : User{
         val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
