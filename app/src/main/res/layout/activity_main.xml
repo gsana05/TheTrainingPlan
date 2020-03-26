@@ -191,6 +191,7 @@
                             android:background="@drawable/white_button_blue_border"
                             android:paddingEnd="8dp"
                             android:paddingStart="8dp"
+                            android:onClick="@{() -> viewModel.startReadGoalsActivity()}"
                             />
 
 

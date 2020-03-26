@@ -42,6 +42,11 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
         startGoalsActivityEvent.call()
     }
 
+    val startReadGoalsActivityEvent = LiveEvent<Void>()
+    fun startReadGoalsActivity() {
+        startReadGoalsActivityEvent.call()
+    }
+
     val startEnrollActivityEvent = LiveEvent<Void>()
 
     fun startEnrollTrainingProgramActivity(){

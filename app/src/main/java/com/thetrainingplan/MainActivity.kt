@@ -73,6 +73,11 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             startActivity(intent)
         })
 
+        viewModel.startReadGoalsActivityEvent.observe(this, Observer{
+            val intent = Intent(this, ActivityReadGoals::class.java)
+            startActivity(intent)
+        })
+
         mCallbackCurrentUser = { data : User?, exc: Exception? ->
             if(exc != null){
                 alert("current user exc: = ${exc.message}") {
