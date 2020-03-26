@@ -133,7 +133,7 @@
                             android:textAlignment="center"
                             android:textSize="16sp"
                             android:textColor="@color/white"
-                            android:text="YOUR GOALS"
+                            android:text="@string/your_goals"
                             android:textStyle="bold"
                             app:layout_constraintVertical_chainStyle="packed"
                             />
@@ -158,6 +158,7 @@
                             android:layout_marginEnd="10dp"
                             android:tint="@color/white"
                             android:src="@drawable/ic_emoji_events_24px"
+                            android:contentDescription="@string/app_name"
                             />
 
                     <Button
@@ -170,7 +171,7 @@
                             android:layout_marginEnd="10dp"
                             android:paddingEnd="8dp"
                             android:paddingStart="8dp"
-                            android:text="Add/Update a goal"
+                            android:text="@string/add_update_a_goal"
                             android:textColor="@color/blue"
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
@@ -185,7 +186,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/main_view_goals_add_goal_label"
                             android:layout_marginEnd="10dp"
-                            android:text="Read your goals"
+                            android:text="@string/read_your_goals"
                             android:textColor="@color/blue"
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
@@ -247,7 +248,7 @@
                             android:textAlignment="center"
                             android:textSize="16sp"
                             android:textColor="@color/white"
-                            android:text="TODAY'S TASKS"
+                            android:text="@string/today_s_tasks"
                             android:textStyle="bold"
                             app:layout_constraintVertical_chainStyle="packed"
                             />
@@ -259,7 +260,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/today_view_goals_heading"
                             app:layout_constraintStart_toStartOf="@+id/today_view_goals_heading"
                             app:layout_constraintBottom_toTopOf="@id/guideline_today_view"
-                            android:text="You have set 5 tasks"
+                            android:text="@string/you_have_set_5_tasks"
                             android:textSize="16sp"
                             android:textColor="@color/white"
                             app:layout_constraintVertical_chainStyle="packed"
@@ -273,6 +274,7 @@
                             android:layout_marginEnd="10dp"
                             android:tint="@color/white"
                             android:src="@drawable/ic_check_box_24px"
+                            android:contentDescription="@string/app_name"
                             />
 
 
@@ -305,7 +307,7 @@
                             android:textColor="@color/blue"
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
-                            android:text="Add a task"
+                            android:text="@string/add_a_task"
                             />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -352,7 +354,7 @@
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:text="DIARY"
+                            android:text="@string/diary"
                             app:layout_constraintVertical_chainStyle="packed"
                             />
 
@@ -365,7 +367,7 @@
                             app:layout_constraintBottom_toBottomOf="@+id/main_view_diary_view"
                             app:layout_constraintVertical_chainStyle="packed"
                             android:textColor="@color/white"
-                            android:text="23/03/2020"
+                            android:text="@string/_23_03_2020"
                             />
 
                     <ImageView
@@ -376,6 +378,7 @@
                             android:tint="@color/white"
                             android:layout_marginEnd="10dp"
                             android:src="@drawable/ic_calendar_today_24px"
+                            android:contentDescription="@string/app_name"
                             />
 
                     <androidx.constraintlayout.widget.Guideline
@@ -398,7 +401,7 @@
                             android:textColor="@color/blue"
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
-                            android:text="View diary"
+                            android:text="@string/view_diary"
                             />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -444,7 +447,7 @@
                             android:textSize="16sp"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            android:text="STATS"
+                            android:text="@string/stats"
                             app:layout_constraintVertical_chainStyle="packed"
                             />
 
@@ -456,7 +459,7 @@
                             app:layout_constraintBottom_toBottomOf="@id/main_view_stats_view"
                             app:layout_constraintStart_toStartOf="@+id/main_view_stats_heading"
                             android:textColor="@color/white"
-                            android:text="Your 24 hours"
+                            android:text="@string/your_24_hours"
                             app:layout_constraintVertical_chainStyle="packed"
                             />
 
@@ -468,6 +471,7 @@
                             android:layout_marginEnd="10dp"
                             android:tint="@color/white"
                             android:src="@drawable/ic_equalizer_24px"
+                            android:contentDescription="@string/app_name"
                             />
 
                     <androidx.constraintlayout.widget.Guideline
@@ -489,7 +493,7 @@
                             android:textColor="@color/blue"
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
-                            android:text="View stats"
+                            android:text="@string/view_stats"
                             />
 
 

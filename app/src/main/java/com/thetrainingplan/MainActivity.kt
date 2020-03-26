@@ -91,7 +91,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                     val listOpenGoals = ArrayList<Goal>()
                     data.goals?.let {
                         for(goalId in it){
-                            GoalModel.getGoal(goalId){ data : Goal?, exc : Exception? ->
+                            GoalModel.getGoal(goalId){ data : Goal?, _: Exception? ->
                                 if(data != null){
 
                                     if(data.isCompleted == true || data.isDeleted == true){

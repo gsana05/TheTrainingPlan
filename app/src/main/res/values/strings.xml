@@ -36,6 +36,18 @@
     <string name="timeUntilGoalDeadline">%1d days and %2d hours</string>
     <string name="date_of_goal_set">DATE OF GOAL SET:</string>
     <string name="update_goals">Update Goals</string>
+    <string name="your_goals">YOUR GOALS</string>
+    <string name="add_update_a_goal">Add/Update a goal</string>
+    <string name="read_your_goals">Read your goals</string>
+    <string name="today_s_tasks">TODAY\'S TASKS</string>
+    <string name="you_have_set_5_tasks">You have set 5 tasks</string>
+    <string name="add_a_task">Add a task</string>
+    <string name="view_stats">View stats</string>
+    <string name="_23_03_2020">23/03/2020</string>
+    <string name="diary">DIARY</string>
+    <string name="view_diary">View diary</string>
+    <string name="your_24_hours">Your 24 hours</string>
+    <string name="stats">STATS</string>
 
     <plurals name="numberOfGoals">
         <item quantity="one">YOU HAVE %d OPEN GOAL</item>
