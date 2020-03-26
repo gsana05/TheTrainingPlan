@@ -48,6 +48,9 @@
     <string name="view_diary">View diary</string>
     <string name="your_24_hours">Your 24 hours</string>
     <string name="stats">STATS</string>
+    <string name="open_goals">OPEN GOALS</string>
+    <string name="completed_goals">COMPLETED GOALS</string>
+    <string name="deleted_goals">DELETED GOALS</string>
 
     <plurals name="numberOfGoals">
         <item quantity="one">YOU HAVE %d OPEN GOAL</item>

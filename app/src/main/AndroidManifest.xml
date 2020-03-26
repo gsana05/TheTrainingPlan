@@ -11,7 +11,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ActivityReadGoals"></activity>
+        <activity
+                android:name=".ActivityReadGoals"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden"
+                />
         <activity
                 android:name=".ActivityUpdateGoals"
                 android:screenOrientation="portrait"
