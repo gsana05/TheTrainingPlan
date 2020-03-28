@@ -1,8 +1,10 @@
 package com.thetrainingplan
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -139,6 +141,12 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             //viewModel.listOfUser.value = data
 
         }
+    }
+
+    private fun goToUrl(url: String){
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
     }
 
     override fun onPause() {
