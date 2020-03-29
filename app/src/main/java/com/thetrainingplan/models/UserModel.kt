@@ -260,7 +260,7 @@ object UserModel {
         }
     }
 
-    fun updateGoals(userId : String, goalsId : String, onComplete: (Boolean?, Exception?) -> Unit){
+    fun updateGoals2(userId : String, goalsId : String, onComplete: (Boolean?, Exception?) -> Unit){
         val dataShares = hashMapOf(
             "userId" to userId
         )
@@ -287,7 +287,37 @@ object UserModel {
             }
     }
 
-    fun updateGoals1(userId : String, goalsId : String, callback: (Boolean?, Exception?) -> Unit){
+    fun updateGoalsFirebaseFunction(userId : String, goalsId : String, onComplete: (Boolean?, Exception?) -> Unit){
+        val dataShares = hashMapOf(
+            "pincode" to userId,
+            "email" to userId,
+            "userId" to userId
+
+        )
+
+        FirebaseFunctions.getInstance()
+            .getHttpsCallable("addRequest")
+            .call(dataShares)
+            .addOnFailureListener {
+                Log.wtf("fail", it.message)
+                onComplete(false, it)
+            }
+            .addOnSuccessListener {
+                Log.v("success", it.data.toString())
+
+                val data = it.data as HashMap<String, Any>
+                if(data["success"] as Boolean){
+                    onComplete(true, null)
+                }
+                else{
+                    val reason = data["reason"] as String
+                    onComplete(false, Exception(reason))
+                }
+
+            }
+    }
+
+    fun updateGoals(userId : String, goalsId : String, callback: (Boolean?, Exception?) -> Unit){
 
         getUser(userId){user : User?, exc : Exception? ->
             if(user != null){
