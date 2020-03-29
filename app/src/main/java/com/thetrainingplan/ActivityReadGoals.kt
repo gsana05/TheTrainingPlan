@@ -8,11 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
+import com.thetrainingplan.databinding.FragmentFragmentReadGoalsBinding
+import com.thetrainingplan.databinding.FragmentToolbarBinding
+import com.thetrainingplan.viewmodels.MainViewModel
+import com.thetrainingplan.viewmodels.ReadGoalsViewModel
 import kotlinx.android.synthetic.main.activity_read_goals.*
 import kotlinx.android.synthetic.main.fragment_fragment_read_goals.view.*
 
-@Suppress("DEPRECATION")
+
 class ActivityReadGoals : AppCompatActivity() {
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
@@ -32,6 +37,7 @@ class ActivityReadGoals : AppCompatActivity() {
 
     }
 
+    @Suppress("DEPRECATION")
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
@@ -49,11 +55,21 @@ class ActivityReadGoals : AppCompatActivity() {
 
 class PlaceholderFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_fragment_read_goals, container, false)
+    private lateinit var viewModel: ReadGoalsViewModel
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        viewModel = ViewModelProviders.of(activity!!).get(ReadGoalsViewModel::class.java)
+
+        val binding: FragmentFragmentReadGoalsBinding = FragmentFragmentReadGoalsBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+
+
+        return binding.root
+
+     /*   val rootView = inflater.inflate(R.layout.fragment_fragment_read_goals, container, false)
 
         if(arguments?.getInt(ARG_SECTION_NUMBER) == 1){
             val openGoals = rootView.context.resources.getString(R.string.open_goals)
@@ -70,7 +86,7 @@ class PlaceholderFragment : Fragment() {
             rootView.fragment_read_goals_text_view.text = deletedGoals
         }
 
-        return rootView
+        return rootView*/
     }
 
     companion object {
