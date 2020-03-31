@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".PlaceholderFragment">
+            tools:context=".PlaceholderFragment"
+            >
 
         <!-- TODO: Update blank fragment layout -->
         <TextView
@@ -22,7 +23,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:textSize="20sp"
+                android:textColor="@color/blue"
                 />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

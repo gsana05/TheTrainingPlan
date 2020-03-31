@@ -67,7 +67,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 //view_pager.currentItem = tab.position
                 //viewModel.tabTracker.value = tab.position
-                fragment_read_goals_text_view.text = tab.position.toString()
+                //fragment_read_goals_text_view.text = tab.position.toString()
                 localtracker = tab.position
                 setUpRecyclerView()
             }
@@ -223,19 +223,19 @@ class PlaceholderFragment : Fragment() {
         if(arguments?.getInt(ARG_SECTION_NUMBER) == 1){
             val openGoals = binding.root.context.resources.getString(R.string.open_goals)
             //viewModel.tabTracker.value = arguments?.getInt(ARG_SECTION_NUMBER)
-            binding.root.fragment_read_goals_text_view.text = arguments?.getInt(ARG_SECTION_NUMBER).toString()
+            binding.root.fragment_read_goals_text_view.text = openGoals
         }
 
         if(arguments?.getInt(ARG_SECTION_NUMBER) == 2){
             val completedGoals = binding.root.context.resources.getString(R.string.completed_goals)
             //viewModel.tabTracker.value = arguments?.getInt(ARG_SECTION_NUMBER)
-            binding.root.fragment_read_goals_text_view.text = arguments?.getInt(ARG_SECTION_NUMBER).toString()
+            binding.root.fragment_read_goals_text_view.text = completedGoals
         }
 
         if(arguments?.getInt(ARG_SECTION_NUMBER) == 3){
             val deletedGoals = binding.root.context.resources.getString(R.string.deleted_goals)
             //viewModel.tabTracker.value = arguments?.getInt(ARG_SECTION_NUMBER)
-            binding.root.fragment_read_goals_text_view.text = arguments?.getInt(ARG_SECTION_NUMBER).toString()
+            binding.root.fragment_read_goals_text_view.text = deletedGoals
         }
 
         val text = binding.root.fragment_read_goals_text_view.text.trim().toString()

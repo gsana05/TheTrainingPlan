@@ -8,6 +8,5 @@ import androidx.lifecycle.Transformations
 
 class ReadGoalsViewModel(application : Application) : AndroidViewModel(application)  {
 
-    var tabTracker = MutableLiveData<Int?>()
 
 }
