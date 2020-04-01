@@ -96,12 +96,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                             GoalModel.getGoal(goalId){ data : Goal?, _: Exception? ->
                                 if(data != null){
 
-                                    if(data.isCompleted == true || data.isDeleted == true){
-                                        //listOpenGoals.remove(data)
-                                    }
-                                    else{
+                                    if(data.isCompleted == null && data.isDeleted == null){
                                         listOpenGoals.add(data)
                                     }
+
                                     viewModel.numberOfOpenGoals.value = listOpenGoals.size
                                 }
                             }

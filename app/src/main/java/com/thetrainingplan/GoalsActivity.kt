@@ -125,7 +125,7 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
                 // get all the deleted goals
                 val deletedOrCompletedGoals = ArrayList<String>()
                 for(goal in ArrayList(mapGoalList.values)){
-                    if(goal.isDeleted == true || goal.isCompleted == true){
+                    if(goal.isDeleted != null || goal.isCompleted != null){
                         goal.id?.let { it1 -> deletedOrCompletedGoals.add(it1) }
                     }
                 }

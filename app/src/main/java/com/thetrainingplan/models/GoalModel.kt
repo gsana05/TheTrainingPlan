@@ -152,7 +152,7 @@ object GoalModel {
     }
 
     fun updateIsDeleteGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        getDatabaseRefGoals().document(goalPin).update("isDeleted", true).addOnCompleteListener {task ->
+        getDatabaseRefGoals().document(goalPin).update("isDeleted", getCurrentTimeInMillie()).addOnCompleteListener {task ->
             if(task.isSuccessful){
                 callback(true, null)
             }
@@ -162,8 +162,13 @@ object GoalModel {
         }
     }
 
+    fun getCurrentTimeInMillie() : Long{
+        return Calendar.getInstance().time.time
+    }
+
     fun updateIsCompletedGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        getDatabaseRefGoals().document(goalPin).update("isCompleted", true).addOnCompleteListener {task ->
+
+        getDatabaseRefGoals().document(goalPin).update("isCompleted", getCurrentTimeInMillie()).addOnCompleteListener {task ->
             if(task.isSuccessful){
                 callback(true, null)
             }
@@ -182,8 +187,8 @@ object GoalModel {
         val typeValue = data["goalType"] as Number
         val goalType = typeValue.toInt()
         val goalDateDeadline =data["goalDateDeadline"] as Long?
-        val isDeleted = data["isDeleted"] as Boolean?
-        val isCompleted =data["isCompleted"] as Boolean?
+        val isDeleted = data["isDeleted"] as Long?
+        val isCompleted =data["isCompleted"] as Long?
         return Goal(id, userId, goalSetDate, goal, goalType, goalDateDeadline, isDeleted, isCompleted)
     }
 

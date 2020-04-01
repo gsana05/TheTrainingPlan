@@ -143,11 +143,11 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
 
             var setGoal : Goal? = null
             if(isNew){
-                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, false, false)
+                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, null, null)
             }
             else{
                 goal.value?.id?.let {goalPin ->
-                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, false, false)
+                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, null, null)
                 }
 
             }

@@ -138,21 +138,21 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
             when(localtracker){
                 0 -> {
                     listOfGoals.forEach {
-                        if((it.isCompleted == null || it.isCompleted == false) && (it.isDeleted ==null || it.isDeleted == false)){
+                        if((it.isCompleted == null) && (it.isDeleted ==null)){
                             filteredListOfGoals.add(it)
                         }
                     }
                 }
                 1 -> {
                     listOfGoals.forEach {
-                        if((it.isCompleted == true) && (it.isDeleted ==null || it.isDeleted == false)){
+                        if((it.isCompleted != null) && (it.isDeleted ==null)){
                             filteredListOfGoals.add(it)
                         }
                     }
                 }
                 2 -> {
                     listOfGoals.forEach {
-                        if(it.isDeleted == true){
+                        if(it.isDeleted != null){
                             filteredListOfGoals.add(it)
                         }
                     }
