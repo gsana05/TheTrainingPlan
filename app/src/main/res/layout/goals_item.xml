@@ -131,28 +131,80 @@
 
         <ImageView
                 android:id="@+id/goal_item_complete_tick"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:layout_constraintTop_toBottomOf="@+id/goals_item_goal"
                 app:layout_constraintEnd_toEndOf="@+id/goals_item_view"
                 app:layout_constraintBottom_toBottomOf="@+id/goal_item_deadline_date"
                 app:layout_constraintStart_toEndOf="@id/goal_item_deadline_date"
                 android:tint="@color/green_success"
                 android:src="@drawable/ic_check_box_24px"
-                android:visibility="@{goal.isCompleted == true ? View.VISIBLE : View.GONE}"
+                android:visibility="@{goal.isCompleted == true ? View.VISIBLE : View.INVISIBLE}"
                 />
 
         <ImageView
                 android:id="@+id/goal_item_deleted_cross"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:layout_constraintTop_toBottomOf="@+id/goals_item_goal"
                 app:layout_constraintEnd_toEndOf="@+id/goals_item_view"
                 app:layout_constraintBottom_toBottomOf="@+id/goal_item_deadline_date"
                 app:layout_constraintStart_toEndOf="@id/goal_item_deadline_date"
                 android:tint="@color/ssRed"
                 android:src="@drawable/ic_highlight_off_24px"
-                android:visibility="@{goal.isDeleted == true ? View.VISIBLE : View.GONE}"
+                android:visibility="@{goal.isDeleted == true ? View.VISIBLE : View.INVISIBLE}"
+                />
+
+        <TextView
+                android:id="@+id/goal_item_completed_goal_date_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/goal_item_deleted_cross"
+                app:layout_constraintStart_toEndOf="@id/goal_item_deleted_cross"
+                app:layout_constraintEnd_toEndOf="@id/goals_item_view"
+                app:layout_constraintHorizontal_bias="0.2"
+                android:textColor="@color/blue"
+                android:text="Completion:"
+                android:visibility="@{goal.isCompleted == true ? View.VISIBLE : View.INVISIBLE}"
+                />
+
+        <TextView
+                android:id="@+id/goal_item_completed_goal_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/goal_item_completed_goal_date_heading"
+                app:layout_constraintStart_toStartOf="@id/goal_item_completed_goal_date_heading"
+                app:layout_constraintEnd_toEndOf="@id/goals_item_view"
+                app:layout_constraintHorizontal_bias="0"
+                android:textColor="@color/black"
+                android:text="goal completed"
+                android:visibility="@{goal.isCompleted == true ? View.VISIBLE : View.INVISIBLE}"
+                />
+
+        <TextView
+                android:id="@+id/goal_item_deleted_goal_date_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/goal_item_deleted_cross"
+                app:layout_constraintStart_toEndOf="@id/goal_item_deleted_cross"
+                app:layout_constraintEnd_toEndOf="@id/goals_item_view"
+                app:layout_constraintHorizontal_bias="0.2"
+                android:textColor="@color/blue"
+                android:text="Deleted on:"
+                android:visibility="@{goal.isDeleted == true ? View.VISIBLE : View.INVISIBLE}"
+                />
+
+        <TextView
+                android:id="@+id/goal_item_deleted_goal_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/goal_item_completed_goal_date_heading"
+                app:layout_constraintStart_toStartOf="@id/goal_item_completed_goal_date_heading"
+                app:layout_constraintEnd_toEndOf="@id/goals_item_view"
+                app:layout_constraintHorizontal_bias="0"
+                android:textColor="@color/black"
+                android:text="goal deleted"
+                android:visibility="@{goal.isDeleted == true ? View.VISIBLE : View.INVISIBLE}"
                 />
 
         <TextView
