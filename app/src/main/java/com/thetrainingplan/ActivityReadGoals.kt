@@ -1,5 +1,6 @@
 package com.thetrainingplan
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,10 +25,11 @@ import com.thetrainingplan.models.UserModel
 import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.ReadGoalsViewModel
 import kotlinx.android.synthetic.main.activity_read_goals.*
-import kotlinx.android.synthetic.main.fragment_fragment_read_goals.*
 import kotlinx.android.synthetic.main.fragment_fragment_read_goals.view.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.okButton
+import org.jetbrains.anko.yesButton
 
 
 @Suppress("DEPRECATION")
@@ -204,7 +206,33 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
     }
 
     override fun onRecyclerViewItemClick(view: View, any: Any) {
+        val mGoal = any as Goal
+        when(view.id){
+            R.id.goals_item_button -> {
 
+                val intent = Intent(this, ActivityUpdateGoals::class.java)
+                intent.putExtra("id", mGoal.id)
+                startActivity(intent)
+
+            }
+            R.id.goals_item_button_completed -> {
+                alert ("Excellent! Press OK to confirm you have completed your goal"){
+                    yesButton {
+                        mGoal.id?.let { it1 ->
+                            //viewModel.completedGoal(it1)
+                        }
+                    }
+                    noButton {
+
+                    }
+                }.show()
+            }
+            else -> {
+                alert ("Something went wrong"){
+                    okButton {  }
+                }.show()
+            }
+        }
     }
 }
 
