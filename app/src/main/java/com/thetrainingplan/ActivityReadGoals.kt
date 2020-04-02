@@ -219,7 +219,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 alert ("Excellent! Press OK to confirm you have completed your goal"){
                     yesButton {
                         mGoal.id?.let { it1 ->
-                            //viewModel.completedGoal(it1)
+                            viewModel.completedGoal(it1)
                         }
                     }
                     noButton {
