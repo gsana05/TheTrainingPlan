@@ -39,6 +39,18 @@ class GoalsAdapter(private val goals : ArrayList<Goal>, private val listener: Re
         holder.recyclerviewMovieBinding.goalsItemButtonCompleted.setOnClickListener {
             listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.goalsItemButtonCompleted, goals[position])
         }
+
+        holder.recyclerviewMovieBinding.goalsItemButtonCompletedReOpen.setOnClickListener {
+            listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.goalsItemButtonCompletedReOpen, goals[position])
+        }
+
+        holder.recyclerviewMovieBinding.goalsItemButtonDeleteGoalPerm.setOnClickListener {
+            listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.goalsItemButtonDeleteGoalPerm, goals[position])
+        }
+
+        holder.recyclerviewMovieBinding.goalsItemButtonShareGoalCompleted.setOnClickListener {
+            listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.goalsItemButtonShareGoalCompleted, goals[position])
+        }
     }
 
     inner class ViewHolder(val recyclerviewMovieBinding: GoalsItemBinding) : RecyclerView.ViewHolder(recyclerviewMovieBinding.root)

@@ -227,6 +227,21 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                     }
                 }.show()
             }
+            R.id.goals_item_button_completed_re_open -> {
+                alert ("Re-open"){
+                    okButton {  }
+                }.show()
+            }
+            R.id.goals_item_button_delete_goal_perm -> {
+                alert ("Delete"){
+                    okButton {  }
+                }.show()
+            }
+            R.id.goals_item_button_share_goal_completed -> {
+                alert ("Share"){
+                    okButton {  }
+                }.show()
+            }
             else -> {
                 alert ("Something went wrong"){
                     okButton {  }
