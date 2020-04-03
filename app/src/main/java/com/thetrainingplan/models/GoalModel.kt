@@ -178,6 +178,22 @@ object GoalModel {
         }
     }
 
+    // by deleting the goal competed date it re-opens the goal
+    fun reOpenGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        getDatabaseRefGoals().document(goalPin).update(
+            "isCompleted", null,
+            "isDeleted", null)
+            .addOnCompleteListener {task ->
+                if(task.isSuccessful){
+                    callback(true, null)
+                }
+                else{
+                    callback(false, task.exception)
+                }
+
+            }
+    }
+
     private fun getGoal(snapshot: DocumentSnapshot) : Goal{
         val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
         val id = data["id"] as String?

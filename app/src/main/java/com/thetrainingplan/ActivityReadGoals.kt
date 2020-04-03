@@ -228,8 +228,15 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 }.show()
             }
             R.id.goals_item_button_completed_re_open -> {
-                alert ("Re-open"){
-                    okButton {  }
+                alert ("Would you like to re-open this goal?"){
+                    positiveButton("Yes"){
+                        mGoal.id?.let { it1 ->
+                            viewModel.reOpenGoal(it1)
+                        }
+                    }
+                    negativeButton("No"){
+
+                    }
                 }.show()
             }
             R.id.goals_item_button_delete_goal_perm -> {

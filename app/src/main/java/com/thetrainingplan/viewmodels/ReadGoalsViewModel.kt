@@ -21,4 +21,15 @@ class ReadGoalsViewModel(application : Application) : AndroidViewModel(applicati
         }
     }
 
+    fun reOpenGoal(goalPin : String){
+        GoalModel.reOpenGoal(goalPin){ data : Boolean?, exc : Exception? ->
+            if(data != null && data){
+                val i = 10
+            }
+            else{
+                val i = exc
+            }
+        }
+    }
+
 }
