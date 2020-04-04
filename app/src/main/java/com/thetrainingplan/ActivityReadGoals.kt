@@ -99,11 +99,37 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
 
                 if(data != null){
                     data.goals?.let { listOfPin ->
-                        listOfGoalPins = listOfPin
-                        for(pin in listOfPin){
-                            // add goal listener
-                            GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
+
+                        if(listOfPin.size > 0){
+                            for(pin in listOfPin){
+                                //clear cache - when goals have been removed
+                                val listOfCacheGoals = ArrayList(mapGoalList.values)
+                                for(i in listOfCacheGoals){
+                                    if(!listOfPin.contains(i.id)){ // it needs to match listOfPin as that is fresh from database
+                                        mapGoalList.remove(i.id)
+                                    }
+                                }
+
+
+                                // add goal listener
+                                GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
+                            }
+                            listOfGoalPins = listOfPin
                         }
+                        else{
+                            //remove listeners - if all goals have been deleted
+                            for(pin in listOfPin){
+                                GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)
+                            }
+
+                            // remove from local cache
+                            mapGoalList.clear()
+
+                            //update recycle view
+                            setUpRecyclerView()
+                        }
+
+
                     }
                 }
             }
@@ -240,8 +266,19 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 }.show()
             }
             R.id.goals_item_button_delete_goal_perm -> {
-                alert ("Delete"){
-                    okButton {  }
+                alert ("Would you like to permanently delete this goal?"){
+                    positiveButton("Yes"){
+                        mGoal.id?.let { goalId ->
+                            val userId = FirebaseAuth.getInstance().uid
+                            userId?.let {userId ->
+                                viewModel.permanentlyDeleteGoal(userId, goalId)
+                            }
+
+                        }
+                    }
+                    negativeButton("No"){
+
+                    }
                 }.show()
             }
             R.id.goals_item_button_share_goal_completed -> {

@@ -90,7 +90,8 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 if(data != null){
                     viewModel.currentUser.value = data
 
-                    val listOpenGoals = ArrayList<Goal>()
+                    //to get the number of goals
+                   /* val listOpenGoals = ArrayList<Goal>()
                     data.goals?.let {
                         for(goalId in it){
                             GoalModel.getGoal(goalId){ data : Goal?, _: Exception? ->
@@ -104,7 +105,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                 }
                             }
                         }
-                    }
+                    }*/
                 }
             }
         }

@@ -352,6 +352,33 @@ object UserModel {
         }
     }
 
+    fun removeGoalPin(userId : String, goalsId : String, callback: (Boolean?, Exception?) -> Unit){
+
+        getUser(userId){user : User?, exc : Exception? ->
+            if(user != null){
+
+                val currentListOfGoals = user.goals
+                currentListOfGoals?.let {
+                    currentListOfGoals.remove(goalsId)
+                }
+
+                val list = currentListOfGoals?.size
+
+                getDatabaseRef().document(userId).update("goals", currentListOfGoals).addOnCompleteListener {
+                    if(it.isSuccessful){
+                        callback(true, null)
+                    }
+                    else{
+                        callback(false, it.exception)
+                    }
+                }
+            }
+            else{
+                callback(false, java.lang.Exception("User not found"))
+            }
+        }
+    }
+
     private fun getUser(snapshot: DocumentSnapshot) : User{
         val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
         val userId = data["userId"] as String?

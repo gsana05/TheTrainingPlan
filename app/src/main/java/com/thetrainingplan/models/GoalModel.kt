@@ -194,6 +194,39 @@ object GoalModel {
             }
     }
 
+    fun permanentlyDeleteGoalPin(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+           UserModel.removeGoalPin(userId, goalPin){ data : Boolean?, exc : Exception? ->
+                     if(data != null && data){
+                         //permanentlyDeleteGoal(userId, goalPin, callback)
+                         callback(true, null)
+                     }
+                     else{
+                         callback(false, exc)
+                     }
+                 }
+    }
+
+   private fun permanentlyDeleteGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        getDatabaseRefGoals().document(goalPin).delete() // delete goal from the goals collection
+            .addOnCompleteListener {task ->
+                if(task.isSuccessful){
+                    callback(true, null)
+                    //remove/delete goal pin from users
+                    UserModel.removeGoalPin(userId, goalPin){ data : Boolean?, exc : Exception? ->
+                        if(data != null && data){
+                            callback(true, null)
+                        }
+                        else{
+                            callback(false, exc)
+                        }
+                    }
+                }
+                else{
+                    callback(false, task.exception)
+                }
+            }
+    }
+
     private fun getGoal(snapshot: DocumentSnapshot) : Goal{
         val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
         val id = data["id"] as String?

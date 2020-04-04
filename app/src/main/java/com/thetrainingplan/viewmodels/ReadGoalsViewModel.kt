@@ -32,4 +32,15 @@ class ReadGoalsViewModel(application : Application) : AndroidViewModel(applicati
         }
     }
 
+    fun permanentlyDeleteGoal(userId : String, goalPin : String){
+        GoalModel.permanentlyDeleteGoalPin(userId, goalPin){ data : Boolean?, exc : Exception? ->
+            if(data != null && data){
+                val i = 10
+            }
+            else{
+                val i = exc
+            }
+        }
+    }
+
 }

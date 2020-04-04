@@ -160,11 +160,21 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
 
                 if(data != null){
                     data.goals?.let { listOfPin ->
-                        listOfGoalPins = listOfPin
-                        for(pin in listOfPin){
-                            // add goal listener
-                            GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
+
+                        if(listOfPin.size > 0){
+                            listOfGoalPins = listOfPin
+                            for(pin in listOfPin){
+                                // add goal listener
+                                GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
+                            }
                         }
+                        else{
+                            view_goals_recycler_view.adapter = GoalsAdapter(ArrayList(), this)
+                            viewModel.numberOfOpenGoals.value = listOfPin.size
+                        }
+                    }?: run {
+                        view_goals_recycler_view.adapter = GoalsAdapter(ArrayList(), this)
+                        viewModel.numberOfOpenGoals.value = 0
                     }
                 }
             }
