@@ -32,13 +32,24 @@ class ReadGoalsViewModel(application : Application) : AndroidViewModel(applicati
         }
     }
 
-    fun permanentlyDeleteGoal(userId : String, goalPin : String){
+    fun permanentlyDeleteGoalPin(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
         GoalModel.permanentlyDeleteGoalPin(userId, goalPin){ data : Boolean?, exc : Exception? ->
             if(data != null && data){
-                val i = 10
+                callback(true, null)
             }
             else{
-                val i = exc
+                callback(false, exc)
+            }
+        }
+    }
+
+    fun permanentlyDeleteGoal(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        GoalModel.permanentlyDeleteGoal(userId, goalPin){ data : Boolean?, exc : Exception? ->
+            if(data != null && data){
+                callback(true, null)
+            }
+            else{
+                callback(false, exc)
             }
         }
     }

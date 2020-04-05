@@ -197,7 +197,6 @@ object GoalModel {
     fun permanentlyDeleteGoalPin(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
            UserModel.removeGoalPin(userId, goalPin){ data : Boolean?, exc : Exception? ->
                      if(data != null && data){
-                         //permanentlyDeleteGoal(userId, goalPin, callback)
                          callback(true, null)
                      }
                      else{
@@ -206,20 +205,14 @@ object GoalModel {
                  }
     }
 
-   private fun permanentlyDeleteGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+   fun permanentlyDeleteGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
         getDatabaseRefGoals().document(goalPin).delete() // delete goal from the goals collection
             .addOnCompleteListener {task ->
                 if(task.isSuccessful){
+                    //remove listener
+                    mCachedGoals.remove(goalPin)
                     callback(true, null)
-                    //remove/delete goal pin from users
-                    UserModel.removeGoalPin(userId, goalPin){ data : Boolean?, exc : Exception? ->
-                        if(data != null && data){
-                            callback(true, null)
-                        }
-                        else{
-                            callback(false, exc)
-                        }
-                    }
+
                 }
                 else{
                     callback(false, task.exception)
@@ -227,18 +220,27 @@ object GoalModel {
             }
     }
 
-    private fun getGoal(snapshot: DocumentSnapshot) : Goal{
-        val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
-        val id = data["id"] as String?
-        val userId = data["userId"] as String?
-        val goalSetDate = data["goalSetDate"] as Long?
-        val goal = data["goal"] as String?
-        val typeValue = data["goalType"] as Number
-        val goalType = typeValue.toInt()
-        val goalDateDeadline =data["goalDateDeadline"] as Long?
-        val isDeleted = data["isDeleted"] as Long?
-        val isCompleted =data["isCompleted"] as Long?
-        return Goal(id, userId, goalSetDate, goal, goalType, goalDateDeadline, isDeleted, isCompleted)
+    private fun getGoal(snapshot: DocumentSnapshot) : Goal?{
+
+        val checkIfSnapshotHasNotBeenDeleted = snapshot.data
+        if(checkIfSnapshotHasNotBeenDeleted != null){ // this check is needed for when you delete a goals document from database
+            val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
+            val id = data["id"] as String?
+            val userId = data["userId"] as String?
+            val goalSetDate = data["goalSetDate"] as Long?
+            val goal = data["goal"] as String?
+            val typeValue = data["goalType"] as Number
+            val goalType = typeValue.toInt()
+            val goalDateDeadline =data["goalDateDeadline"] as Long?
+            val isDeleted = data["isDeleted"] as Long?
+            val isCompleted =data["isCompleted"] as Long?
+            return Goal(id, userId, goalSetDate, goal, goalType, goalDateDeadline, isDeleted, isCompleted)
+        }
+        else{
+            return null
+        }
+
+
     }
 
     private fun toMap(goal : Goal):HashMap<String, Any?>{

@@ -271,7 +271,42 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                         mGoal.id?.let { goalId ->
                             val userId = FirebaseAuth.getInstance().uid
                             userId?.let {userId ->
-                                viewModel.permanentlyDeleteGoal(userId, goalId)
+                                viewModel.permanentlyDeleteGoalPin(userId, goalId){data : Boolean?, exc : Exception? ->
+                                    if(data != null && data){
+                                        mapGoalList.remove(goalId)
+                                        viewModel.permanentlyDeleteGoal(userId, goalId){data : Boolean?, exc : Exception? ->
+                                            if(data != null && data){
+                                                // remove listener
+                                                /*GoalModel.removeGoalSingleListener(goalPin) { data: Goal?, exc: Exception? ->
+                                                    if (data != null) {
+                                                        GoalModel.mCachedGoals.remove(goalPin)
+                                                        callback(true, null)
+                                                    } else {
+                                                        callback(false, task.exception)
+                                                    }
+
+                                                }*/
+
+
+                                                alert ("Goal has been deleted"){
+                                                    okButton {  }
+                                                }.show()
+                                            }
+                                            else{
+                                                alert ("Goal has NOT been deleted"){
+                                                    okButton {  }
+                                                }.show()
+                                            }
+
+
+                                        }
+                                    }
+                                    else{
+                                        alert ("Unable to delete goal from database"){
+                                            okButton {  }
+                                        }.show()
+                                    }
+                                }
                             }
 
                         }
