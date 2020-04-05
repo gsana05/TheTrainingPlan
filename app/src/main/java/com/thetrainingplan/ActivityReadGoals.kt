@@ -276,18 +276,9 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                                         mapGoalList.remove(goalId)
                                         viewModel.permanentlyDeleteGoal(userId, goalId){data : Boolean?, exc : Exception? ->
                                             if(data != null && data){
-                                                // remove listener
-                                                /*GoalModel.removeGoalSingleListener(goalPin) { data: Goal?, exc: Exception? ->
-                                                    if (data != null) {
-                                                        GoalModel.mCachedGoals.remove(goalPin)
-                                                        callback(true, null)
-                                                    } else {
-                                                        callback(false, task.exception)
-                                                    }
 
-                                                }*/
-
-
+                                                //remove listener for deleted goal
+                                                GoalModel.removeGoalSingleListener(goalId, mCallbackCurrentGoal)
                                                 alert ("Goal has been deleted"){
                                                     okButton {  }
                                                 }.show()

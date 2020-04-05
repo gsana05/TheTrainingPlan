@@ -212,7 +212,6 @@ object GoalModel {
                     //remove listener
                     mCachedGoals.remove(goalPin)
                     callback(true, null)
-
                 }
                 else{
                     callback(false, task.exception)
