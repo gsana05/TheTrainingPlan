@@ -308,9 +308,20 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 }.show()
             }
             R.id.goals_item_button_share_goal_completed -> {
-                alert ("Share"){
+                val message = "Text I want to share."
+                val share = Intent(Intent.ACTION_SEND)
+                share.type = "text/plain"
+                share.putExtra(Intent.EXTRA_TEXT, message)
+                //share.setPackage("com.whatsapp")
+                startActivity(
+                    Intent.createChooser(
+                        share,
+                        "Title of the dialog the system will open"
+                    )
+                )
+               /* alert ("Share"){
                     okButton {  }
-                }.show()
+                }.show()*/
             }
             else -> {
                 alert ("Something went wrong"){
