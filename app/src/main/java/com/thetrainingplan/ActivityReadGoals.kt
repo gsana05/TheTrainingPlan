@@ -308,20 +308,24 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 }.show()
             }
             R.id.goals_item_button_share_goal_completed -> {
-                val message = "Text I want to share."
+
+                val goalAchieved = "Hey, I want to share my achievement with you. I have achieved my goal which was:\n\n ${mGoal.goal}\n\n" +
+                        "I set this goal on the ${mGoal.goalSetDate?.let { U.formatDate(it, false) }} and I completed on ${mGoal.isCompleted?.let {
+                            U.formatDate(
+                                it, false)
+                        }} "
+
+                val title = "Goal Achieved"
                 val share = Intent(Intent.ACTION_SEND)
                 share.type = "text/plain"
-                share.putExtra(Intent.EXTRA_TEXT, message)
+                share.putExtra(Intent.EXTRA_TEXT, goalAchieved)
                 //share.setPackage("com.whatsapp")
                 startActivity(
                     Intent.createChooser(
                         share,
-                        "Title of the dialog the system will open"
+                        "Goal Achieved"
                     )
                 )
-               /* alert ("Share"){
-                    okButton {  }
-                }.show()*/
             }
             else -> {
                 alert ("Something went wrong"){
