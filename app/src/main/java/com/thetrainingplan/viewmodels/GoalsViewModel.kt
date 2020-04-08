@@ -83,13 +83,13 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         numberOfDaysToGoal.value = "$elapsedDays days and $elapsedHours hours"
     }
 
-    fun completedGoal(goalPin : String){
+    fun completedGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
         GoalModel.updateIsCompletedGoal(goalPin){data : Boolean?, exc : Exception? ->
             if(data != null && data){
-
+                callback(true, null)
             }
             else{
-
+                callback(false, exc)
             }
 
         }
@@ -183,6 +183,39 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         else{
             //user has not log in if this else is fired
             isSubmittingGoal.value = false
+        }
+    }
+
+    fun reOpenGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        GoalModel.reOpenGoal(goalPin){ data : Boolean?, exc : Exception? ->
+            if(data != null && data){
+                callback(true, null)
+            }
+            else{
+                callback(false, exc)
+            }
+        }
+    }
+
+    fun permanentlyDeleteGoalPin(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        GoalModel.permanentlyDeleteGoalPin(userId, goalPin){ data : Boolean?, exc : Exception? ->
+            if(data != null && data){
+                callback(true, null)
+            }
+            else{
+                callback(false, exc)
+            }
+        }
+    }
+
+    fun permanentlyDeleteGoal(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        GoalModel.permanentlyDeleteGoal(userId, goalPin){ data : Boolean?, exc : Exception? ->
+            if(data != null && data){
+                callback(true, null)
+            }
+            else{
+                callback(false, exc)
+            }
         }
     }
 

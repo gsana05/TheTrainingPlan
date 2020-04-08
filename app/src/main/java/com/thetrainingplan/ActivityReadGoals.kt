@@ -23,7 +23,7 @@ import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.models.User
 import com.thetrainingplan.models.UserModel
 import com.thetrainingplan.util.RecyclerViewClickListener
-import com.thetrainingplan.viewmodels.ReadGoalsViewModel
+import com.thetrainingplan.viewmodels.GoalsViewModel
 import kotlinx.android.synthetic.main.activity_read_goals.*
 import kotlinx.android.synthetic.main.fragment_fragment_read_goals.view.*
 import org.jetbrains.anko.alert
@@ -36,7 +36,7 @@ import org.jetbrains.anko.yesButton
 class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-    private lateinit var viewModel: ReadGoalsViewModel
+    private lateinit var viewModel: GoalsViewModel
 
     private var mCallbackCurrentUser = { _: User?, _: Exception? -> Unit}
     private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
@@ -50,7 +50,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
         //setContentView(R.layout.activity_read_goals)
 
         // reference to view model
-        viewModel = ViewModelProviders.of(this).get(ReadGoalsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(GoalsViewModel::class.java)
 
         val binding: ActivityReadGoalsBinding = DataBindingUtil.setContentView(this, R.layout.activity_read_goals)
         binding.lifecycleOwner = this
@@ -245,7 +245,20 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 alert ("Excellent! Press OK to confirm you have completed your goal"){
                     yesButton {
                         mGoal.id?.let { it1 ->
-                            viewModel.completedGoal(it1)
+                            viewModel.completedGoal(it1){data : Boolean?, exc : Exception? ->
+                                if(data != null && data){
+
+                                    alert ("Goal has been completed"){
+                                        okButton {  }
+                                    }.show()
+                                }
+                                else{
+                                    alert ("Goal has NOT been been completed. Please try again later"){
+                                        okButton {  }
+                                    }.show()
+                                }
+
+                            }
                         }
                     }
                     noButton {
@@ -257,7 +270,20 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 alert ("Would you like to re-open this goal?"){
                     positiveButton("Yes"){
                         mGoal.id?.let { it1 ->
-                            viewModel.reOpenGoal(it1)
+                            viewModel.reOpenGoal(it1){data : Boolean?, exc : Exception? ->
+                                if(data != null && data){
+
+                                    alert ("Goal has been re-opened"){
+                                        okButton {  }
+                                    }.show()
+                                }
+                                else{
+                                    alert ("Goal has NOT been been re-opened. Please try again later"){
+                                        okButton {  }
+                                    }.show()
+                                }
+
+                            }
                         }
                     }
                     negativeButton("No"){
@@ -338,11 +364,11 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
 
 class PlaceholderFragment : Fragment() {
 
-    private lateinit var viewModel: ReadGoalsViewModel
+    private lateinit var viewModel: GoalsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        viewModel = ViewModelProviders.of(activity!!).get(ReadGoalsViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(GoalsViewModel::class.java)
 
         val binding: FragmentFragmentReadGoalsBinding = FragmentFragmentReadGoalsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this

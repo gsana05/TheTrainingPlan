@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <import type="com.thetrainingplan.U"/>
-        <variable name="viewModel" type="com.thetrainingplan.viewmodels.ReadGoalsViewModel"/>
+        <variable name="viewModel" type="com.thetrainingplan.viewmodels.GoalsViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
