@@ -41,9 +41,9 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
     private var mCallbackCurrentUser = { _: User?, _: Exception? -> Unit}
     private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
     private var listOfGoalPins = ArrayList<String>()
-    val mapGoalList = HashMap<String, Goal>()
+    private val mapGoalList = HashMap<String, Goal>()
 
-    var localtracker : Int = 0
+    private var localTracker : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +70,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 //view_pager.currentItem = tab.position
                 //viewModel.tabTracker.value = tab.position
                 //fragment_read_goals_text_view.text = tab.position.toString()
-                localtracker = tab.position
+                localTracker = tab.position
                 setUpRecyclerView()
             }
 
@@ -163,7 +163,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
             /*val item = resources.getQuantityString(R.plurals.numberOfGoals, sortedListByDeadlineDate.size, sortedListByDeadlineDate.size)
             view_goals_recycler_view_heading.text = item*/
 
-            when(localtracker){
+            when(localTracker){
                 0 -> {
                     listOfGoals.forEach {
                         if((it.isCompleted == null) && (it.isDeleted ==null)){
@@ -341,17 +341,16 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                                 it, false)
                         }} "
 
-                val title = "Goal Achieved"
-                val share = Intent(Intent.ACTION_SEND)
-                share.type = "text/plain"
-                share.putExtra(Intent.EXTRA_TEXT, goalAchieved)
-                //share.setPackage("com.whatsapp")
-                startActivity(
-                    Intent.createChooser(
-                        share,
-                        "Goal Achieved"
-                    )
-                )
+                shareGoal(goalAchieved)
+            }
+            R.id.goals_item_button_share_open_goal -> {
+                val goalAchieved = "Hey, I want to share my goal with you. This is the goal I have set:\n\n ${mGoal.goal}\n\n" +
+                        "I set this goal on the ${mGoal.goalSetDate?.let { U.formatDate(it, false) }} and I aim to achieve it by ${mGoal.goalDateDeadline?.let {
+                            U.formatDate(
+                                it, false)
+                        }} "
+
+                shareGoal(goalAchieved)
             }
             else -> {
                 alert ("Something went wrong"){
@@ -359,6 +358,19 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 }.show()
             }
         }
+    }
+
+    private fun shareGoal(goal : String){
+        val share = Intent(Intent.ACTION_SEND)
+        share.type = "text/plain"
+        share.putExtra(Intent.EXTRA_TEXT, goal)
+        //share.setPackage("com.whatsapp")
+        startActivity(
+            Intent.createChooser(
+                share,
+                "Goal Achieved"
+            )
+        )
     }
 }
 

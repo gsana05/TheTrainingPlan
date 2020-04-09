@@ -1,42 +1,38 @@
 package com.thetrainingplan
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
-import com.thetrainingplan.databinding.ActivityGoalsBinding
-import com.thetrainingplan.viewmodels.GoalsViewModel
-import kotlinx.android.synthetic.main.activity_goals.*
-import android.view.MotionEvent
-import android.widget.AdapterView
-import android.widget.Toast
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.GoalsAdapter
+import com.thetrainingplan.databinding.ActivityGoalsBinding
 import com.thetrainingplan.models.*
 import com.thetrainingplan.util.RecyclerViewClickListener
-import kotlinx.android.synthetic.main.activity_goals.goals_spinner_goal_date_deadline_input
-import kotlinx.android.synthetic.main.fragment_crud_goal.*
+import com.thetrainingplan.viewmodels.GoalsViewModel
+import kotlinx.android.synthetic.main.activity_goals.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.yesButton
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
@@ -74,6 +70,15 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
 
                     }
                 }.show()
+            }
+            R.id.goals_item_button_share_open_goal -> {
+                val goalAchieved = "Hey, I want to share my goal with you. This is the goal I have set:\n\n ${mGoal.goal}\n\n" +
+                        "I set this goal on the ${mGoal.goalSetDate?.let { U.formatDate(it, false) }} and I aim to achieve it by ${mGoal.goalDateDeadline?.let {
+                            U.formatDate(
+                                it, false)
+                        }} "
+
+                shareGoal(goalAchieved)
             }
             else -> {
                 alert ("Something went wrong"){
@@ -249,6 +254,19 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
                 }
             }
         }
+    }
+
+    private fun shareGoal(goal : String){
+        val share = Intent(Intent.ACTION_SEND)
+        share.type = "text/plain"
+        share.putExtra(Intent.EXTRA_TEXT, goal)
+        //share.setPackage("com.whatsapp")
+        startActivity(
+            Intent.createChooser(
+                share,
+                "Goal Achieved"
+            )
+        )
     }
 
 
