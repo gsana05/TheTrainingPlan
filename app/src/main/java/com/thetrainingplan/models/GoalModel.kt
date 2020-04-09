@@ -162,7 +162,7 @@ object GoalModel {
         }
     }
 
-    fun getCurrentTimeInMillie() : Long{
+    private fun getCurrentTimeInMillie() : Long{
         return Calendar.getInstance().time.time
     }
 
@@ -205,7 +205,7 @@ object GoalModel {
                  }
     }
 
-   fun permanentlyDeleteGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+   fun permanentlyDeleteGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
         getDatabaseRefGoals().document(goalPin).delete() // delete goal from the goals collection
             .addOnCompleteListener {task ->
                 if(task.isSuccessful){

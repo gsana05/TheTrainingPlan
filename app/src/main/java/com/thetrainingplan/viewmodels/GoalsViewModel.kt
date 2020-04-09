@@ -209,7 +209,7 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     }
 
     fun permanentlyDeleteGoal(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        GoalModel.permanentlyDeleteGoal(userId, goalPin){ data : Boolean?, exc : Exception? ->
+        GoalModel.permanentlyDeleteGoal(goalPin){ data : Boolean?, exc : Exception? ->
             if(data != null && data){
                 callback(true, null)
             }
