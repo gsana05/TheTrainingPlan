@@ -140,28 +140,8 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
         fragment_read_goals_recycler_view.also {
             it.layoutManager = LinearLayoutManager(this)
 
-          /*  // get all the deleted goals
-            val deletedOrCompletedGoals = ArrayList<String>()
-            for(goal in ArrayList(mapGoalList.values)){
-                if(goal.isDeleted == true || goal.isCompleted == true){
-                    goal.id?.let { it1 -> deletedOrCompletedGoals.add(it1) }
-                }
-            }
-
-            //remove deleted goals from the list that will go on the UI
-            for(deleted in deletedOrCompletedGoals){
-                mapGoalList.remove(deleted)
-            }*/
-
-            //sort list by deadline date coming soon
-
             val listOfGoals = ArrayList(mapGoalList.values)
             val filteredListOfGoals = ArrayList<Goal>()
-            //viewModel.numberOfOpenGoals.value = sortedListByDeadlineDate.size
-
-            // plurals for goals or goal
-            /*val item = resources.getQuantityString(R.plurals.numberOfGoals, sortedListByDeadlineDate.size, sortedListByDeadlineDate.size)
-            view_goals_recycler_view_heading.text = item*/
 
             when(localTracker){
                 0 -> {
