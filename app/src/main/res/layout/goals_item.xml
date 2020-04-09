@@ -269,10 +269,10 @@
                 app:layout_constraintEnd_toEndOf="@+id/goals_item_button_completed"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
-                android:textColor="@color/white"
+                android:textColor="@color/blue"
                 android:textAllCaps="false"
                 android:text="Share Open Goal"
-                android:background="@drawable/blue_button"
+                android:background="@drawable/white_button_blue_border"
                 android:visibility="@{goal.isCompleted != null || goal.isDeleted != null ? View.GONE : View.VISIBLE}"
                 />
 
@@ -325,10 +325,10 @@
                 app:layout_constraintEnd_toEndOf="@+id/goals_item_button_completed"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
-                android:textColor="@color/white"
+                android:textColor="@color/blue"
                 android:textAllCaps="false"
                 android:text="Share Completed Goal"
-                android:background="@drawable/blue_button"
+                android:background="@drawable/white_button_blue_border"
                 android:visibility="@{goal.isCompleted != null ? View.VISIBLE : View.INVISIBLE}"
                 />
 
