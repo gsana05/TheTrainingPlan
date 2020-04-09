@@ -247,7 +247,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/goals_item_button_completed"
-                app:layout_constraintBottom_toBottomOf="@id/goals_item_view"
+                app:layout_constraintBottom_toTopOf="@+id/goals_item_button_share_open_goal"
                 app:layout_constraintStart_toStartOf="@+id/goals_item_button_completed"
                 app:layout_constraintEnd_toEndOf="@+id/goals_item_button_completed"
                 android:layout_marginTop="5dp"
@@ -258,6 +258,25 @@
                 android:background="@drawable/blue_button"
                 android:visibility="@{goal.isCompleted != null || goal.isDeleted != null ? View.INVISIBLE : View.VISIBLE}"
                 />
+
+        <Button
+                android:id="@+id/goals_item_button_share_open_goal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/goals_item_button"
+                app:layout_constraintBottom_toBottomOf="@id/goals_item_view"
+                app:layout_constraintStart_toStartOf="@+id/goals_item_button_completed"
+                app:layout_constraintEnd_toEndOf="@+id/goals_item_button_completed"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:text="Share Open Goal"
+                android:background="@drawable/blue_button"
+                android:visibility="@{goal.isCompleted != null || goal.isDeleted != null ? View.GONE : View.VISIBLE}"
+                />
+
+
 
         <Button
                 android:id="@+id/goals_item_button_completed_re_open"
@@ -283,7 +302,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/goals_item_button_completed"
-                app:layout_constraintBottom_toBottomOf="@id/goals_item_view"
+                app:layout_constraintBottom_toTopOf="@+id/goals_item_button_share_open_goal"
                 app:layout_constraintStart_toStartOf="@+id/goals_item_button_completed"
                 app:layout_constraintEnd_toEndOf="@+id/goals_item_button_completed"
                 android:layout_marginTop="5dp"
@@ -301,14 +320,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/goals_item_button_completed"
-                app:layout_constraintBottom_toBottomOf="@id/goals_item_view"
+                app:layout_constraintBottom_toTopOf="@+id/goals_item_button_share_open_goal"
                 app:layout_constraintStart_toStartOf="@+id/goals_item_button_completed"
                 app:layout_constraintEnd_toEndOf="@+id/goals_item_button_completed"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
-                android:text="Share Goal"
+                android:text="Share Completed Goal"
                 android:background="@drawable/blue_button"
                 android:visibility="@{goal.isCompleted != null ? View.VISIBLE : View.INVISIBLE}"
                 />
