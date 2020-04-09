@@ -165,23 +165,23 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
 
             when(localTracker){
                 0 -> {
-                    listOfGoals.forEach {
-                        if((it.isCompleted == null) && (it.isDeleted ==null)){
-                            filteredListOfGoals.add(it)
+                    listOfGoals.forEach {goalOne ->
+                        if((goalOne.isCompleted == null) && (goalOne.isDeleted ==null)){
+                            filteredListOfGoals.add(goalOne)
                         }
                     }
                 }
                 1 -> {
-                    listOfGoals.forEach {
-                        if((it.isCompleted != null) && (it.isDeleted ==null)){
-                            filteredListOfGoals.add(it)
+                    listOfGoals.forEach {goalTwo ->
+                        if((goalTwo.isCompleted != null) && (goalTwo.isDeleted ==null)){
+                            filteredListOfGoals.add(goalTwo)
                         }
                     }
                 }
                 2 -> {
-                    listOfGoals.forEach {
-                        if(it.isDeleted != null){
-                            filteredListOfGoals.add(it)
+                    listOfGoals.forEach {goalThree ->
+                        if(goalThree.isDeleted != null){
+                            filteredListOfGoals.add(goalThree)
                         }
                     }
                 }
@@ -245,7 +245,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 alert ("Excellent! Press OK to confirm you have completed your goal"){
                     yesButton {
                         mGoal.id?.let { it1 ->
-                            viewModel.completedGoal(it1){data : Boolean?, exc : Exception? ->
+                            viewModel.completedGoal(it1){data : Boolean?, _ : Exception? ->
                                 if(data != null && data){
 
                                     alert ("Goal has been completed"){
@@ -270,7 +270,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 alert ("Would you like to re-open this goal?"){
                     positiveButton("Yes"){
                         mGoal.id?.let { it1 ->
-                            viewModel.reOpenGoal(it1){data : Boolean?, exc : Exception? ->
+                            viewModel.reOpenGoal(it1){data : Boolean?, _ : Exception? ->
                                 if(data != null && data){
 
                                     alert ("Goal has been re-opened"){
@@ -296,12 +296,12 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                     positiveButton("Yes"){
                         mGoal.id?.let { goalId ->
                             val userId = FirebaseAuth.getInstance().uid
-                            userId?.let {userId ->
-                                viewModel.permanentlyDeleteGoalPin(userId, goalId){data : Boolean?, exc : Exception? ->
+                            userId?.let {id->
+                                viewModel.permanentlyDeleteGoalPin(id, goalId){data : Boolean?, _ : Exception? ->
                                     if(data != null && data){
                                         mapGoalList.remove(goalId)
-                                        viewModel.permanentlyDeleteGoal(userId, goalId){data : Boolean?, exc : Exception? ->
-                                            if(data != null && data){
+                                        viewModel.permanentlyDeleteGoal(id, goalId){isDeleted : Boolean?, _ : Exception? ->
+                                            if(isDeleted != null && isDeleted){
 
                                                 //remove listener for deleted goal
                                                 GoalModel.removeGoalSingleListener(goalId, mCallbackCurrentGoal)
@@ -403,8 +403,6 @@ class PlaceholderFragment : Fragment() {
             //viewModel.tabTracker.value = arguments?.getInt(ARG_SECTION_NUMBER)
             binding.root.fragment_read_goals_text_view.text = deletedGoals
         }
-
-        val text = binding.root.fragment_read_goals_text_view.text.trim().toString()
 
         return binding.root
     }

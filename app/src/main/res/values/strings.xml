@@ -51,6 +51,12 @@
     <string name="open_goals">OPEN GOALS</string>
     <string name="completed_goals">COMPLETED GOALS</string>
     <string name="deleted_goals">DELETED GOALS</string>
+    <string name="enter_your_goal">ENTER YOUR GOAL:</string>
+    <string name="submit_goal">Submit goal</string>
+    <string name="count_down_to_goal">COUNT DOWN TO GOAL</string>
+    <string name="drop_down_choices">Drop down choices</string>
+    <string name="set_date_deadline">SET DATE DEADLINE:</string>
+    <string name="what_type_of_goal">WHAT TYPE OF GOAL:</string>
 
     <plurals name="numberOfGoals">
         <item quantity="one">YOU HAVE %d OPEN GOAL</item>

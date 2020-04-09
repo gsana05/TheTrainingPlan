@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thetrainingplan.R
 import com.thetrainingplan.databinding.GoalsItemBinding
 import com.thetrainingplan.models.Goal
-import com.thetrainingplan.models.User
 import com.thetrainingplan.util.RecyclerViewClickListener
 
 class GoalsAdapter(private val goals : ArrayList<Goal>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter <GoalsAdapter.ViewHolder>() {

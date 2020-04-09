@@ -135,7 +135,8 @@
                         android:maxLength="90"
                         android:focusable="false"
                         android:text="@{viewModel.dateOfGoalSet}"
-                        />
+                        android:autofillHints="Enter a date"
+                        tools:ignore="LabelFor" />
 
                 <TextView
                         android:id="@+id/goals_add_goal_enter_heading"
@@ -147,7 +148,7 @@
                         android:textColor="@color/blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="ENTER YOUR GOAL: "
+                        android:text="@string/enter_your_goal"
                         />
 
                 <EditText
@@ -169,7 +170,8 @@
                         android:maxLines="3"
                         android:maxLength="70"
                         android:text="@={viewModel.goalSet}"
-                        />
+                        android:autofillHints="@string/enter_your_goal"
+                        tools:ignore="LabelFor" />
 
                 <TextView
                         android:id="@+id/goals_spinner_goal_type_heading"
@@ -181,7 +183,7 @@
                         android:textColor="@color/blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="WHAT TYPE OF GOAL: "
+                        android:text="@string/what_type_of_goal"
                         />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -212,8 +214,7 @@
                         android:tint="@color/black"
                         android:scaleType="fitXY"
                         app:layout_constraintDimensionRatio="1:1"
-                        android:rotation="180"
-                        />
+                        android:contentDescription="@string/drop_down_choices" />
 
                 <TextView
                         android:id="@+id/goals_spinner_goal_date_deadline_heading"
@@ -225,7 +226,7 @@
                         android:textColor="@color/blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="SET DATE DEADLINE: "
+                        android:text="@string/set_date_deadline"
                         />
 
                 <EditText
@@ -246,7 +247,8 @@
                         android:inputType="date"
                         android:focusable="false"
                         android:text="@{viewModel.dateGoalDeadline}"
-                        />
+                        android:autofillHints="Enter a date"
+                        tools:ignore="LabelFor" />
 
                 <TextView
                         android:id="@+id/goals_number_of_days_heading"
@@ -259,7 +261,7 @@
                         android:textColor="@color/blue"
                         android:textStyle="bold"
                         android:textSize="16sp"
-                        android:text="COUNT DOWN TO GOAL"
+                        android:text="@string/count_down_to_goal"
                         android:visibility="@{viewModel.numberOfDaysToGoal != null ? View.VISIBLE : View.GONE}"
                         />
 
@@ -290,7 +292,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:text="Submit goal"
+                        android:text="@string/submit_goal"
                         android:visibility="@{viewModel.isSubmittingGoal == true ? View.INVISIBLE : View.VISIBLE}"
                         android:onClick="@{() -> viewModel.submitGoal(true)}"
                         />

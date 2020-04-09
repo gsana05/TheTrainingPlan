@@ -3,7 +3,6 @@ package com.thetrainingplan
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -35,7 +34,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
+class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onRecyclerViewItemClick(view: View, any: Any) {
 
@@ -51,7 +50,7 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
             R.id.goals_item_button_completed -> {
                 alert ("Excellent! Press OK to confirm you have completed your goal"){
                     yesButton {
-                        mGoal.id?.let { it1 -> viewModel.completedGoal(it1){data : Boolean?, exc : Exception? ->
+                        mGoal.id?.let { it1 -> viewModel.completedGoal(it1){data : Boolean?, _ : Exception? ->
                             if(data != null && data){
 
                                 alert ("Goal has been completed"){
@@ -305,11 +304,11 @@ class GoalsActivity() : AppCompatActivity(), RecyclerViewClickListener {
         }
     }*/
 
-    private fun goToUrl(url: String){
+  /*  private fun goToUrl(url: String){
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
-    }
+    }*/
 
     override fun onPause() {
         super.onPause()

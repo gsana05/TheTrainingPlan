@@ -98,7 +98,7 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     fun updateIsDelete(){
         goal.value?.id?.let {goalPin ->
             isDeletingGoal.value = true
-            GoalModel.updateIsDeleteGoal(goalPin){ data : Boolean?, exc : Exception? ->
+            GoalModel.updateIsDeleteGoal(goalPin){ data : Boolean?, _ : Exception? ->
                 isDeletingGoal.value = true
                 if(data != null && data){
                     hasGoalSavedToDatabase.value = true
