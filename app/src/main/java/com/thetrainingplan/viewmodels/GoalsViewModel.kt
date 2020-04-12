@@ -83,8 +83,8 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         numberOfDaysToGoal.value = "$elapsedDays days and $elapsedHours hours"
     }
 
-    fun completedGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        GoalModel.updateIsCompletedGoal(goalPin){data : Boolean?, exc : Exception? ->
+    fun completedGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        GoalModel.updateIsCompletedGoal(userId, goalPin){data : Boolean?, exc : Exception? ->
             if(data != null && data){
                 callback(true, null)
             }
@@ -95,10 +95,10 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         }
     }
 
-    fun updateIsDelete(){
+    fun updateIsDelete(userId: String){
         goal.value?.id?.let {goalPin ->
             isDeletingGoal.value = true
-            GoalModel.updateIsDeleteGoal(goalPin){ data : Boolean?, _ : Exception? ->
+            GoalModel.updateIsDeleteGoal(userId, goalPin){ data : Boolean?, _ : Exception? ->
                 isDeletingGoal.value = true
                 if(data != null && data){
                     hasGoalSavedToDatabase.value = true
@@ -142,11 +142,13 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         if(userId != null){
 
             var setGoal : Goal? = null
-            if(isNew){
+            if(isNew){ // new goal
+                // you can only update existing goals thats why isDeleted and isCompleted can be set to null
                 setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, null, null)
             }
-            else{
+            else{ // update goal
                 goal.value?.id?.let {goalPin ->
+                    // you can only update existing goals thats why isDeleted and isCompleted can be set to null
                     setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, null, null)
                 }
 
@@ -186,8 +188,8 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
         }
     }
 
-    fun reOpenGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        GoalModel.reOpenGoal(goalPin){ data : Boolean?, exc : Exception? ->
+    fun reOpenGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        GoalModel.reOpenGoal(userId, goalPin){ data : Boolean?, exc : Exception? ->
             if(data != null && data){
                 callback(true, null)
             }
@@ -209,7 +211,7 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     }
 
     fun permanentlyDeleteGoal(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        GoalModel.permanentlyDeleteGoal(goalPin){ data : Boolean?, exc : Exception? ->
+        GoalModel.permanentlyDeleteGoal(userId, goalPin){ data : Boolean?, exc : Exception? ->
             if(data != null && data){
                 callback(true, null)
             }

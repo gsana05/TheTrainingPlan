@@ -52,7 +52,12 @@ class ActivityUpdateGoals : AppCompatActivity() {
                     }
                 }
             }
-            GoalModel.addGoalSingleListener(it, mCallbackCurrentGoal)
+
+            val userId = FirebaseAuth.getInstance().uid
+            if(userId != null){
+                GoalModel.addGoalSingleListener(userId, it, mCallbackCurrentGoal)
+            }
+
         }
 
         viewModel.finishUpdateGoalsActivityEvent.observe(this, Observer{

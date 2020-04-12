@@ -40,6 +40,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
     private var mCallbackAllUsers = { _:ArrayList<User?>?, _: Exception? -> Unit}
     private var mCallbackCurrentUser = { _:User?, _: Exception? -> Unit}
     private val theUsers = ArrayList<User>()
+    private var mCallbackAllUserGoalIds = { _:ArrayList<String?>?, _: Exception? -> Unit}
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,21 +79,17 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             startActivity(intent)
         })
 
-        mCallbackCurrentUser = { data : User?, exc: Exception? ->
-            if(exc != null){
-                alert("current user exc: = ${exc.message}") {
-                    okButton {  }
-                }.show()
-            }
-            else{
-                if(data != null){
-                    viewModel.currentUser.value = data
+        mCallbackAllUserGoalIds = { data : ArrayList<String?>?, exc : Exception? ->
+            if(data != null){
 
-                    //to get the number of goals
-                    val listOpenGoals = ArrayList<Goal>()
-                    data.goals?.let {
-                        for(goalId in it){
-                            GoalModel.getGoal(goalId){ data : Goal?, _: Exception? ->
+                //to get the number of goals
+                val listOpenGoals = ArrayList<Goal>()
+                val listOfPinIds = data
+                listOfPinIds.let {
+                    for(goalId in it){
+                        val userId = FirebaseAuth.getInstance().uid
+                        if (goalId != null && userId != null) {
+                            GoalModel.getGoal(userId, goalId){ data : Goal?, _: Exception? ->
                                 if(data != null){
 
                                     if(data.isCompleted == null && data.isDeleted == null){
@@ -104,6 +101,23 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                             }
                         }
                     }
+                }
+
+            }
+            else{
+               val i = exc
+            }
+        }
+
+        mCallbackCurrentUser = { data : User?, exc: Exception? ->
+            if(exc != null){
+                alert("current user exc: = ${exc.message}") {
+                    okButton {  }
+                }.show()
+            }
+            else{
+                if(data != null){
+                    viewModel.currentUser.value = data
                 }
             }
         }
@@ -152,6 +166,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         if(userId != null){
             UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
             UserModel.removeAllUsersListeners(userId, mCallbackAllUsers)
+            GoalModel.removeAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
         }
     }
 
@@ -164,6 +179,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         else{
             UserModel.addCurrentUserListener(userId, mCallbackCurrentUser)
             UserModel.addAllUsersListeners(userId, mCallbackAllUsers)
+            GoalModel.addAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
         }
     }
 }

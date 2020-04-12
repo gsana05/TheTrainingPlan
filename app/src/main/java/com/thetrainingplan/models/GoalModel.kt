@@ -30,7 +30,7 @@ object GoalModel {
         return mFirebaseRefsGoals.size
     }*/
 
-    fun addGoalSingleListener(pin : String, callback : (Goal?, Exception?) -> Unit){
+    fun addGoalSingleListener(userId: String, pin : String, callback : (Goal?, Exception?) -> Unit){
 
         var callbacks = ArrayList<(Goal?, Exception?) -> Unit>()
 
@@ -54,7 +54,7 @@ object GoalModel {
         }
 
         if(!mFirebaseRefsGoals.containsKey(pin)){
-            val ref = getDatabaseRefGoals().document(pin).addSnapshotListener{documentSnapshot, firebaseFirestoreException ->
+            val ref = getDatabaseRefUserGoalsIds(userId).document(pin).addSnapshotListener{documentSnapshot, firebaseFirestoreException ->
                 if(mProfileCallbacksGoals.containsKey(pin)){ // has a valid callback
 
                     val callbackList = mProfileCallbacksGoals[pin] // gets the list of users - will have atleast one
@@ -106,8 +106,91 @@ object GoalModel {
         }
     }
 
-    fun getGoal(goalId : String, callback: (Goal?, Exception?) -> Unit){
-        getDatabaseRefGoals().document(goalId).get().addOnCompleteListener {
+
+    private val mFirebaseRefsAllUserGoalIds : HashMap<String, ListenerRegistration> = HashMap()
+    private var mCachedAllUserGoalIds : HashMap<String, ArrayList<String?>> = HashMap() // these are the cached profiles
+    private var mAllUserGoalIdsCallbacks = HashMap<String, ArrayList<(ArrayList<String?>, Exception?) -> Unit>>() // callbacks for that user id
+
+    fun addAllUsersGoalIdsListeners(userId : String, onComplete : (ArrayList<String?>, Exception?) -> Unit){
+
+        var callbacks = ArrayList<(ArrayList<String?>, Exception?) -> Unit>()
+
+        // does it already have a callback
+        if(mAllUserGoalIdsCallbacks.containsKey(userId)){
+            mAllUserGoalIdsCallbacks[userId]?.let {
+                callbacks = it
+            }
+        }
+        else{
+            callbacks = ArrayList()
+        }
+
+        // does not have this callback
+        if(!callbacks.contains(onComplete)){
+            callbacks.add(onComplete)
+            mAllUserGoalIdsCallbacks[userId] = callbacks
+        }
+
+        // return is user has already been cached and no data has changed for that user
+        if(mCachedAllUserGoalIds.containsKey(userId)){ // if user data has been cached then return with this already saved user data
+            val profile = mCachedAllUserGoalIds[userId]
+            if (profile != null) {
+                onComplete(profile, null)
+            }
+        }
+
+        // do this if it has no listener yet
+        if(!mFirebaseRefsAllUserGoalIds.contains(userId)){
+            val ref = getDatabaseRefUserGoalsIds(userId).addSnapshotListener{ querySnaphot, firebaseFirestoreException ->
+                if(mAllUserGoalIdsCallbacks.containsKey(userId)){ // has a valid callback
+
+                    val callbackList = mAllUserGoalIdsCallbacks[userId]
+                    val list = ArrayList<String?>()
+
+                    if(querySnaphot != null){
+                        for(documentSnapshot in querySnaphot){
+                            val id = documentSnapshot.id
+                            list.add(id)
+                        }
+                    }
+
+                    // caching the data
+                    if(list.size > 0){
+                        this.mCachedAllUserGoalIds[userId] = list
+                    }
+
+                    if(callbackList!=null) {
+                        onComplete(list, firebaseFirestoreException)
+                    }
+
+                }
+            }
+            mFirebaseRefsAllUserGoalIds[userId] = ref
+        }
+    }
+
+    fun removeAllUsersGoalIdsListeners(userId : String, onComplete : (ArrayList<String?>?, Exception?) -> Unit){
+        val callbackList = mAllUserGoalIdsCallbacks[userId] // gets the list of callbacks for that user which was added in addListener
+
+        if(callbackList != null && callbackList.contains(onComplete)){
+            callbackList.remove(onComplete) // removes one call back at a time
+
+            if(callbackList.size == 0){
+                mAllUserGoalIdsCallbacks.remove(userId) // remove the list from the cache
+                val databaseRef = mFirebaseRefsAllUserGoalIds[userId] // get value which is the listener
+                if(databaseRef!=null){
+                    databaseRef.remove() // remove the snapshot lister // change listener to unit
+                    mFirebaseRefsAllUserGoalIds.remove(userId) // remove the ref from our cached list
+                }
+            }
+            else {
+                mAllUserGoalIdsCallbacks[userId] = callbackList // put the callback list back into list without the one just removed
+            }
+        }
+    }
+
+    fun getGoal(userId: String, goalId : String, callback: (Goal?, Exception?) -> Unit){
+        getDatabaseRefUserGoalsIds(userId).document(goalId).get().addOnCompleteListener {
             if(it.isSuccessful){
                 val result = it.result
                 if (result != null) {
@@ -131,12 +214,16 @@ object GoalModel {
         }
 
         goal.id?.let {goalId ->
-            getDatabaseRefGoals().document(goalId).set(toMap(goal)).addOnCompleteListener {
+            getDatabaseRefUserGoalsIds(userId).document(goalId).set(toMap(goal)).addOnCompleteListener {
                 if(it.isSuccessful){
                     //call a firebase function to add goal id to the users list
                     if(isNew){
                         goal.id?.let {idGoal ->
-                            UserModel.updateGoals(userId, idGoal, callback)
+
+                            // write goal to userGoalsIds collection
+                            addUserGoalIds(userId, goalId,goal, callback)
+
+                            //UserModel.updateGoals(userId, idGoal, callback)
                         }
                     }
                     else{
@@ -151,8 +238,20 @@ object GoalModel {
         }
     }
 
-    fun updateIsDeleteGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        getDatabaseRefGoals().document(goalPin).update("isDeleted", getCurrentTimeInMillie()).addOnCompleteListener {task ->
+    fun addUserGoalIds(userId: String, goalId: String, goal : Goal, onComplete: (Boolean?, Exception?) -> Unit){
+        getDatabaseRefUserGoalsIds(userId).document(goalId).set(
+            toMap(goal)).addOnCompleteListener {
+            if(it.isSuccessful){
+                UserModel.updateGoals(userId, goalId, onComplete)
+            }
+            else{
+                onComplete(false, it.exception)
+            }
+        }
+    }
+
+    fun updateIsDeleteGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        getDatabaseRefUserGoalsIds(userId).document(goalPin).update("isDeleted", getCurrentTimeInMillie()).addOnCompleteListener {task ->
             if(task.isSuccessful){
                 callback(true, null)
             }
@@ -166,9 +265,9 @@ object GoalModel {
         return Calendar.getInstance().time.time
     }
 
-    fun updateIsCompletedGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+    fun updateIsCompletedGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
 
-        getDatabaseRefGoals().document(goalPin).update("isCompleted", getCurrentTimeInMillie()).addOnCompleteListener {task ->
+        getDatabaseRefUserGoalsIds(userId).document(goalPin).update("isCompleted", getCurrentTimeInMillie()).addOnCompleteListener {task ->
             if(task.isSuccessful){
                 callback(true, null)
             }
@@ -179,8 +278,8 @@ object GoalModel {
     }
 
     // by deleting the goal competed date it re-opens the goal
-    fun reOpenGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        getDatabaseRefGoals().document(goalPin).update(
+    fun reOpenGoal(userId: String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+        getDatabaseRefUserGoalsIds(userId).document(goalPin).update(
             "isCompleted", null,
             "isDeleted", null)
             .addOnCompleteListener {task ->
@@ -205,8 +304,8 @@ object GoalModel {
                  }
     }
 
-   fun permanentlyDeleteGoal(goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-        getDatabaseRefGoals().document(goalPin).delete() // delete goal from the goals collection
+   fun permanentlyDeleteGoal(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
+       getDatabaseRefUserGoalsIds(userId).document(goalPin).delete() // delete goal from the goals collection
             .addOnCompleteListener {task ->
                 if(task.isSuccessful){
                     //remove listener
@@ -255,7 +354,15 @@ object GoalModel {
         return map
     }
 
-    private fun getDatabaseRefGoals(): CollectionReference {
+    /*private fun getDatabaseRefGoals(): CollectionReference {
         return FirebaseFirestore.getInstance().collection("goals")
+    }*/
+
+    private fun getDatabaseRefUserGoalsIds(userId: String): CollectionReference {
+        return FirebaseFirestore.getInstance().collection("goals").document(userId).collection("goalPins")
     }
+
+    /*private fun getDatabaseRefUserGoalIds(): CollectionReference {
+        return FirebaseFirestore.getInstance().collection("userGoalIds")
+    }*/
 }

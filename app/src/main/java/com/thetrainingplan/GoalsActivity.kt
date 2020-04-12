@@ -50,20 +50,23 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
             R.id.goals_item_button_completed -> {
                 alert ("Excellent! Press OK to confirm you have completed your goal"){
                     yesButton {
-                        mGoal.id?.let { it1 -> viewModel.completedGoal(it1){data : Boolean?, _ : Exception? ->
-                            if(data != null && data){
+                        val userId = FirebaseAuth.getInstance().uid
+                        if(userId != null){
+                            mGoal.id?.let { it1 -> viewModel.completedGoal(userId, it1){data : Boolean?, _ : Exception? ->
+                                if(data != null && data){
 
-                                alert ("Goal has been completed"){
-                                    okButton {  }
-                                }.show()
-                            }
-                            else{
-                                alert ("Goal has NOT been been completed. Please try again later"){
-                                    okButton {  }
-                                }.show()
-                            }
+                                    alert ("Goal has been completed"){
+                                        okButton {  }
+                                    }.show()
+                                }
+                                else{
+                                    alert ("Goal has NOT been been completed. Please try again later"){
+                                        okButton {  }
+                                    }.show()
+                                }
 
-                        } }
+                            } }
+                        }
                     }
                     noButton {
 
@@ -182,7 +185,11 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
                             listOfGoalPins = listOfPin
                             for(pin in listOfPin){
                                 // add goal listener
-                                GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
+                                val userId = FirebaseAuth.getInstance().uid
+                                if(userId != null){
+                                    GoalModel.addGoalSingleListener(userId, pin, mCallbackCurrentGoal)
+                                }
+
                             }
                         }
                         else{

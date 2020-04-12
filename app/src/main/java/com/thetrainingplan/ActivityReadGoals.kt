@@ -112,7 +112,11 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
 
 
                                 // add goal listener
-                                GoalModel.addGoalSingleListener(pin, mCallbackCurrentGoal)
+                                val userId = FirebaseAuth.getInstance().uid
+                                if(userId != null){
+                                    GoalModel.addGoalSingleListener(userId, pin, mCallbackCurrentGoal)
+                                }
+
                             }
                             listOfGoalPins = listOfPin
                         }
@@ -225,20 +229,24 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 alert ("Excellent! Press OK to confirm you have completed your goal"){
                     yesButton {
                         mGoal.id?.let { it1 ->
-                            viewModel.completedGoal(it1){data : Boolean?, _ : Exception? ->
-                                if(data != null && data){
+                            val userId = FirebaseAuth.getInstance().uid
+                            if(userId != null){
+                                viewModel.completedGoal(userId, it1){data : Boolean?, _ : Exception? ->
+                                    if(data != null && data){
 
-                                    alert ("Goal has been completed"){
-                                        okButton {  }
-                                    }.show()
-                                }
-                                else{
-                                    alert ("Goal has NOT been been completed. Please try again later"){
-                                        okButton {  }
-                                    }.show()
-                                }
+                                        alert ("Goal has been completed"){
+                                            okButton {  }
+                                        }.show()
+                                    }
+                                    else{
+                                        alert ("Goal has NOT been been completed. Please try again later"){
+                                            okButton {  }
+                                        }.show()
+                                    }
 
+                                }
                             }
+
                         }
                     }
                     noButton {
@@ -250,20 +258,24 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 alert ("Would you like to re-open this goal?"){
                     positiveButton("Yes"){
                         mGoal.id?.let { it1 ->
-                            viewModel.reOpenGoal(it1){data : Boolean?, _ : Exception? ->
-                                if(data != null && data){
+                            val userId = FirebaseAuth.getInstance().uid
+                            if(userId != null){
+                                viewModel.reOpenGoal(userId, it1){data : Boolean?, _ : Exception? ->
+                                    if(data != null && data){
 
-                                    alert ("Goal has been re-opened"){
-                                        okButton {  }
-                                    }.show()
-                                }
-                                else{
-                                    alert ("Goal has NOT been been re-opened. Please try again later"){
-                                        okButton {  }
-                                    }.show()
-                                }
+                                        alert ("Goal has been re-opened"){
+                                            okButton {  }
+                                        }.show()
+                                    }
+                                    else{
+                                        alert ("Goal has NOT been been re-opened. Please try again later"){
+                                            okButton {  }
+                                        }.show()
+                                    }
 
+                                }
                             }
+
                         }
                     }
                     negativeButton("No"){

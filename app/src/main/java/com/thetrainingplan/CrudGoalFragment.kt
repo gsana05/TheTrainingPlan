@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.databinding.FragmentCrudGoalBinding
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.models.GoalTypeSpinner
@@ -43,7 +44,11 @@ class CrudGoalFragment : Fragment() {
         binding.goalsDeleteButton.setOnClickListener {
             inflater.context.alert ("Do you want to delete this goal?"){
                 yesButton {
-                    viewModel.updateIsDelete()
+                    val userId = FirebaseAuth.getInstance().uid
+                    if(userId != null){
+                        viewModel.updateIsDelete(userId)
+                    }
+
                 }
                 noButton {
 
