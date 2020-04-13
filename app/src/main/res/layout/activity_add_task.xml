@@ -125,7 +125,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:inputType="textCapSentences"/>
 
                 <TextView
@@ -148,7 +148,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:inputType="textCapSentences"/>
 
                <Button
@@ -374,6 +374,7 @@
                         app:layout_constraintEnd_toEndOf="@id/add_task_description"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/blue_button"
                         android:text="Submit Task"
                         android:textColor="@color/white"
