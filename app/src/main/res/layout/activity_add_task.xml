@@ -377,6 +377,7 @@
                         android:background="@drawable/blue_button"
                         android:text="Submit Task"
                         android:textColor="@color/white"
+                        android:textAllCaps="false"
                         />
 
                         <!--
