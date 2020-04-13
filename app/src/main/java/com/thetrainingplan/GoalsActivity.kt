@@ -226,11 +226,17 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
                 c.set(Calendar.MONTH, monthOfYear)
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                viewModel.dateGoalDeadlineInMillie.value = c.timeInMillis
-                viewModel.dateGoalDeadline.value = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
+                if(c.timeInMillis < Calendar.getInstance().timeInMillis){
+                    alert ("You need to enter a date in the future"){
+                        okButton {  }
+                    }.show()
+                }
+                else{
+                    viewModel.dateGoalDeadlineInMillie.value = c.timeInMillis
+                    viewModel.dateGoalDeadline.value = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
 
-
-                viewModel.printDifference(Calendar.getInstance().time, c.time)
+                    viewModel.printDifference(Calendar.getInstance().time, c.time)
+                }
 
             }, year, month, day)
 
