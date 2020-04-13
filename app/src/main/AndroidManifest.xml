@@ -12,51 +12,64 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".ActivityReadGoals"
+                android:name=".ActivityAddTask"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden"
-                />
+                tools:ignore="LockedOrientationActivity" />
+        <activity
+                android:name=".ActivityReadGoals"
+                android:screenOrientation="fullSensor"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden" />
         <activity
                 android:name=".ActivityUpdateGoals"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden" />
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".GoalsActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden" />
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ActivityTrainingPrograms"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden" />
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ActivityEnrollTrainingProgram"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden" />
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ActivityProfile"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden" />
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ActivityLogIn"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden" />
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ActivitySignUp"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden" />
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".MainActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden">
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

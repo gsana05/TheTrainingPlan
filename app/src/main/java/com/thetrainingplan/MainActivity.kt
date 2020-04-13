@@ -62,6 +62,11 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
         setupMenu(shop_drawer_layout_main, shop_nav_view_main, shop_navigation_toolbar)
 
+        viewModel.startAddTaskActivityEvent.observe(this, Observer {
+            val intent = Intent(this, ActivityAddTask::class.java)
+            startActivity(intent)
+        })
+
         viewModel.startEnrollActivityEvent.observe(this, Observer {
             /*val intent = Intent(this, ActivityTrainingPrograms::class.java)
             startActivity(intent)*/
@@ -79,7 +84,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             startActivity(intent)
         })
 
-        mCallbackAllUserGoalIds = { data : ArrayList<String?>?, exc : Exception? ->
+        mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
             if(data != null){
 
                 //to get the number of goals
@@ -103,9 +108,6 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                     }
                 }
 
-            }
-            else{
-               val i = exc
             }
         }
 

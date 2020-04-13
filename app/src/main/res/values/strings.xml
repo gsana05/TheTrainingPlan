@@ -69,6 +69,7 @@
     <string name="set">Set:</string>
     <string name="type">Type:</string>
     <string name="goal">Goal:</string>
+    <string name="add_task">Add Task</string>
 
     <plurals name="numberOfGoals">
         <item quantity="one">YOU HAVE %d OPEN GOAL</item>

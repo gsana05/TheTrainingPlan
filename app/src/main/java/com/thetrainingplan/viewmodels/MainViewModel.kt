@@ -14,6 +14,11 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
     //val listOfUser =  MutableLiveData<ArrayList<User?>>()
     val currentUser = MutableLiveData<User>()
     val numberOfOpenGoals = MutableLiveData<Int>()
+    val startGoalsActivityEvent = LiveEvent<Void>()
+    val startEnrollActivityEvent = LiveEvent<Void>()
+    val startReadGoalsActivityEvent = LiveEvent<Void>()
+    val startAddTaskActivityEvent = LiveEvent<Void>()
+    val finishAddTaskActivityEvent = LiveEvent<Void>()
 
     /*var filteredAgreements: LiveData<List<User?>>? = Transformations.switchMap(listOfUser) { users  ->
         getFilteredList(users)
@@ -36,18 +41,21 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
         }*//*
     }*/
 
-    val startGoalsActivityEvent = LiveEvent<Void>()
-
     fun startGoalsActivity(){
         startGoalsActivityEvent.call()
     }
 
-    val startReadGoalsActivityEvent = LiveEvent<Void>()
     fun startReadGoalsActivity() {
         startReadGoalsActivityEvent.call()
     }
 
-    val startEnrollActivityEvent = LiveEvent<Void>()
+    fun startAddTaskActivity(){
+        startAddTaskActivityEvent.call()
+    }
+
+    fun finishAddTaskActivity(){
+        finishAddTaskActivityEvent.call()
+    }
 
     fun startEnrollTrainingProgramActivity(){
         startEnrollActivityEvent.call()

@@ -312,6 +312,7 @@
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
                             android:text="@string/add_a_task"
+                            android:onClick="@{() -> viewModel.startAddTaskActivity()}"
                             />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
