@@ -57,6 +57,18 @@
     <string name="drop_down_choices">Drop down choices</string>
     <string name="set_date_deadline">SET DATE DEADLINE:</string>
     <string name="what_type_of_goal">WHAT TYPE OF GOAL:</string>
+    <string name="share_completed_goal">Share Completed Goal</string>
+    <string name="delete_goal">Delete Goal</string>
+    <string name="re_open_goal">Re-Open Goal</string>
+    <string name="share_open_goal">Share Open Goal</string>
+    <string name="update">Update</string>
+    <string name="completed">Completed</string>
+    <string name="deleted_on">Deleted on:</string>
+    <string name="completion">Completion:</string>
+    <string name="deadline">Deadline</string>
+    <string name="set">Set:</string>
+    <string name="type">Type:</string>
+    <string name="goal">Goal:</string>
 
     <plurals name="numberOfGoals">
         <item quantity="one">YOU HAVE %d OPEN GOAL</item>

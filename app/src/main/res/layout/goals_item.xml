@@ -39,7 +39,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"
                 android:textSize="16sp"
-                android:text="Goal:"
+                android:text="@string/goal"
                 android:textColor="@color/blue"
                 />
 
@@ -69,7 +69,7 @@
                 app:layout_constraintStart_toStartOf="@id/goals_item_heading_label"
                 app:layout_constraintBottom_toTopOf="@+id/goal_item_set_date"
                 android:layout_marginTop="10dp"
-                android:text="Type:"
+                android:text="@string/type"
                 android:textSize="16sp"
                 android:textColor="@color/blue"
                 />
@@ -99,7 +99,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Set:"
+                android:text="@string/set"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
                 />
@@ -124,7 +124,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/goal_item_set_date"
                 app:layout_constraintStart_toEndOf="@+id/goal_item_set_date"
                 android:layout_marginStart="10dp"
-                android:text="Deadline"
+                android:text="@string/deadline"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
                 />
@@ -140,7 +140,7 @@
                 android:tint="@color/green_success"
                 android:src="@drawable/ic_check_box_24px"
                 android:visibility="@{goal.isCompleted != null ? View.VISIBLE : View.INVISIBLE}"
-                />
+                android:contentDescription="@string/completed" />
 
         <ImageView
                 android:id="@+id/goal_item_deleted_cross"
@@ -153,7 +153,7 @@
                 android:tint="@color/ssRed"
                 android:src="@drawable/ic_highlight_off_24px"
                 android:visibility="@{goal.isDeleted != null ? View.VISIBLE : View.INVISIBLE}"
-                />
+                android:contentDescription="@string/delete_goal" />
 
         <TextView
                 android:id="@+id/goal_item_completed_goal_date_heading"
@@ -164,7 +164,7 @@
                 app:layout_constraintEnd_toEndOf="@id/goals_item_view"
                 app:layout_constraintHorizontal_bias="0"
                 android:textColor="@color/blue"
-                android:text="Completion:"
+                android:text="@string/completion"
                 android:visibility="@{goal.isCompleted != null ? View.VISIBLE : View.INVISIBLE}"
                 />
 
@@ -192,7 +192,7 @@
                 app:layout_constraintEnd_toEndOf="@id/goals_item_view"
                 app:layout_constraintHorizontal_bias="0"
                 android:textColor="@color/blue"
-                android:text="Deleted on:"
+                android:text="@string/deleted_on"
                 android:visibility="@{goal.isDeleted != null ? View.VISIBLE : View.INVISIBLE}"
                 />
 
@@ -236,7 +236,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
-                android:text="Completed"
+                android:text="@string/completed"
                 android:backgroundTint="@color/green_success"
                 android:background="@drawable/blue_button"
                 android:visibility="@{goal.isCompleted != null || goal.isDeleted != null ? View.INVISIBLE : View.VISIBLE}"
@@ -254,7 +254,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
-                android:text="Update"
+                android:text="@string/update"
                 android:background="@drawable/blue_button"
                 android:visibility="@{goal.isCompleted != null || goal.isDeleted != null ? View.INVISIBLE : View.VISIBLE}"
                 />
@@ -271,7 +271,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/blue"
                 android:textAllCaps="false"
-                android:text="Share Open Goal"
+                android:text="@string/share_open_goal"
                 android:background="@drawable/white_button_blue_border"
                 android:visibility="@{goal.isCompleted != null || goal.isDeleted != null ? View.GONE : View.VISIBLE}"
                 />
@@ -291,7 +291,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
-                android:text="Re-Open Goal"
+                android:text="@string/re_open_goal"
                 android:backgroundTint="@color/green_success"
                 android:background="@drawable/blue_button"
                 android:visibility="@{goal.isCompleted != null || goal.isDeleted != null ? View.VISIBLE : View.INVISIBLE}"
@@ -309,7 +309,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
-                android:text="Delete Goal"
+                android:text="@string/delete_goal"
                 android:background="@drawable/blue_button"
                 android:backgroundTint="@color/ssRed"
                 android:visibility="@{goal.isDeleted != null ? View.VISIBLE : View.INVISIBLE}"
@@ -327,7 +327,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/blue"
                 android:textAllCaps="false"
-                android:text="Share Completed Goal"
+                android:text="@string/share_completed_goal"
                 android:background="@drawable/white_button_blue_border"
                 android:visibility="@{goal.isCompleted != null ? View.VISIBLE : View.INVISIBLE}"
                 />
