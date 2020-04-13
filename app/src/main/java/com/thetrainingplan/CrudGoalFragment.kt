@@ -21,6 +21,7 @@ import com.thetrainingplan.viewmodels.GoalsViewModel
 import kotlinx.android.synthetic.main.fragment_crud_goal.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
+import org.jetbrains.anko.okButton
 import org.jetbrains.anko.yesButton
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -119,10 +120,19 @@ class CrudGoalFragment : Fragment() {
                 c.set(Calendar.MONTH, monthOfYear)
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                viewModel.dateGoalDeadlineInMillie.value = c.timeInMillis
-                viewModel.dateGoalDeadline.value = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
+                if(c.timeInMillis < Calendar.getInstance().timeInMillis){
+                    inflater.context.alert ("You need to enter a date in the future"){
+                        okButton {  }
+                    }.show()
+                }
+                else{
+                    viewModel.dateGoalDeadlineInMillie.value = c.timeInMillis
+                    viewModel.dateGoalDeadline.value = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
 
-                viewModel.printDifference(Calendar.getInstance().time, c.time)
+                    viewModel.printDifference(Calendar.getInstance().time, c.time)
+                }
+
+
 
             }, year, month, day)
 
