@@ -20,8 +20,6 @@ import com.thetrainingplan.databinding.ActivityReadGoalsBinding
 import com.thetrainingplan.databinding.FragmentFragmentReadGoalsBinding
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
-import com.thetrainingplan.models.User
-import com.thetrainingplan.models.UserModel
 import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.GoalsViewModel
 import kotlinx.android.synthetic.main.activity_read_goals.*
@@ -38,10 +36,11 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var viewModel: GoalsViewModel
 
-    private var mCallbackCurrentUser = { _: User?, _: Exception? -> Unit}
     private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
     private var listOfGoalPins = ArrayList<String>()
     private val mapGoalList = HashMap<String, Goal>()
+
+    private var mCallbackAllUserGoalIds = { _:ArrayList<String?>?, _: Exception? -> Unit}
 
     private var localTracker : Int = 0
 
@@ -89,52 +88,55 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
             setUpRecyclerView()
         }
 
-        mCallbackCurrentUser = { data : User?, exc: Exception? ->
-            if(exc != null){
-                alert("current user exc: = ${exc.message}") {
-                    okButton {  }
-                }.show()
-            }
-            else{
-
-                if(data != null){
-                    data.goals?.let { listOfPin ->
-
-                        if(listOfPin.size > 0){
-                            for(pin in listOfPin){
-                                //clear cache - when goals have been removed
-                                val listOfCacheGoals = ArrayList(mapGoalList.values)
-                                for(i in listOfCacheGoals){
-                                    if(!listOfPin.contains(i.id)){ // it needs to match listOfPin as that is fresh from database
-                                        mapGoalList.remove(i.id)
-                                    }
-                                }
-
-
-                                // add goal listener
-                                val userId = FirebaseAuth.getInstance().uid
-                                if(userId != null){
-                                    GoalModel.addGoalSingleListener(userId, pin, mCallbackCurrentGoal)
-                                }
-
+        mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
+            data?.let {
+                if(data.size > 0){
+                    for(pin in data){
+                        //clear cache - when goals have been removed
+                        val listOfCacheGoals = ArrayList(mapGoalList.values)
+                        for(i in listOfCacheGoals){
+                            if(!data.contains(i.id)){ // it needs to match listOfPin as that is fresh from database
+                                mapGoalList.remove(i.id)
                             }
-                            listOfGoalPins = listOfPin
-                        }
-                        else{
-                            //remove listeners - if all goals have been deleted
-                            for(pin in listOfPin){
-                                GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)
-                            }
-
-                            // remove from local cache
-                            mapGoalList.clear()
-
-                            //update recycle view
-                            setUpRecyclerView()
                         }
 
+
+                        // add goal listener
+                        val userId = FirebaseAuth.getInstance().uid
+                        if(userId != null){
+                            pin?.let { it1 ->
+                                GoalModel.addGoalSingleListener(userId,
+                                    it1, mCallbackCurrentGoal)
+                            }
+                        }
 
                     }
+
+                    data.let { pinsList ->
+                        val pins = ArrayList<String>()
+
+                        for(pin in pinsList){
+                            pin?.let {
+                                pins.add(pin)
+                            }
+                        }
+
+                        listOfGoalPins = pins
+                    }
+
+                } else{
+                    //remove listeners - if all goals have been deleted
+                    for(pin in data){
+                        if (pin != null) {
+                            GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)
+                        }
+                    }
+
+                    // remove from local cache
+                    mapGoalList.clear()
+
+                    //update recycle view
+                    setUpRecyclerView()
                 }
             }
         }
@@ -183,7 +185,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
         super.onResume()
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
-            UserModel.addCurrentUserListener(userId, mCallbackCurrentUser)
+            GoalModel.addAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
         }
     }
 
@@ -192,7 +194,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
         super.onPause()
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
-            UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
+            GoalModel.removeAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
 
             for(pin in listOfGoalPins){
                 GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)

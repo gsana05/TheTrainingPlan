@@ -91,10 +91,10 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
     }
 
     private lateinit var viewModel: GoalsViewModel
-    private var mCallbackCurrentUser = { _: User?, _: Exception? -> Unit}
     private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
     private var listOfGoalPins = ArrayList<String>()
 
+    private var mCallbackAllUserGoalIds = { _:ArrayList<String?>?, _: Exception? -> Unit}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,8 +169,7 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
             }
         }
 
-
-        mCallbackCurrentUser = { data : User?, exc: Exception? ->
+        mCallbackAllUserGoalIds = { data : ArrayList<String?>?, exc : Exception? ->
             if(exc != null){
                 alert("current user exc: = ${exc.message}") {
                     okButton {  }
@@ -178,33 +177,41 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
             }
             else{
 
-                if(data != null){
-                    data.goals?.let { listOfPin ->
+                data?.let { listOfPin ->
 
-                        if(listOfPin.size > 0){
-                            listOfGoalPins = listOfPin
-                            for(pin in listOfPin){
-                                // add goal listener
-                                val userId = FirebaseAuth.getInstance().uid
-                                if(userId != null){
-                                    GoalModel.addGoalSingleListener(userId, pin, mCallbackCurrentGoal)
-                                }
+                    if(listOfPin.size > 0){
+                        val pins = ArrayList<String>()
 
+                        for(pin in listOfPin){
+                            pin?.let {
+                                pins.add(pin)
                             }
                         }
-                        else{
-                            view_goals_recycler_view.adapter = GoalsAdapter(ArrayList(), this)
-                            viewModel.numberOfOpenGoals.value = listOfPin.size
+
+                        listOfGoalPins = pins
+
+                        for(pin in listOfPin){
+                            // add goal listener
+                            val userId = FirebaseAuth.getInstance().uid
+                            if(userId != null){
+                                if (pin != null) {
+                                    GoalModel.addGoalSingleListener(userId, pin, mCallbackCurrentGoal)
+                                }
+                            }
+
                         }
-                    }?: run {
-                        view_goals_recycler_view.adapter = GoalsAdapter(ArrayList(), this)
-                        viewModel.numberOfOpenGoals.value = 0
                     }
+                    else{
+                        view_goals_recycler_view.adapter = GoalsAdapter(ArrayList(), this)
+                        viewModel.numberOfOpenGoals.value = listOfPin.size
+                    }
+                }?: run {
+                    view_goals_recycler_view.adapter = GoalsAdapter(ArrayList(), this)
+                    viewModel.numberOfOpenGoals.value = 0
                 }
+
             }
         }
-
-
 
         // show a date picker
         goals_spinner_goal_date_deadline_input.setOnClickListener {
@@ -321,7 +328,7 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
         super.onPause()
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
-            UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
+            GoalModel.removeAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
 
             for(pin in listOfGoalPins){
                 GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)
@@ -333,7 +340,7 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
         super.onResume()
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
-            UserModel.addCurrentUserListener(userId, mCallbackCurrentUser)
+            GoalModel.addAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
         }
     }
 
