@@ -1,12 +1,13 @@
 package com.thetrainingplan
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
-import com.thetrainingplan.databinding.ActivityGoalsBinding
 import com.thetrainingplan.databinding.ActivityUpdateGoalsBinding
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
@@ -32,6 +33,7 @@ class ActivityUpdateGoals : AppCompatActivity() {
         binding.viewModel = viewModel
 
         viewModel.finishUpdateGoals.observe(this, Observer {
+            dismissKeyboard()
             finish()
         })
 
@@ -42,8 +44,8 @@ class ActivityUpdateGoals : AppCompatActivity() {
                 if(data != null){
                     data.id?.let { goalPin ->
                         mapGoalList[goalPin] = data
-                        val goal = mapGoalList[goalPin]
-                        goal?.let {goal ->
+                        val currentGoal = mapGoalList[goalPin]
+                        currentGoal?.let {goal ->
                             viewModel.goal.value = goal
                             viewModel.goalSet.value = goal.goal
                             viewModel.dateGoalDeadlineInMillie.value = goal.goalDateDeadline
@@ -61,8 +63,16 @@ class ActivityUpdateGoals : AppCompatActivity() {
         }
 
         viewModel.finishUpdateGoalsActivityEvent.observe(this, Observer{
+            dismissKeyboard()
             finish()
         })
+    }
+
+    private fun dismissKeyboard(){
+        val inputManager:InputMethodManager =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        currentFocus?.let {
+            inputManager.hideSoftInputFromWindow(it.windowToken, InputMethodManager.SHOW_FORCED)
+        }
     }
 
     override fun onPause() {

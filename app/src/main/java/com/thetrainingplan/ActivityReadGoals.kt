@@ -1,10 +1,12 @@
 package com.thetrainingplan
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -202,6 +204,13 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
         }
     }
 
+    private fun dismissKeyboard(){
+        val inputManager: InputMethodManager =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        currentFocus?.let {
+            inputManager.hideSoftInputFromWindow(it.windowToken, InputMethodManager.SHOW_FORCED)
+        }
+    }
+
     @Suppress("DEPRECATION")
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
@@ -221,6 +230,8 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
         val mGoal = any as Goal
         when(view.id){
             R.id.goals_item_button -> {
+
+                dismissKeyboard()
 
                 val intent = Intent(this, ActivityUpdateGoals::class.java)
                 intent.putExtra("id", mGoal.id)

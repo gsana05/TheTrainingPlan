@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
@@ -125,6 +126,7 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
 
         viewModel.hasGoalSavedToDatabase.observe(this, Observer {
             if(it){
+                dismissKeyboard()
                 settings_switch.isChecked = true
                 val dialog = alert ("Goal has been saved successfully"){
                     okButton {}
@@ -272,6 +274,13 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
                     viewModel.spinnerPosition.value = position
                 }
             }
+        }
+    }
+
+    private fun dismissKeyboard(){
+        val inputManager: InputMethodManager =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        currentFocus?.let {
+            inputManager.hideSoftInputFromWindow(it.windowToken, InputMethodManager.SHOW_FORCED)
         }
     }
 
