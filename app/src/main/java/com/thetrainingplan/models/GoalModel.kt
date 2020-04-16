@@ -218,7 +218,7 @@ object GoalModel {
                 if(it.isSuccessful){
                     //call a firebase function to add goal id to the users list
                     if(isNew){
-                        goal.id?.let {idGoal ->
+                        goal.id?.let { _ ->
 
                             // write goal to userGoalsIds collection
                             addUserGoalIds(userId, goalId,goal, callback)
@@ -238,7 +238,7 @@ object GoalModel {
         }
     }
 
-    fun addUserGoalIds(userId: String, goalId: String, goal : Goal, onComplete: (Boolean?, Exception?) -> Unit){
+    private fun addUserGoalIds(userId: String, goalId: String, goal : Goal, onComplete: (Boolean?, Exception?) -> Unit){
         getDatabaseRefUserGoalsIds(userId).document(goalId).set(
             toMap(goal)).addOnCompleteListener {
             if(it.isSuccessful){
