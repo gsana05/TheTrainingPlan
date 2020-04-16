@@ -7,6 +7,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="viewModel" type="com.thetrainingplan.viewmodels.MainViewModel"/>
+        <variable name="AddTaskModel" type="com.thetrainingplan.models.AddTaskModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -158,7 +159,7 @@
                         app:layout_constraintTop_toBottomOf="@id/add_task_description"
                         app:layout_constraintStart_toStartOf="@id/add_task_name_title"
                         app:layout_constraintEnd_toStartOf="@+id/add_task_end_date_title"
-                        android:layout_marginTop="10dp"
+
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:background="@drawable/white_button_blue_border"
@@ -175,14 +176,14 @@
                         app:layout_constraintTop_toBottomOf="@id/add_task_description"
                         app:layout_constraintEnd_toEndOf="@+id/add_task_description"
                         app:layout_constraintStart_toEndOf="@+id/add_task_start_date_title"
-                        android:layout_marginTop="10dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:background="@drawable/white_button_blue_border"
                         android:textColor="@color/blue"
                         android:textStyle="bold"
-                        android:text="Set Start date"
+                        android:text="Set end date"
                         android:textAllCaps="false"
+                        android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
                         />
 
                 <TextView
@@ -223,6 +224,7 @@
                                 style="@style/RadioButton"
                                 android:width="10dp"
                                 android:checked="true"
+                                android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_NEVER)}"
                                 />
 
                         <RadioButton
@@ -231,7 +233,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Daily"
                                 style="@style/RadioButton"
-                                android:width="10dp" />
+                                android:width="10dp"
+                                android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_DAILY)}"
+                                />
 
                         <RadioButton
                                 android:id="@+id/add_event_week"
@@ -239,7 +243,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Weekly"
                                 style="@style/RadioButton"
-                                android:width="10dp" />
+                                android:width="10dp"
+                                android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_WEEKLY)}"
+                                />
 
                         <RadioButton
                                 android:id="@+id/add_event_month"
@@ -247,7 +253,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Monthly"
                                 style="@style/RadioButton"
-                                android:width="10dp" />
+                                android:width="10dp"
+                                android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_MONTHLY)}"
+                                />
 
                         <RadioButton
                                 android:id="@+id/add_event_year"
@@ -255,7 +263,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Annually"
                                 style="@style/RadioButton"
-                                android:width="10dp" />
+                                android:width="10dp"
+                                android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_ANNUALLY)}"
+                                />
                     </info.hoang8f.android.segmented.SegmentedGroup>
 
                 </RelativeLayout>
@@ -269,7 +279,9 @@
                         android:textColor="@color/blue"
                         android:layout_marginTop="20dp"
                         android:textSize="16sp"
-                        android:text="Every"/>
+                        android:text="Every"
+                        android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
+                        />
 
                 <EditText
                         android:id="@+id/add_task_every"
@@ -285,6 +297,7 @@
                         android:textSize="16sp"
                         android:inputType="numberDecimal"
                         android:background="@drawable/white_button_blue_border"
+                        android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
                         />
 
                 <TextView
@@ -298,6 +311,7 @@
                         android:textColor="@color/blue"
                         android:textSize="16sp"
                         android:text="Days"
+                        android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
                         />
 
                 <RelativeLayout
@@ -311,12 +325,15 @@
                         android:gravity="center">
 
                     <info.hoang8f.android.segmented.SegmentedGroup
+                            android:id="@+id/add_task_days_increment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             segmentedgroup:sc_border_width="1dp"
                             segmentedgroup:sc_corner_radius="5dp"
-                            segmentedgroup:sc_tint_color="@color/blue">
+                            segmentedgroup:sc_tint_color="@color/blue"
+                            android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
+                            >
 
                         <RadioButton
                                 android:id="@+id/add_event_minus"
@@ -337,19 +354,102 @@
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                        android:id="@+id/add_event_repeat_day"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/add_task_every"
+                        app:layout_constraintEnd_toEndOf="@+id/add_task_inc_dec"
+                        app:layout_constraintBottom_toTopOf="@id/add_task_submit"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:minHeight="0dp"
+                        android:gravity="center">
+
+                    <info.hoang8f.android.segmented.SegmentedGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            segmentedgroup:sc_border_width="1dp"
+                            segmentedgroup:sc_corner_radius="5dp"
+                            segmentedgroup:sc_tint_color="@color/blue"
+                            android:visibility="@{viewModel.addTaskState == 3 ? View.VISIBLE : View.GONE}"
+                            >
+
+                        <CheckBox
+                                android:id="@+id/add_event_mon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mon"
+                                style="@style/RadioButton"
+                                android:width="1dp"
+                                />
+
+                        <CheckBox
+                                android:id="@+id/add_event_tue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tues"
+                                style="@style/RadioButton"
+                                android:width="1dp" />
+
+                        <CheckBox
+                                android:id="@+id/add_event_wed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Wed"
+                                style="@style/RadioButton"
+                                android:width="1dp" />
+
+                        <CheckBox
+                                android:id="@+id/add_event_thu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Thurs"
+                                style="@style/RadioButton"
+                                android:width="1dp" />
+
+                        <CheckBox
+                                android:id="@+id/add_event_fri"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Fri"
+                                style="@style/RadioButton"
+                                android:width="1dp" />
+
+                        <RadioButton
+                                android:id="@+id/add_event_sat"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sat"
+                                style="@style/RadioButton"
+                                android:width="1dp" />
+
+                        <CheckBox
+                                android:id="@+id/add_event_sun"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sun"
+                                style="@style/RadioButton"
+                                android:width="1dp" />
+                    </info.hoang8f.android.segmented.SegmentedGroup>
+
+                </RelativeLayout>
+
 
                 <TextView
                         android:id="@+id/add_task_to_which_goal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/add_task_every"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/add_task_every_title"
+                        app:layout_constraintStart_toStartOf="@+id/add_task_every_title"
+                        app:layout_constraintEnd_toStartOf="@+id/add_event_repeat_day"
                         android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
                         android:textSize="16sp"
                         android:textColor="@color/blue"
                         android:textStyle="bold"
-                        android:text="Which goal is this task working towards?"
+                        android:text="Set task to a goal"
                         />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -358,7 +458,7 @@
                         android:layout_height="0dp"
                         app:layout_constraintTop_toBottomOf="@+id/add_task_to_which_goal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/add_event_repeat_day"
                         app:layout_constraintBottom_toTopOf="@+id/add_task_submit"
                         android:layout_marginBottom="2dp"
                         android:layout_marginTop="2dp"
