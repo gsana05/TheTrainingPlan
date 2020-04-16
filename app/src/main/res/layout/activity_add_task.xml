@@ -113,7 +113,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"
-                        android:text="Task Name"
+                        android:text="@string/task_name"
                         android:textColor="@color/blue"
                         android:textSize="16sp"/>
 
@@ -127,7 +127,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="10dp"
                         android:textSize="16sp"
-                        android:inputType="textCapSentences"/>
+                        android:inputType="textCapSentences"
+                        android:autofillHints="Enter task name"
+                        tools:ignore="LabelFor" />
 
                 <TextView
                         android:id="@+id/add_event_description_title"
@@ -137,7 +139,7 @@
                         app:layout_constraintStart_toStartOf="@+id/add_task_name_title"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/blue"
-                        android:text="Task Description"
+                        android:text="@string/task_description"
                         android:textSize="16sp"/>
 
                 <EditText
@@ -150,7 +152,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="10dp"
                         android:textSize="16sp"
-                        android:inputType="textCapSentences"/>
+                        android:inputType="textCapSentences"
+                        android:autofillHints="Enter task description"
+                        tools:ignore="LabelFor" />
 
                <Button
                         android:id="@+id/add_task_start_date_title"
@@ -159,13 +163,12 @@
                         app:layout_constraintTop_toBottomOf="@id/add_task_description"
                         app:layout_constraintStart_toStartOf="@id/add_task_name_title"
                         app:layout_constraintEnd_toStartOf="@+id/add_task_end_date_title"
-
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:background="@drawable/white_button_blue_border"
                         android:textColor="@color/blue"
                         android:textStyle="bold"
-                        android:text="Set Start date"
+                        android:text="@string/set_start_date"
                         android:textAllCaps="false"
                        />
 
@@ -181,7 +184,7 @@
                         android:background="@drawable/white_button_blue_border"
                         android:textColor="@color/blue"
                         android:textStyle="bold"
-                        android:text="Set end date"
+                        android:text="@string/set_end_date"
                         android:textAllCaps="false"
                         android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
                         />
@@ -193,7 +196,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/add_task_start_date_title"
                         app:layout_constraintStart_toStartOf="@id/add_task_name_title"
                         android:layout_marginTop="10dp"
-                        android:text="Repeating Task?"
+                        android:text="@string/repeating_task"
                         android:textColor="@color/blue"
                         android:textSize="16sp"
                         />
@@ -220,7 +223,7 @@
                                 android:id="@+id/add_event_never"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Never"
+                                android:text="@string/never"
                                 style="@style/RadioButton"
                                 android:width="10dp"
                                 android:checked="true"
@@ -231,7 +234,7 @@
                                 android:id="@+id/add_event_day"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Daily"
+                                android:text="@string/daily"
                                 style="@style/RadioButton"
                                 android:width="10dp"
                                 android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_DAILY)}"
@@ -241,7 +244,7 @@
                                 android:id="@+id/add_event_week"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Weekly"
+                                android:text="@string/weekly"
                                 style="@style/RadioButton"
                                 android:width="10dp"
                                 android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_WEEKLY)}"
@@ -251,7 +254,7 @@
                                 android:id="@+id/add_event_month"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Monthly"
+                                android:text="@string/monthly"
                                 style="@style/RadioButton"
                                 android:width="10dp"
                                 android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_MONTHLY)}"
@@ -261,7 +264,7 @@
                                 android:id="@+id/add_event_year"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Annually"
+                                android:text="@string/annually"
                                 style="@style/RadioButton"
                                 android:width="10dp"
                                 android:onClick="@{() -> viewModel.setState(viewModel.ADD_TASK_ANNUALLY)}"
@@ -279,7 +282,7 @@
                         android:textColor="@color/blue"
                         android:layout_marginTop="20dp"
                         android:textSize="16sp"
-                        android:text="Every"
+                        android:text="@string/every"
                         android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
                         />
 
@@ -298,7 +301,8 @@
                         android:inputType="numberDecimal"
                         android:background="@drawable/white_button_blue_border"
                         android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
-                        />
+                        android:autofillHints="Enter a number of days"
+                        tools:ignore="LabelFor" />
 
                 <TextView
                         android:id="@+id/add_task_inc_dec_title"
@@ -310,7 +314,7 @@
                         android:layout_marginEnd="5dp"
                         android:textColor="@color/blue"
                         android:textSize="16sp"
-                        android:text="Days"
+                        android:text="@string/days"
                         android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
                         />
 
@@ -339,7 +343,7 @@
                                 android:id="@+id/add_event_minus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="-"
+                                android:text="@string/minus"
                                 android:padding="0dp"
                                 style="@style/RadioButton"
                                 />
@@ -348,7 +352,7 @@
                                 android:id="@+id/add_event_plus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="+"
+                                android:text="@string/add"
                                 style="@style/RadioButton" />
                     </info.hoang8f.android.segmented.SegmentedGroup>
 
@@ -380,7 +384,7 @@
                                 android:id="@+id/add_event_mon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Mon"
+                                android:text="@string/mon"
                                 style="@style/RadioButton"
                                 android:width="1dp"
                                 />
@@ -389,7 +393,7 @@
                                 android:id="@+id/add_event_tue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Tues"
+                                android:text="@string/tues"
                                 style="@style/RadioButton"
                                 android:width="1dp" />
 
@@ -397,7 +401,7 @@
                                 android:id="@+id/add_event_wed"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Wed"
+                                android:text="@string/wed"
                                 style="@style/RadioButton"
                                 android:width="1dp" />
 
@@ -405,7 +409,7 @@
                                 android:id="@+id/add_event_thu"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Thurs"
+                                android:text="@string/thurs"
                                 style="@style/RadioButton"
                                 android:width="1dp" />
 
@@ -413,7 +417,7 @@
                                 android:id="@+id/add_event_fri"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Fri"
+                                android:text="@string/fri"
                                 style="@style/RadioButton"
                                 android:width="1dp" />
 
@@ -421,7 +425,7 @@
                                 android:id="@+id/add_event_sat"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Sat"
+                                android:text="@string/sat"
                                 style="@style/RadioButton"
                                 android:width="1dp" />
 
@@ -429,7 +433,7 @@
                                 android:id="@+id/add_event_sun"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Sun"
+                                android:text="@string/sun"
                                 style="@style/RadioButton"
                                 android:width="1dp" />
                     </info.hoang8f.android.segmented.SegmentedGroup>
@@ -449,7 +453,7 @@
                         android:textSize="16sp"
                         android:textColor="@color/blue"
                         android:textStyle="bold"
-                        android:text="Set task to a goal"
+                        android:text="@string/set_task_to_a_goal"
                         />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -476,7 +480,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/blue_button"
-                        android:text="Submit Task"
+                        android:text="@string/submit_task"
                         android:textColor="@color/white"
                         android:textAllCaps="false"
                         />
