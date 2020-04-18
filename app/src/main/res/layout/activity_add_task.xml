@@ -156,21 +156,20 @@
                         android:autofillHints="Enter task description"
                         tools:ignore="LabelFor" />
 
-               <Button
-                        android:id="@+id/add_task_start_date_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/add_task_description"
-                        app:layout_constraintStart_toStartOf="@id/add_task_name_title"
+                <Button
+                         android:id="@+id/add_task_start_date_title"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toStartOf="@+id/add_task_end_date_title"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:background="@drawable/white_button_blue_border"
-                        android:textColor="@color/blue"
-                        android:textStyle="bold"
-                        android:text="@string/set_start_date"
-                        android:textAllCaps="false"
-                       />
+                        app:layout_constraintStart_toStartOf="@id/add_task_name_title"
+                        app:layout_constraintTop_toBottomOf="@id/add_task_description"
+                         android:background="@drawable/white_button_blue_border"
+                         android:paddingStart="10dp"
+                         android:paddingEnd="10dp"
+                         android:text="@{viewModel.taskStartDate != null ? viewModel.taskStartDate : @string/set_start_date}"
+                         android:textAllCaps="false"
+                         android:textColor="@color/blue"
+                         android:textStyle="bold" />
 
                 <Button
                         android:id="@+id/add_task_end_date_title"
@@ -184,7 +183,7 @@
                         android:background="@drawable/white_button_blue_border"
                         android:textColor="@color/blue"
                         android:textStyle="bold"
-                        android:text="@string/set_end_date"
+                        android:text="@{viewModel.taskEndDate != null ? viewModel.taskEndDate : @string/set_end_date}"
                         android:textAllCaps="false"
                         android:visibility="@{viewModel.addTaskState != 1 ? View.VISIBLE : View.GONE}"
                         />

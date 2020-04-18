@@ -27,6 +27,9 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
     val ADD_TASK_MONTHLY = MutableLiveData<Int>().apply { value = AddTaskModel.MONTHLY }
     val ADD_TASK_ANNUALLY = MutableLiveData<Int>().apply { value = AddTaskModel.ANNUALLY }
 
+    val taskStartDate = MutableLiveData<String>()
+    val taskEndDate = MutableLiveData<String>()
+
     val addTaskState = MutableLiveData<Int>().apply { value = ADD_TASK_NEVER.value }
 
     var goalSelectedAddTask = MutableLiveData<String>().apply { value = "84fd28e1-36e3-404b-b201-a2736a88eb33" }
@@ -39,6 +42,7 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
     fun setState(state : Int){
         addTaskState.value = state
     }
+
 
     /*var filteredAgreements: LiveData<List<User?>>? = Transformations.switchMap(listOfUser) { users  ->
         getFilteredList(users)
