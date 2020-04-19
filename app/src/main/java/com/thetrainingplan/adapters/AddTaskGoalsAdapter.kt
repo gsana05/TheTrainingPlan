@@ -51,8 +51,8 @@ class AddTaskGoalsAdapter(private val goals : ArrayList<Goal>, private val liste
             val previousItem: Int = selectedItem
             selectedItem = position
 
-            notifyItemChanged(previousItem);
-            notifyItemChanged(position);
+            notifyItemChanged(previousItem)
+            notifyItemChanged(position)
         }
 
     }

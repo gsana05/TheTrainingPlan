@@ -303,8 +303,27 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
             mIsSaving = false
             return
         }
+        val goalId = viewModel.goalSelectedAddTask.value
+        if(goalId != null){
 
-        val newEvent = AddTask(null, add_task_name.text.toString(),Date(timeInMillieForStartDate!!),viewModel.addTaskState.value!!,add_task_description.text.toString(),null,null,null)
+            val goal = mapGoalList[goalId]
+            if(goal != null){
+                alert ("Are you happy to put this task towards: ${goal.goal}"){
+                    positiveButton("Yes"){
+
+                    }
+                    negativeButton("No"){
+                        mIsSaving = false
+                    }
+                }
+
+                if(!mIsSaving){
+                    return
+                }
+            }
+        }
+
+        val newEvent = AddTask(null, add_task_name.text.toString(),Date(timeInMillieForStartDate!!),viewModel.addTaskState.value!!,add_task_description.text.toString(),null,null,null,goalId)
 
         if(viewModel.addTaskState.value != AddTaskModel.NEVER){
             // do this if it is a repeating task
@@ -355,7 +374,25 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
             }
         }
 
-        val res = newEvent
+        val task = newEvent
+        val userId = FirebaseAuth.getInstance().uid
+        if(userId != null){
+            if (goalId != null) {
+                AddTaskModel.addTask(userId, goalId, task){ data : Boolean?, exc : Exception? ->
+                    if(data != null && data){
+                        alert ("Task has been saved"){
+                            okButton {  }
+                        }.show()
+                    }
+                    else{
+                        alert ("Task has NOT been saved"){
+                            okButton {  }
+                        }.show()
+                    }
+                }
+            }
+        }
+
     }
 
     fun setUpRecyclerView(mapGoalList : HashMap<String, Goal>){
@@ -384,6 +421,12 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
 
 
         sortedListByDeadlineDate.sortBy { list -> list.goalDateDeadline }
+
+            val setGoalId = sortedListByDeadlineDate[0].id
+            setGoalId?.let {
+                viewModel.goalSelectedAddTask.value = it
+            }
+
         it.adapter = AddTaskGoalsAdapter(sortedListByDeadlineDate, this)
 
         }
