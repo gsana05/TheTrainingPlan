@@ -81,11 +81,16 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             startActivity(intent)
         })
 
+        val callbackForAllGoalTasks = { data : ArrayList<AddTask?>?, exc : Exception? ->
+
+
+        }
+
         mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
             if(data != null){
 
                 val map = HashMap<String, ArrayList<AddTask?>?>()
-
+                val listOfAllTasks = ArrayList<AddTask>()
                 //to get the number of goals
                 val listOpenGoals = ArrayList<Goal>()
                 val listOfPinIds = data
@@ -107,8 +112,22 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                         AddTaskModel.addAllGoalTaskListeners(userId, goalId){ data : ArrayList<AddTask?>?, exc : Exception? ->
 
                                             // get all the task for each goal
+                                            data?.let {
+                                                for(i in it){
+                                                    i?.let {task ->
+                                                        listOfAllTasks.add(task)
+                                                    }
+                                                }
+                                            }
+
                                             map[goalId] = data
                                             val kok = map
+
+                                            main_recycler_view.also {
+                                                it.layoutManager = LinearLayoutManager(applicationContext)
+                                                it.adapter = WorkoutHistoryAdaptor(listOfAllTasks, this)
+                                            }
+
                                         }
 
                                     }
@@ -150,10 +169,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 }
             }
 
-            main_recycler_view.also {
+            /*main_recycler_view.also {
                 it.layoutManager = LinearLayoutManager(applicationContext)
                 it.adapter = WorkoutHistoryAdaptor(theUsers, this)
-            }
+            }*/
 
           /*  clientListAdapter = WorkoutHistoryAdaptor(theUsers, this)
             val mLayoutManager = LinearLayoutManager(applicationContext)
