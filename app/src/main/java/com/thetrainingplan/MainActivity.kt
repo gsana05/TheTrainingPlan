@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.WorkoutHistoryAdaptor
 import com.thetrainingplan.databinding.ActivityMainBinding
-import com.thetrainingplan.models.Goal
-import com.thetrainingplan.models.GoalModel
-import com.thetrainingplan.models.User
-import com.thetrainingplan.models.UserModel
+import com.thetrainingplan.models.*
 import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -87,6 +84,8 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
             if(data != null){
 
+                val map = HashMap<String, ArrayList<AddTask?>?>()
+
                 //to get the number of goals
                 val listOpenGoals = ArrayList<Goal>()
                 val listOfPinIds = data
@@ -102,6 +101,17 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                     }
 
                                     viewModel.numberOfOpenGoals.value = listOpenGoals.size
+
+                                    val userId = FirebaseAuth.getInstance().uid
+                                    if(userId != null){
+                                        AddTaskModel.addAllGoalTaskListeners(userId, goalId){ data : ArrayList<AddTask?>?, exc : Exception? ->
+
+                                            // get all the task for each goal
+                                            map[goalId] = data
+                                            val kok = map
+                                        }
+
+                                    }
                                 }
                             }
                         }

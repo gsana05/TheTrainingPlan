@@ -322,8 +322,7 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
                 }
             }
         }
-
-        val newEvent = AddTask(null, add_task_name.text.toString(),Date(timeInMillieForStartDate!!),viewModel.addTaskState.value!!,add_task_description.text.toString(),null,null,null,goalId)
+        val newEvent = AddTask(null, null,  add_task_name.text.toString(), add_task_description.text.toString(), timeInMillieForStartDate!!, null, 0, null, null, null, null, goalId)
 
         if(viewModel.addTaskState.value != AddTaskModel.NEVER){
             // do this if it is a repeating task
@@ -336,7 +335,7 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
             calendarEndDate!!.set(Calendar.HOUR_OF_DAY , 23)
             calendarEndDate!!.set(Calendar.MINUTE , 59)
             calendarEndDate!!.set(Calendar.SECOND , 59)
-            newEvent.endDate = Date(calendarEndDate!!.timeInMillis)
+            newEvent.endDate = calendarEndDate!!.timeInMillis
             newEvent.repeatEvery = mRepeatInterval
             if(viewModel.addTaskState.value!! == AddTaskModel.WEEKLY){
                 var days = 0
@@ -383,6 +382,7 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
                         alert ("Task has been saved"){
                             okButton {  }
                         }.show()
+                        finish()
                     }
                     else{
                         alert ("Task has NOT been saved"){
