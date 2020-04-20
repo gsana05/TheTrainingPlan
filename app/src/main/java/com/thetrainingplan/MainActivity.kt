@@ -17,6 +17,10 @@ import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
@@ -39,6 +43,8 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
     private val theUsers = ArrayList<User>()
     private var mCallbackAllUserGoalIds = { _:ArrayList<String?>?, _: Exception? -> Unit}
 
+    private var callbackForAllGoalTasks = { _:ArrayList<AddTask?>?, _: Exception? -> Unit}
+    private val mapOfTasksForGoals = HashMap<String, ArrayList<AddTask?>?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,15 +87,9 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             startActivity(intent)
         })
 
-        val callbackForAllGoalTasks = { data : ArrayList<AddTask?>?, exc : Exception? ->
-
-
-        }
-
         mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
             if(data != null){
 
-                val map = HashMap<String, ArrayList<AddTask?>?>()
                 val listOfAllTasks = ArrayList<AddTask>()
                 //to get the number of goals
                 val listOpenGoals = ArrayList<Goal>()
@@ -101,36 +101,42 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                             GoalModel.getGoal(userId, goalId){ data : Goal?, _: Exception? ->
                                 if(data != null){
 
+                                    // main activity displays number of open goals
                                     if(data.isCompleted == null && data.isDeleted == null){
                                         listOpenGoals.add(data)
                                     }
 
                                     viewModel.numberOfOpenGoals.value = listOpenGoals.size
 
-                                    val userId = FirebaseAuth.getInstance().uid
-                                    if(userId != null){
-                                        AddTaskModel.addAllGoalTaskListeners(userId, goalId){ data : ArrayList<AddTask?>?, exc : Exception? ->
+                                    // display today's tasks
+                                    callbackForAllGoalTasks = { tasks : ArrayList<AddTask?>?, _ : Exception? ->
 
-                                            // get all the task for each goal
-                                            data?.let {
-                                                for(i in it){
-                                                    i?.let {task ->
+                                        // get all the task for each goal
+                                        tasks?.let {
+                                            for(i in it){
+                                                i?.let {task ->
+
+                                                    val cal = Calendar.getInstance()
+                                                    val format = SimpleDateFormat("yyyyMMMdd")
+                                                    if (format.format(task.startDate)==format.format(cal.time)) {
                                                         listOfAllTasks.add(task)
                                                     }
                                                 }
                                             }
+                                        }
 
-                                            map[goalId] = data
-                                            val kok = map
+                                        mapOfTasksForGoals[goalId] = tasks
 
-                                            main_recycler_view.also {
-                                                it.layoutManager = LinearLayoutManager(applicationContext)
-                                                it.adapter = WorkoutHistoryAdaptor(listOfAllTasks, this)
-                                            }
 
+                                        main_recycler_view.also {
+                                            it.layoutManager = LinearLayoutManager(applicationContext)
+                                            it.adapter = WorkoutHistoryAdaptor(listOfAllTasks, this)
                                         }
 
                                     }
+
+                                    AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
+
                                 }
                             }
                         }
@@ -198,6 +204,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
             UserModel.removeAllUsersListeners(userId, mCallbackAllUsers)
             GoalModel.removeAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
+
+            for ((key, _) in mapOfTasksForGoals) {
+                AddTaskModel.removeAllGoalTasksListeners(key, callbackForAllGoalTasks)
+            }
         }
     }
 

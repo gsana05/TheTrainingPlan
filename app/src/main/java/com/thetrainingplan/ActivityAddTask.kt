@@ -148,7 +148,19 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
             c.set(Calendar.MONTH, monthOfYear)
             c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            if(c.timeInMillis < Calendar.getInstance().timeInMillis){
+            val date = SimpleDateFormat.getDateInstance(DateFormat.LONG).format(c.time)
+
+            if(isStartDate){
+                timeInMillieForStartDate = c.timeInMillis // this is what stored to database for task start date
+                viewModel.taskStartDate.value = date
+            }
+            else{
+                timeInMillieForEndDate = c.timeInMillis // this is what stored to database for task start date
+                calendarEndDate = c
+                viewModel.taskEndDate.value = date
+            }
+
+         /*   if(c.timeInMillis < Calendar.getInstance().timeInMillis){
                 alert ("You need to enter a date in the future"){
                     okButton {  }
                 }.show()
@@ -167,7 +179,7 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
                     viewModel.taskEndDate.value = date
                 }
 
-            }
+            }*/
 
         }, year, month, day)
 
