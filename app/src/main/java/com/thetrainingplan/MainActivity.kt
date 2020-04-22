@@ -1,8 +1,14 @@
 package com.thetrainingplan
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,10 +23,13 @@ import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
+import org.jetbrains.anko.runOnUiThread
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
+import kotlin.concurrent.schedule
+
 
 class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
@@ -64,6 +73,53 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         setupMenu(shop_drawer_layout_main, shop_nav_view_main, shop_navigation_toolbar)
+
+
+        //Get the Date corresponding to 11:01:00 pm today.
+        //Get the Date corresponding to 11:01:00 pm today.
+
+        val userId = FirebaseAuth.getInstance().uid
+
+        if(userId != null){
+            val calendar = Calendar.getInstance()
+            calendar[Calendar.HOUR_OF_DAY] = 21
+            calendar[Calendar.MINUTE] = 52
+            calendar[Calendar.SECOND] = 59
+            val time = calendar.time
+
+            setAlarm(time)
+        }
+
+
+
+
+   /*     this.runOnUiThread {
+
+            Looper.prepare()
+
+            val calendar = Calendar.getInstance()
+            calendar[Calendar.HOUR_OF_DAY] = 19
+            calendar[Calendar.MINUTE] = 56
+            calendar[Calendar.SECOND] = 59
+            val time = calendar.time
+
+            Timer("SettingUp", false).schedule(time) {
+
+                alert ("it is midnight - get ready to start your new tasks for today"){
+                    okButton {  }
+                }.show()
+
+                //updateTasksAtMidNight()
+            }
+        }*/
+
+       /* val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            alert ("it is midnight - get ready to start your new tasks for today"){
+                okButton {  }
+            }.show()
+        }, 10000)*/
+
 
         viewModel.startAddTaskActivityEvent.observe(this, Observer {
             val intent = Intent(this, ActivityAddTask::class.java)
@@ -135,6 +191,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                                     }
 
+                                    //listen to all the tasks for that goal
                                     AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
 
                                 }
@@ -191,11 +248,27 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         }
     }
 
+    private fun setAlarm(date: Date) {
+        val alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, ActivityAlarmBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0,  intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+            date.time, 86400000,
+            pendingIntent)
+
+        /*alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+            date.time, AlarmManager.INTERVAL_DAY,
+            pendingIntent)*/
+    }
+
     /*private fun goToUrl(url: String){
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
     }*/
+
+
 
     override fun onPause() {
         super.onPause()
@@ -223,4 +296,5 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             GoalModel.addAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
         }
     }
+
 }

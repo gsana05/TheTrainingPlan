@@ -11,6 +11,17 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ActivityRefreshTasks"></activity>
+
+        <receiver
+                android:name=".ActivityAlarmBroadcastReceiver"
+                android:enabled="true"
+                android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <activity
                 android:name=".ActivityAddTask"
                 android:screenOrientation="portrait"
