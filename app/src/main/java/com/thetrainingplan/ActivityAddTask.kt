@@ -334,7 +334,10 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
                 }
             }
         }
-        val newEvent = AddTask(null, null,  add_task_name.text.toString(), add_task_description.text.toString(), timeInMillieForStartDate!!, null, 0, null, null, null, null, goalId)
+
+
+
+        val newEvent = AddTask(null, null,  add_task_name.text.toString(), add_task_description.text.toString(), timeInMillieForStartDate!!, null, viewModel.addTaskState.value!!, null, null, null, null, goalId)
 
         if(viewModel.addTaskState.value != AddTaskModel.NEVER){
             // do this if it is a repeating task

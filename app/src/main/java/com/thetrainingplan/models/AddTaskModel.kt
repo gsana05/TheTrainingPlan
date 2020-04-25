@@ -4,7 +4,9 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
 import java.io.InvalidObjectException
 import java.lang.Exception
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 object AddTaskModel {
@@ -99,6 +101,138 @@ object AddTaskModel {
             }
         }
     }
+
+    fun filterEventsForDate(diaryEntries: ArrayList<AddTask>, cal: Calendar): ArrayList<AddTask> {
+        val items = ArrayList<AddTask>()
+        val date = Date(cal.timeInMillis)
+
+        for (d in diaryEntries) {
+
+            val format = SimpleDateFormat("yyyyMMMdd")
+            if (format.format(d.startDate) == format.format(date) && d.repeatType == NEVER) { // did it start today
+                items.add(d)
+            }
+
+            if ( d.endDate == null) { // is the repeating date valid
+                continue
+            }
+
+            val startDate = d.startDate
+            val startDateCal = Calendar.getInstance()
+            startDate?.let {
+                startDateCal.time = Date(startDate)
+            }
+
+            startDateCal.set(Calendar.HOUR_OF_DAY,0)
+            startDateCal.set(Calendar.MINUTE,0)
+            startDateCal.set(Calendar.SECOND,0)
+
+            val endDate = d.endDate
+            val endDateCal = Calendar.getInstance()
+            endDate?.let {
+                endDateCal.time = Date(endDate)
+            }
+
+            endDateCal.set(Calendar.HOUR_OF_DAY,23)
+            endDateCal.set(Calendar.MINUTE,59)
+            endDateCal.set(Calendar.SECOND,59)
+
+
+            if (!startDateCal.time.before(date) || !endDateCal.time.after(date)) { // does it span today
+                continue
+            }
+
+            d.startDate?.let {
+                val mod = timePeriodBetween(Date(it) , d.repeatType) % d.repeatEvery!!
+                val dayOfTheMonth = cal.get(Calendar.DAY_OF_MONTH)
+                val monthOfTheDay = cal.get(Calendar.MONTH)
+
+                val eventCalendar = Calendar.getInstance()
+                eventCalendar.time = Date(it)
+
+                if (d.endDate != null && d.repeatType == DAILY) {// daily repeat
+                    // daily repeat
+                    if ((timePeriodBetween(date, d.repeatType) % d.repeatEvery!!) == mod) {
+                        items.add(d)
+                    }
+                }
+
+                if (d.repeatType == WEEKLY) { // weekly repeat
+
+                    d.repeatWeekdays.let {
+                        // sunday
+                        var dayOfWeek = (cal.get(Calendar.DAY_OF_WEEK) + 5) - 7
+
+                        if(dayOfWeek == -1){
+                            dayOfWeek = 6
+                        }
+
+                        if ((d.repeatWeekdays!! and (1 shl dayOfWeek)) != 0) {
+                            if ((timePeriodBetween(date, d.repeatType) % d.repeatEvery!!) == mod) {
+                                items.add(d)
+                            }
+                        }
+                    }
+                }
+
+                if (d.repeatType == MONTHLY) {  // monthly repeat
+                    if (dayOfTheMonth == eventCalendar.get(Calendar.DAY_OF_MONTH)) {
+                        d.repeatEvery?.let {
+                            if ((timePeriodBetween(date, d.repeatType) % d.repeatEvery!!) == mod) {
+                                items.add(d)
+                            }
+                        }
+                    }
+                }
+
+                if (d.repeatType == ANNUALLY) {
+                    if (dayOfTheMonth == eventCalendar.get(Calendar.DAY_OF_MONTH) && monthOfTheDay == eventCalendar.get(Calendar.MONTH)) {
+                        d.repeatEvery?.let {
+                            if ((timePeriodBetween(date, d.repeatType) % d.repeatEvery!!) == mod) {
+                                items.add(d)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return items
+    }
+
+    private fun timePeriodBetween(startDate:Date, repeatType:Int):Int{
+        val startOfTimeCalendar = Calendar.getInstance()
+        startOfTimeCalendar.time = Date(0)
+
+        val startDateCal = Calendar.getInstance()
+        startDateCal.setTime(startDate)
+        startDateCal.set(Calendar.MILLISECOND,0)
+        startDateCal.set(Calendar.SECOND,0)
+        startDateCal.set(Calendar.MINUTE,0)
+        startDateCal.set(Calendar.HOUR,0)
+
+        val diffMillis = startDateCal.timeInMillis-startOfTimeCalendar.timeInMillis
+
+        when(repeatType){
+            NEVER->{
+                return 0
+            }
+            DAILY->{
+                return TimeUnit.MILLISECONDS.toDays(diffMillis).toInt()
+            }
+            WEEKLY->{
+                return TimeUnit.MILLISECONDS.toDays(diffMillis).toInt()/7
+            }
+            MONTHLY->{
+                return TimeUnit.MILLISECONDS.toDays(diffMillis).toInt()/28
+            }
+            ANNUALLY->{
+                return TimeUnit.MILLISECONDS.toDays(diffMillis).toInt()/365
+            }
+        }
+        return 0
+    }
+
 
     private fun getTask(snapshot: DocumentSnapshot) : AddTask?{
 

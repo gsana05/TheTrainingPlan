@@ -167,8 +167,22 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                     // display today's tasks
                                     callbackForAllGoalTasks = { tasks : ArrayList<AddTask?>?, _ : Exception? ->
 
-                                        // get all the task for each goal
+
+                                        var testList = ArrayList<AddTask>()
                                         tasks?.let {
+                                            for( i in it){
+                                                i?.let { t ->
+                                                    testList.add(t)
+                                                }
+                                            }
+                                        }
+
+                                        val res = AddTaskModel.filterEventsForDate(testList, Calendar.getInstance())
+
+                                        val result = res
+
+                                        // get all the task for each goal
+                                        /*tasks?.let {
                                             for(i in it){
                                                 i?.let {task ->
 
@@ -181,12 +195,12 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                             }
                                         }
 
-                                        mapOfTasksForGoals[goalId] = tasks
+                                        mapOfTasksForGoals[goalId] = tasks*/
 
 
                                         main_recycler_view.also {
                                             it.layoutManager = LinearLayoutManager(applicationContext)
-                                            it.adapter = WorkoutHistoryAdaptor(listOfAllTasks, this)
+                                            it.adapter = WorkoutHistoryAdaptor(result, this)
                                         }
 
                                     }
