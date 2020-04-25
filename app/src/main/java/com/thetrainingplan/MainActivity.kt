@@ -78,7 +78,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         //Get the Date corresponding to 11:01:00 pm today.
         //Get the Date corresponding to 11:01:00 pm today.
 
-        val userId = FirebaseAuth.getInstance().uid
+       /* val userId = FirebaseAuth.getInstance().uid
 
         if(userId != null){
             val calendar = Calendar.getInstance()
@@ -88,7 +88,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             val time = calendar.time
 
             setAlarm(time)
-        }
+        }*/
 
 
 
@@ -168,16 +168,16 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                     callbackForAllGoalTasks = { tasks : ArrayList<AddTask?>?, _ : Exception? ->
 
 
-                                        var testList = ArrayList<AddTask>()
+
                                         tasks?.let {
                                             for( i in it){
                                                 i?.let { t ->
-                                                    testList.add(t)
+                                                    listOfAllTasks.add(t)
                                                 }
                                             }
                                         }
 
-                                        val res = AddTaskModel.filterEventsForDate(testList, Calendar.getInstance())
+                                        val res = AddTaskModel.filterEventsForDate(listOfAllTasks, Calendar.getInstance())
 
                                         val result = res
 
