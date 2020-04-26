@@ -62,6 +62,7 @@
                 android:textColor="@color/blue"
                 android:textStyle="bold"
                 android:text="DATE"
+                android:visibility="gone"
                 />
 
         <TextView
@@ -75,6 +76,7 @@
                 android:layout_marginEnd="5dp"
                 android:textColor="@color/blue"
                 android:text="@{U.formatDate(user.startDate, false)}"
+                android:visibility="gone"
                 />
 
         <Button

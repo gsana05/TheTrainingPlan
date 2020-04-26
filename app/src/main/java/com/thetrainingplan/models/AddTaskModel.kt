@@ -117,12 +117,16 @@ object AddTaskModel {
                 continue
             }
 
+            //after this point the task has been filtered for only repeating tasks
+            // repeating asks begin
+
             val startDate = d.startDate
             val startDateCal = Calendar.getInstance()
             startDate?.let {
                 startDateCal.time = Date(startDate)
             }
 
+            // sets start date to the very first second of the day
             startDateCal.set(Calendar.HOUR_OF_DAY,0)
             startDateCal.set(Calendar.MINUTE,0)
             startDateCal.set(Calendar.SECOND,0)
@@ -133,16 +137,22 @@ object AddTaskModel {
                 endDateCal.time = Date(endDate)
             }
 
+            // sets end date to the very last second of the day
             endDateCal.set(Calendar.HOUR_OF_DAY,23)
             endDateCal.set(Calendar.MINUTE,59)
             endDateCal.set(Calendar.SECOND,59)
 
+            val s = startDateCal.time
+            val e = endDateCal.time
 
             if (!startDateCal.time.before(date) || !endDateCal.time.after(date)) { // does it span today
                 continue
             }
 
             d.startDate?.let {
+
+                val yt = timePeriodBetween(Date(it) , d.repeatType)
+
                 val mod = timePeriodBetween(Date(it) , d.repeatType) % d.repeatEvery!!
                 val dayOfTheMonth = cal.get(Calendar.DAY_OF_MONTH)
                 val monthOfTheDay = cal.get(Calendar.MONTH)
@@ -152,8 +162,12 @@ object AddTaskModel {
 
                 if (d.endDate != null && d.repeatType == DAILY) {// daily repeat
                     // daily repeat
-                    if ((timePeriodBetween(date, d.repeatType) % d.repeatEvery!!) == mod) {
+                    val p = timePeriodBetween(date, d.repeatType) % d.repeatEvery!!
+                    if ((timePeriodBetween(date, d.repeatType) % d.repeatEvery!!) == mod) { // this check the stat date and the today's date are the same
                         items.add(d)
+                    }
+                    else{
+                        val i = 2
                     }
                 }
 
@@ -213,11 +227,13 @@ object AddTaskModel {
 
         val diffMillis = startDateCal.timeInMillis-startOfTimeCalendar.timeInMillis
 
+        // this returns you the number of days from January 1970 until the start date
         when(repeatType){
             NEVER->{
                 return 0
             }
             DAILY->{
+                val i = TimeUnit.MILLISECONDS.toDays(diffMillis).toInt()
                 return TimeUnit.MILLISECONDS.toDays(diffMillis).toInt()
             }
             WEEKLY->{
