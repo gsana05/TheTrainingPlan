@@ -264,7 +264,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/today_view_goals_heading"
                             app:layout_constraintStart_toStartOf="@+id/today_view_goals_heading"
                             app:layout_constraintBottom_toTopOf="@id/guideline_today_view"
-                            android:text="@string/you_have_set_5_tasks"
+                            android:text="@{`You have ` + viewModel.numberOfTodayTasks + ` tasks today!`}"
                             android:textSize="16sp"
                             android:textColor="@color/white"
                             app:layout_constraintVertical_chainStyle="packed"

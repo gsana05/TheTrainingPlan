@@ -15,6 +15,7 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
     //val listOfUser =  MutableLiveData<ArrayList<User?>>()
     val currentUser = MutableLiveData<User>()
     val numberOfOpenGoals = MutableLiveData<Int>()
+    val numberOfTodayTasks = MutableLiveData<Int>()
     val startGoalsActivityEvent = LiveEvent<Void>()
     val startEnrollActivityEvent = LiveEvent<Void>()
     val startReadGoalsActivityEvent = LiveEvent<Void>()

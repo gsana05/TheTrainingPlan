@@ -292,6 +292,19 @@ object AddTaskModel {
     }
 
 
+    fun deleteTask(userId: String, goalId: String, taskId : String, onComplete : (data : Boolean?, exc : Exception?) -> Unit){
+        firebaseRefAddTask(userId, goalId).document(taskId).delete().addOnCompleteListener {
+            if(it.isSuccessful){
+                onComplete(true, null)
+            }
+            else{
+                onComplete(false, it.exception)
+            }
+        }
+    }
+
+
+
     fun addTask(userId: String, goalId: String, addTask: AddTask, onComplete : (data : Boolean?, exc : Exception?) -> Unit){
         firebaseRefAddTask(userId, goalId).add(toMap(addTask)).addOnCompleteListener {task ->
 

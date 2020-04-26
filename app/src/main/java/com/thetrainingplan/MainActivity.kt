@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -38,11 +37,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             val task = any as AddTask
             when(view.id){
                 R.id.recycler_view_button -> {
-                    task.goalId?.let { taskUpdateAlert(task.name, it) }
-                  /*  alert (theUser.name){
-                        okButton {  }
-                    }.show()
-                    Toast.makeText(applicationContext, "Book Button Pressed", Toast.LENGTH_LONG).show()*/
+                    task.goalId?.let { task.id?.let { it1 -> taskUpdateAlert(task.name, it, it1) } }
                 }
             }
         }
@@ -206,6 +201,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                         mapOfTasksForGoals[goalId] = tasks*/
 
 
+                                        viewModel.numberOfTodayTasks.value = result.size
                                         main_recycler_view.also {
                                             it.layoutManager = LinearLayoutManager(applicationContext)
                                             it.adapter = TasksAdaptor(result, this)
@@ -290,7 +286,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         startActivity(i)
     }*/
 
-        private fun taskUpdateAlert(taskName : String, goalId : String){
+        private fun taskUpdateAlert(taskName: String, goalId: String, taskId : String){
 
             val builder = AlertDialog.Builder(this)
             val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
@@ -317,7 +313,28 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                         goalId.text = data.goal
                     }
                 }
+
+                val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
+                delete.setOnClickListener {
+                    AddTaskModel.deleteTask(userId, goalId, taskId){ data : Boolean?, exc : Exception? ->
+
+                        if(data != null && data){
+                            alert ("Task has been deleted"){
+                                okButton {  }
+                            }.show()
+                        }
+                        else{
+                            alert ("Task has not been deleted"){
+                                okButton {  }
+                            }.show()
+                        }
+
+                    }
+                }
+
             }
+
+
 
 
 
