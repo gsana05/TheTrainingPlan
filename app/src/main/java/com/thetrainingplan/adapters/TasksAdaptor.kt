@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thetrainingplan.R
 import com.thetrainingplan.databinding.MainRecyclerViewItemBinding
 import com.thetrainingplan.models.AddTask
-import com.thetrainingplan.models.User
 import com.thetrainingplan.util.RecyclerViewClickListener
 
-class WorkoutHistoryAdaptor(private val users : ArrayList<AddTask>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter <WorkoutHistoryAdaptor.ViewHolder>(){
+class TasksAdaptor(private val users : ArrayList<AddTask>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter <TasksAdaptor.ViewHolder>(){
     /*override fun setData(items: List<User>?) {
         agreements = items ?: emptyList()
         notifyDataSetChanged()

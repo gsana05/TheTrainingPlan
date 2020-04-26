@@ -1,21 +1,23 @@
 package com.thetrainingplan
 
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
-import android.widget.TimePicker
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.thetrainingplan.adapters.WorkoutHistoryAdaptor
+import com.thetrainingplan.adapters.TasksAdaptor
 import com.thetrainingplan.databinding.ActivityMainBinding
 import com.thetrainingplan.models.*
 import com.thetrainingplan.util.RecyclerViewClickListener
@@ -23,27 +25,33 @@ import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
-import org.jetbrains.anko.runOnUiThread
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.concurrent.schedule
 
 
 class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
     override fun onRecyclerViewItemClick(view: View, any : Any) {
 
-        val theUser = any as User
-        when(view.id){
-            R.id.recycler_view_button -> {
-                alert ("${theUser.name}"){
-                    okButton {  }
-                }.show()
-                Toast.makeText(applicationContext, "Book Button Pressed", Toast.LENGTH_LONG).show()
+        if(any is AddTask){
+            val task = any as AddTask
+            when(view.id){
+                R.id.recycler_view_button -> {
+                    task.goalId?.let { taskUpdateAlert(task.name, it) }
+                  /*  alert (theUser.name){
+                        okButton {  }
+                    }.show()
+                    Toast.makeText(applicationContext, "Book Button Pressed", Toast.LENGTH_LONG).show()*/
+                }
             }
         }
+        else{
+            alert ("Please contact support - Something went wrong"){
+                okButton {  }
+            }.show()
+        }
+
     }
 
     private lateinit var viewModel: MainViewModel
@@ -200,7 +208,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                                         main_recycler_view.also {
                                             it.layoutManager = LinearLayoutManager(applicationContext)
-                                            it.adapter = WorkoutHistoryAdaptor(result, this)
+                                            it.adapter = TasksAdaptor(result, this)
                                         }
 
                                     }
@@ -282,6 +290,63 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         startActivity(i)
     }*/
 
+        private fun taskUpdateAlert(taskName : String, goalId : String){
+
+            val builder = AlertDialog.Builder(this)
+            val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
+            val inflatedLayout: View = layoutInflater.inflate(R.layout.task_update_alert, viewGroup, false)
+            builder.setView(inflatedLayout)
+
+            val dialog = builder.show()
+            dialog.setCancelable(false)
+
+            val exit : ImageView
+                    = inflatedLayout.findViewById(R.id.update_task_exit)
+            exit.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            val name: TextView = inflatedLayout.findViewById(R.id.update_task_task_input)
+            name.text = taskName
+
+            val userId = FirebaseAuth.getInstance().uid
+            if(userId != null){
+                GoalModel.getGoal(userId, goalId){ data : Goal?, exc : Exception? ->
+                    if(data != null){
+                        val goalId : TextView = inflatedLayout.findViewById(R.id.update_task_task_towards_spinner)
+                        goalId.text = data.goal
+                    }
+                }
+            }
+
+
+
+      /*  val title: TextView = inflatedLayout.findViewById(R.id.notification_alert_title)
+        notificationTitle?.let {
+            title.text = it
+        }
+
+        val body: TextView = inflatedLayout.findViewById(R.id.notification_alert_body)
+        notificationBody?.let {
+            body.text = it
+        }
+
+        val link: Button = inflatedLayout.findViewById(R.id.notification_alert_link_button)
+        if(notificationLink != null){
+            link.visibility = View.VISIBLE
+            link.setOnClickListener {
+                //goToUrl(notificationLink)
+            }
+        }
+        else{
+            link.visibility = View.GONE
+        }
+
+        val dismissBtn: Button = inflatedLayout.findViewById(R.id.notification_alert_dismiss_button)
+        dismissBtn.setOnClickListener {
+            dialog.dismiss()
+        }*/
+    }
 
 
     override fun onPause() {
