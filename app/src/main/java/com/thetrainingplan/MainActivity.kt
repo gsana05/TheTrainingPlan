@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.TasksAdaptor
 import com.thetrainingplan.databinding.ActivityMainBinding
@@ -37,7 +38,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             val task = any as AddTask
             when(view.id){
                 R.id.recycler_view_button -> {
-                    task.goalId?.let { task.id?.let { it1 -> taskUpdateAlert(task.name, it, it1) } }
+                    task.goalId?.let { task.id?.let { it1 -> taskUpdateAlert(task, task.name, it, it1) } }
                 }
             }
         }
@@ -57,6 +58,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
     private var callbackForAllGoalTasks = { _:ArrayList<AddTask?>?, _: Exception? -> Unit}
     private val mapOfTasksForGoals = HashMap<String, ArrayList<AddTask?>?>()
+
+    //private val listOfAllTasks = ArrayList<AddTask>()
+
+    private var mapOfAllTasks = HashMap<String, AddTask>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,7 +154,6 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
             if(data != null){
 
-                val listOfAllTasks = ArrayList<AddTask>()
                 //to get the number of goals
                 val listOpenGoals = ArrayList<Goal>()
                 val listOfPinIds = data
@@ -172,15 +176,29 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
 
 
+
                                         tasks?.let {
+
+
+                                            // workout which task has been deleted and remove from the cache
+                                            if(tasks.size > ArrayList(mapOfAllTasks.values).size){
+
+                                            }
+
+
                                             for( i in it){
                                                 i?.let { t ->
-                                                    listOfAllTasks.add(t)
+                                                    t.id?.let {taskId ->
+                                                        mapOfAllTasks[taskId] = t
+                                                    }
                                                 }
                                             }
                                         }
 
-                                        val res = AddTaskModel.filterEventsForDate(listOfAllTasks, Calendar.getInstance())
+                                        val res = AddTaskModel.filterEventsForDate(ArrayList(mapOfAllTasks.values), Calendar.getInstance())
+
+                                        val checkForDeletedOrDone = AddTaskModel.filterForDoneOrDeleted(res)
+
 
                                         val result = res
 
@@ -204,7 +222,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                         viewModel.numberOfTodayTasks.value = result.size
                                         main_recycler_view.also {
                                             it.layoutManager = LinearLayoutManager(applicationContext)
-                                            it.adapter = TasksAdaptor(result, this)
+                                            it.adapter = TasksAdaptor(checkForDeletedOrDone, this)
                                         }
 
                                     }
@@ -286,7 +304,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         startActivity(i)
     }*/
 
-        private fun taskUpdateAlert(taskName: String, goalId: String, taskId : String){
+        private fun taskUpdateAlert(task : AddTask, taskName: String, goalId: String, taskId : String){
 
             val builder = AlertDialog.Builder(this)
             val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
@@ -316,12 +334,39 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                 val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
                 delete.setOnClickListener {
-                    AddTaskModel.deleteTask(userId, goalId, taskId){ data : Boolean?, exc : Exception? ->
+
+                    AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
+                        if(data != null && data){
+                            alert ("success"){
+                                okButton {  }
+                            }.show()
+                            dialog.dismiss()
+                        }
+                        else{
+                            alert ("fail"){
+                                okButton {  }
+                            }.show()
+                            dialog.dismiss()
+                        }
+                    }
+
+                  /*  AddTaskModel.deleteTask(userId, goalId, taskId){ data : Boolean?, exc : Exception? ->
 
                         if(data != null && data){
                             alert ("Task has been deleted"){
                                 okButton {  }
                             }.show()
+
+                            mapOfAllTasks.remove(taskId)
+                            dialog.dismiss()
+                           *//* for(addTask in listOfAllTasks){
+                                if(addTask.id == taskId){
+                                    listOfAllTasks.remove(addTask)
+                                    break
+                                }
+                            }*//*
+
+
                         }
                         else{
                             alert ("Task has not been deleted"){
@@ -329,7 +374,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                             }.show()
                         }
 
-                    }
+                    }*/
                 }
 
             }

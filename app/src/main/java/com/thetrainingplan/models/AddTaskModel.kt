@@ -1,13 +1,15 @@
 package com.thetrainingplan.models
 
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.*
-import java.io.InvalidObjectException
-import java.lang.Exception
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+
 
 object AddTaskModel {
 
@@ -100,6 +102,63 @@ object AddTaskModel {
                 mAllGoalTasksCallbacks[goalId] = callbackList // put the callback list back into list without the one just removed
             }
         }
+    }
+
+    fun addToDoneDates(task : AddTask, userId: String, goalId: String, taskId : String, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
+        val newDeletedTasks = ArrayList<Date>()
+        val currentDeletedTasks = task.deletedDates
+        val date = Calendar.getInstance().time
+
+
+       currentDeletedTasks?.let {
+           newDeletedTasks.addAll(currentDeletedTasks)
+       }
+
+        newDeletedTasks.add(date)
+
+
+        firebaseRefAddTask(userId, goalId).document(taskId).update("deletedDates", newDeletedTasks).addOnCompleteListener {
+            if(it.isSuccessful){
+                onComplete(true, null)
+            }
+            else{
+                onComplete(false, null)
+            }
+        }
+    }
+
+    fun filterForDoneOrDeleted(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
+
+        val todayDate = Date(Calendar.getInstance().timeInMillis)
+
+        for(task in tasks){
+            if(task.deletedDates == null){
+                continue
+            }
+            else{
+                val format = SimpleDateFormat("yyyyMMMdd")
+                task.deletedDates?.let {dates ->
+                    val timeStampDates = dates as ArrayList<Timestamp>
+
+                    for(stamp in timeStampDates){
+
+                        val date = stamp.toDate()
+
+                        val deletedDate = format.format(date)
+                        val dateToday = format.format(todayDate)
+
+                        if(deletedDate == dateToday){
+                            tasks.remove(task)
+                        }
+
+                    }
+                }
+
+            }
+
+        }
+
+        return tasks
     }
 
     fun filterEventsForDate(diaryEntries: ArrayList<AddTask>, cal: Calendar): ArrayList<AddTask> {
