@@ -320,24 +320,32 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 }
 
                 val completed : Button = inflatedLayout.findViewById(R.id.update_task_complete_button)
-                completed.setOnClickListener {
-
-                    AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
-                        if(data != null && data){
-                            alert ("success"){
-                                okButton {  }
-                            }.show()
-                            dialog.dismiss()
-                        }
-                        else{
-                            alert ("fail"){
-                                okButton {  }
-                            }.show()
-                            dialog.dismiss()
-                        }
-                    }
-
+                val isCompleted = AddTaskModel.checkTaskIsCompleted(task)
+                if(isCompleted){
+                    completed.visibility = View.GONE
                 }
+                else{
+                    completed.visibility = View.VISIBLE
+                    completed.setOnClickListener {
+
+                        AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
+                            if(data != null && data){
+                                alert ("success"){
+                                    okButton {  }
+                                }.show()
+                                dialog.dismiss()
+                            }
+                            else{
+                                alert ("fail"){
+                                    okButton {  }
+                                }.show()
+                                dialog.dismiss()
+                            }
+                        }
+
+                    }
+                }
+
 
                 val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
                 delete.setOnClickListener {
