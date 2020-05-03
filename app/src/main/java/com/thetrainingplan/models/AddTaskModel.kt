@@ -148,7 +148,35 @@ object AddTaskModel {
         }
     }
 
-    fun filterForDone(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
+    fun checkTaskIsCompleted(task : AddTask) : Boolean{
+
+        val todayDate = Date(Calendar.getInstance().timeInMillis)
+        var isTaskCompleted : Boolean = false
+        val format = SimpleDateFormat("yyyyMMMdd")
+        task.doneDates?.let {dates ->
+
+            if(dates.size > 0){
+                val timeStampDates = dates as ArrayList<Timestamp>
+
+                for(stamp in timeStampDates){
+
+                    val date = stamp.toDate()
+
+                    val doneDate = format.format(date)
+                    val dateToday = format.format(todayDate)
+
+                    if(doneDate == dateToday){
+                        isTaskCompleted = true
+                    }
+
+                }
+            }
+        }
+
+        return isTaskCompleted
+    }
+
+    fun filterRemoveDone(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
 
         val todayDate = Date(Calendar.getInstance().timeInMillis)
         val listOfTasks = ArrayList<AddTask>()

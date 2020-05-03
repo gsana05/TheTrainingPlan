@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thetrainingplan.R
 import com.thetrainingplan.databinding.MainRecyclerViewItemBinding
 import com.thetrainingplan.models.AddTask
+import com.thetrainingplan.models.AddTaskModel
 import com.thetrainingplan.util.RecyclerViewClickListener
+import kotlinx.android.synthetic.main.main_recycler_view_item.view.*
 
 class TasksAdaptor(private val users : ArrayList<AddTask>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter <TasksAdaptor.ViewHolder>(){
     /*override fun setData(items: List<User>?) {
@@ -33,9 +35,18 @@ class TasksAdaptor(private val users : ArrayList<AddTask>, private val listener:
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val user = users[position]
+        val task = users[position]
 
-        holder.recyclerviewMovieBinding.user = user
+        val isCompleted = AddTaskModel.checkTaskIsCompleted(task)
+
+        if(isCompleted){
+            holder.itemView.recycler_view_tasks_layout.setBackgroundResource(R.drawable.green_button)
+        }
+        else{
+            holder.itemView.recycler_view_tasks_layout.setBackgroundResource(R.drawable.white_button_blue_border)
+        }
+
+        holder.recyclerviewMovieBinding.user = task
 
         holder.recyclerviewMovieBinding.recyclerViewButton.setOnClickListener {
             listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.recyclerViewButton, users[position])
