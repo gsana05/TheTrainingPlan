@@ -15,7 +15,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.TasksAdaptor
 import com.thetrainingplan.databinding.ActivityMainBinding
@@ -195,34 +194,16 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                             }
                                         }
 
-                                        val res = AddTaskModel.filterEventsForDate(ArrayList(mapOfAllTasks.values), Calendar.getInstance())
+                                        val filteredTaskForToday = AddTaskModel.filterEventsForDate(ArrayList(mapOfAllTasks.values), Calendar.getInstance())
 
-                                        val checkForDeletedOrDone = AddTaskModel.filterForDoneOrDeleted(res)
+                                        val checkForDeleted = AddTaskModel.filterForDeleted(filteredTaskForToday)
 
+                                        val checkForDone = AddTaskModel.filterForDone(checkForDeleted)
 
-                                        val result = res
-
-                                        // get all the task for each goal
-                                        /*tasks?.let {
-                                            for(i in it){
-                                                i?.let {task ->
-
-                                                    val cal = Calendar.getInstance()
-                                                    val format = SimpleDateFormat("yyyyMMMdd")
-                                                    if (format.format(task.startDate)==format.format(cal.time)) {
-                                                        listOfAllTasks.add(task)
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        mapOfTasksForGoals[goalId] = tasks*/
-
-
-                                        viewModel.numberOfTodayTasks.value = result.size
+                                        viewModel.numberOfTodayTasks.value = checkForDone.size
                                         main_recycler_view.also {
                                             it.layoutManager = LinearLayoutManager(applicationContext)
-                                            it.adapter = TasksAdaptor(checkForDeletedOrDone, this)
+                                            it.adapter = TasksAdaptor(checkForDone, this)
                                         }
 
                                     }
@@ -332,8 +313,8 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                     }
                 }
 
-                val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
-                delete.setOnClickListener {
+                val completed : Button = inflatedLayout.findViewById(R.id.update_task_complete_button)
+                completed.setOnClickListener {
 
                     AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
                         if(data != null && data){
@@ -350,31 +331,25 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                         }
                     }
 
-                  /*  AddTaskModel.deleteTask(userId, goalId, taskId){ data : Boolean?, exc : Exception? ->
+                }
 
+                val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
+                delete.setOnClickListener {
+
+                    AddTaskModel.addToDeletedDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
                         if(data != null && data){
-                            alert ("Task has been deleted"){
+                            alert ("success"){
                                 okButton {  }
                             }.show()
-
-                            mapOfAllTasks.remove(taskId)
                             dialog.dismiss()
-                           *//* for(addTask in listOfAllTasks){
-                                if(addTask.id == taskId){
-                                    listOfAllTasks.remove(addTask)
-                                    break
-                                }
-                            }*//*
-
-
                         }
                         else{
-                            alert ("Task has not been deleted"){
+                            alert ("fail"){
                                 okButton {  }
                             }.show()
+                            dialog.dismiss()
                         }
-
-                    }*/
+                    }
                 }
 
             }

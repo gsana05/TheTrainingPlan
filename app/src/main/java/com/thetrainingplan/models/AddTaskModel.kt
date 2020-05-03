@@ -105,6 +105,27 @@ object AddTaskModel {
     }
 
     fun addToDoneDates(task : AddTask, userId: String, goalId: String, taskId : String, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
+        val newDoneTasks = ArrayList<Date>()
+        val currentDoneTasks = task.doneDates
+        val date = Calendar.getInstance().time
+
+        currentDoneTasks?.let {
+            newDoneTasks.addAll(currentDoneTasks)
+        }
+
+        newDoneTasks.add(date)
+
+        firebaseRefAddTask(userId, goalId).document(taskId).update("doneDates", newDoneTasks).addOnCompleteListener {
+            if(it.isSuccessful){
+                onComplete(true, null)
+            }
+            else{
+                onComplete(false, null)
+            }
+        }
+    }
+
+    fun addToDeletedDates(task : AddTask, userId: String, goalId: String, taskId : String, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
         val newDeletedTasks = ArrayList<Date>()
         val currentDeletedTasks = task.deletedDates
         val date = Calendar.getInstance().time
@@ -127,9 +148,57 @@ object AddTaskModel {
         }
     }
 
-    fun filterForDoneOrDeleted(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
+    fun filterForDone(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
 
         val todayDate = Date(Calendar.getInstance().timeInMillis)
+        val listOfTasks = ArrayList<AddTask>()
+
+        for(task in tasks){
+            if(task.doneDates == null){
+                listOfTasks.add(task)
+                continue
+            }
+            else{
+                val format = SimpleDateFormat("yyyyMMMdd")
+                task.doneDates?.let {dates ->
+
+                    if(dates.size > 0){
+                        val timeStampDates = dates as ArrayList<Timestamp>
+
+                        for(stamp in timeStampDates){
+
+                            val date = stamp.toDate()
+
+                            val doneDate = format.format(date)
+                            val dateToday = format.format(todayDate)
+
+                            if(doneDate != dateToday){
+                                listOfTasks.add(task)
+                                //tasks.remove(task)
+                            }
+
+                        }
+                    }
+                    else{
+                        listOfTasks.add(task)
+                    }
+
+
+                }?:run{
+                    listOfTasks.add(task)
+                }
+
+            }
+
+        }
+
+        return listOfTasks
+    }
+
+    fun filterForDeleted(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
+
+        val todayDate = Date(Calendar.getInstance().timeInMillis)
+        val listOfTasks = ArrayList<AddTask>()
 
         for(task in tasks){
             if(task.deletedDates == null){
@@ -137,28 +206,40 @@ object AddTaskModel {
             }
             else{
                 val format = SimpleDateFormat("yyyyMMMdd")
+
                 task.deletedDates?.let {dates ->
-                    val timeStampDates = dates as ArrayList<Timestamp>
 
-                    for(stamp in timeStampDates){
+                    if(dates.size > 0){
+                        val timeStampDates = dates as ArrayList<Timestamp>
 
-                        val date = stamp.toDate()
+                        for(stamp in timeStampDates){
 
-                        val deletedDate = format.format(date)
-                        val dateToday = format.format(todayDate)
+                            val date = stamp.toDate()
 
-                        if(deletedDate == dateToday){
-                            tasks.remove(task)
+                            val deletedDate = format.format(date)
+                            val dateToday = format.format(todayDate)
+
+                            if(deletedDate != dateToday){
+                                listOfTasks.add(task)
+                                //tasks.remove(task)
+                            }
+
                         }
-
                     }
+                    else{
+                        listOfTasks.add(task)
+                    }
+
+
+                }?: run {
+                    listOfTasks.add(task)
                 }
 
             }
 
         }
 
-        return tasks
+        return listOfTasks
     }
 
     fun filterEventsForDate(diaryEntries: ArrayList<AddTask>, cal: Calendar): ArrayList<AddTask> {
