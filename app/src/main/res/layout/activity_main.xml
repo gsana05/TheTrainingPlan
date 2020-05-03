@@ -298,6 +298,19 @@
                             app:layout_constraintVertical_weight="0.8"
                             tools:listitem="@layout/main_recycler_view_item" />
 
+                    <TextView
+                            android:id="@+id/main_recycler_view_no_tasks_signage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/guideline_today_view"
+                            app:layout_constraintBottom_toTopOf="@+id/today_view_goals_add_task"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textAlignment="center"
+                            android:textColor="@color/blue"
+                            android:text="You have no tasks for today - Go and set some or have you completed them all?"
+                            />
+
                     <Button
                             android:id="@+id/today_view_goals_add_task"
                             android:layout_width="wrap_content"

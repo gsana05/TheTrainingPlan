@@ -204,6 +204,12 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                         main_recycler_view.also {
                                             it.layoutManager = LinearLayoutManager(applicationContext)
                                             it.adapter = TasksAdaptor(checkForDeleted, this)
+                                            if(checkForDeleted.size < 1){
+                                                main_recycler_view_no_tasks_signage.visibility = View.VISIBLE
+                                            }
+                                            else{
+                                                main_recycler_view_no_tasks_signage.visibility = View.GONE
+                                            }
                                         }
 
                                     }
