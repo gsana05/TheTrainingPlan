@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.PorterDuff
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +31,9 @@ open class TrainingPlanActivity : AppCompatActivity(), NavigationView.OnNavigati
         )
         parentLayout.addDrawerListener(toggle)
         toggle.syncState()
-        navBar.setNavigationIcon(R.drawable.ic_menu_icon) // how to change slider button icon
+        navBar.navigationIcon?.setColorFilter(resources.getColor(R.color.white), PorterDuff.Mode.LIGHTEN)
+        //navBar.setNavigationIcon(R.drawable.ic_menu_icon) // how to change slider button icon
+
 
         navView.setNavigationItemSelectedListener(this)
 
