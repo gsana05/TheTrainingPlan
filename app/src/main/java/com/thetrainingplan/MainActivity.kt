@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -23,8 +24,10 @@ import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.design.scrimInsetsFrameLayout
 import org.jetbrains.anko.okButton
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -316,6 +319,38 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
         val timeTaken : Button = inflatedLayout.findViewById(R.id.completion_task_complete_button)
         timeTaken.setOnClickListener {
+            val numberOfHours : EditText = inflatedLayout.findViewById(R.id.completion_task_task_input)
+            val hours = numberOfHours.text.toString().trim()
+
+            val numberOfMinutes: EditText = inflatedLayout.findViewById(R.id.completion_task_task_towards_spinner)
+            val minutes = numberOfMinutes.text.toString().trim()
+
+            if(hours.isEmpty()){
+                numberOfHours.requestFocus()
+                numberOfHours.error = "Enter a number of hours"
+                return@setOnClickListener
+            }
+
+            if(minutes.isEmpty()){
+                numberOfMinutes.requestFocus()
+                numberOfMinutes.error = "Enter a number of minutes"
+                return@setOnClickListener
+            }
+
+            if(hours.toLong() > 0){
+                val hour = TimeUnit.HOURS.toSeconds(hours.toLong())
+
+                val h = TimeUnit.SECONDS.toDays(hour)
+
+                val test = h
+            }
+
+            if(minutes.toLong() > 0){
+                val mins = TimeUnit.MINUTES.toMillis(minutes.toLong())
+                val min = TimeUnit.MINUTES.toMillis(minutes.toLong())
+            }
+
+            val i = 22
 
         }
     }
