@@ -3,7 +3,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/blue"
+        android:background="@color/white"
         >
 
     <ImageView
@@ -15,25 +15,40 @@
             app:layout_constraintBottom_toTopOf="@+id/update_task_heading"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:tint="@color/white"
+            android:tint="@color/nka_grey"
             android:src="@drawable/ic_highlight_off_24px"
             app:layout_constraintVertical_bias="0"
+            />
+
+    <ImageView
+            android:id="@+id/alert_decline_invite_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/update_task_exit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/update_task_heading"
+            android:src="@drawable/ic_update_black_18dp"
+            android:scaleType="center"
+            android:padding="20dp"
+            android:background="@drawable/blue_circle"
+            android:tint="@color/white"
+            app:layout_constraintVertical_chainStyle="packed"
             />
 
     <TextView
             android:id="@+id/update_task_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/alert_decline_invite_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/update_task_task_heading"
             android:layout_marginTop="20dp"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textStyle="bold"
             android:text="UPDATE TASK"
             android:textSize="20sp"
-            app:layout_constraintVertical_chainStyle="packed"
             />
 
     <TextView
@@ -45,7 +60,7 @@
             app:layout_constraintBottom_toTopOf="@+id/update_task_task_input"
             android:layout_marginTop="30dp"
             android:layout_marginStart="20dp"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textStyle="bold"
             android:text="Task"
             />
@@ -76,7 +91,7 @@
             app:layout_constraintStart_toStartOf="@+id/update_task_task_heading"
             app:layout_constraintBottom_toTopOf="@+id/update_task_task_towards_spinner"
             android:layout_marginTop="10dp"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textStyle="bold"
             android:text="Task is working towards"
             />
