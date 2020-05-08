@@ -1,6 +1,7 @@
 package com.thetrainingplan.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -40,13 +41,17 @@ class TasksAdaptor(private val users : ArrayList<AddTask>, private val listener:
         val isCompleted = AddTaskModel.checkTaskIsCompleted(task)
 
         if(isCompleted){
-            holder.itemView.recycler_view_tasks_layout.setBackgroundResource(R.drawable.green_button)
+            holder.itemView.recycler_view_tasks_layout.setBackgroundResource(R.drawable.green_border_thick)
+            holder.itemView.recycler_view_button.visibility = View.GONE
+            holder.itemView.recycler_view_button_tick.visibility = View.VISIBLE
         }
         else{
-            holder.itemView.recycler_view_tasks_layout.setBackgroundResource(R.drawable.white_button_blue_border)
+            holder.itemView.recycler_view_tasks_layout.setBackgroundResource(R.drawable.blue_border_thick)
+            holder.itemView.recycler_view_button.visibility = View.VISIBLE
+            holder.itemView.recycler_view_button_tick.visibility = View.GONE
         }
 
-        holder.recyclerviewMovieBinding.user = task
+        holder.recyclerviewMovieBinding.task = task
 
         holder.recyclerviewMovieBinding.recyclerViewButton.setOnClickListener {
             listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.recyclerViewButton, users[position])

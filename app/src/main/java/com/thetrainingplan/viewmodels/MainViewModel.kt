@@ -35,6 +35,8 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
 
     var goalSelectedAddTask = MutableLiveData<String>().apply { value = "84fd28e1-36e3-404b-b201-a2736a88eb33" }
 
+    var isTaskCompleted = MutableLiveData<Boolean>().apply { value = false }
+
     fun setGoalSelected(id : String){
         //goalSelectedAddTask.value = id
     }
