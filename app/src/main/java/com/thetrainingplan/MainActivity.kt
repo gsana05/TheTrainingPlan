@@ -127,6 +127,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             }.show()
         }, 10000)*/
 
+        viewModel.startStatsActivityEvent.observe(this, Observer{
+            val intent = Intent(this, ActivityStats::class.java)
+            startActivity(intent)
+        })
 
         viewModel.startAddTaskActivityEvent.observe(this, Observer {
             val intent = Intent(this, ActivityAddTask::class.java)
@@ -301,6 +305,21 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         startActivity(i)
     }*/
 
+    private fun alertCompletionTime(){
+        val builder = AlertDialog.Builder(this)
+        val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
+        val inflatedLayout: View = layoutInflater.inflate(R.layout.alert_completion_time, viewGroup, false)
+        builder.setView(inflatedLayout)
+
+        val dialog = builder.show()
+        dialog.setCancelable(false)
+
+        val timeTaken : Button = inflatedLayout.findViewById(R.id.completion_task_complete_button)
+        timeTaken.setOnClickListener {
+
+        }
+    }
+
         private fun taskUpdateAlert(task : AddTask, taskName: String, goalId: String, taskId : String){
 
             val builder = AlertDialog.Builder(this)
@@ -338,7 +357,8 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                     completed.visibility = View.VISIBLE
                     completed.setOnClickListener {
 
-                        AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
+                        alertCompletionTime()
+                       /* AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
                             if(data != null && data){
                                 alert ("success"){
                                     okButton {  }
@@ -351,7 +371,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                 }.show()
                                 dialog.dismiss()
                             }
-                        }
+                        }*/
 
                     }
                 }

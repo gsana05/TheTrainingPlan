@@ -47,6 +47,11 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
         addTaskState.value = state
     }
 
+    val startStatsActivityEvent = LiveEvent<Void>()
+    fun startStatsActivity(){
+        startStatsActivityEvent.call()
+    }
+
 
     /*var filteredAgreements: LiveData<List<User?>>? = Transformations.switchMap(listOfUser) { users  ->
         getFilteredList(users)

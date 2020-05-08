@@ -11,7 +11,20 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ActivityRefreshTasks"></activity>
+        <activity
+                android:name=".ActivityStats"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity"
+                />
+
+        <activity
+                android:name=".ActivityRefreshTasks"
+                android:screenOrientation="fullSensor"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden"
+                />
 
         <receiver
                 android:name=".ActivityAlarmBroadcastReceiver"

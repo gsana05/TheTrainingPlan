@@ -518,6 +518,7 @@
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
                             android:text="@string/view_stats"
+                            android:onClick="@{() -> viewModel.startStatsActivity()}"
                             />
 
 

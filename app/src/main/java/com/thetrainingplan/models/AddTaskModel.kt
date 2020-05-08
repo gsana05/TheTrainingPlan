@@ -445,11 +445,13 @@ object AddTaskModel {
 
             val endDate = data["endDate"] as Long?
 
+            val completionTime= data["completionTime"] as Long?
+
             val deletedDates = data["deletedDates"] as ArrayList<Date>?
 
             return repeatType?.let {
                 AddTask(id,requestUserId, name, description, startDate, endDate,
-                    it, repeatEvery, repeatWeekdays, deletedDates, doneDates, goalId )
+                    it, repeatEvery, repeatWeekdays, deletedDates, doneDates, goalId, completionTime )
             }
         }
         else{
@@ -504,6 +506,7 @@ object AddTaskModel {
         map["repeatEvery"]=task.repeatEvery
         map["repeatWeekdays"]=task.repeatWeekdays
         map["goalId"]=task.goalId
+        map["completionTime"]=task.completionTime
 
 
         var mappedDeletedDates = ArrayList<Timestamp>()

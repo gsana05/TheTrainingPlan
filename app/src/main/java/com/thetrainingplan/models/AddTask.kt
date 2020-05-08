@@ -19,4 +19,6 @@ class AddTask( var id: String?,
                var repeatWeekdays:Int? = null,
                var deletedDates: ArrayList<Date>? = null,
                var doneDates: ArrayList<Date>? =null,
-               var goalId : String? = null)
+               var goalId : String? = null,
+               var completionTime : Long? = null
+               )
