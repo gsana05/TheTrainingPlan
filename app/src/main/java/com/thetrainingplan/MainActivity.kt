@@ -201,6 +201,16 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                         //val checkForDone = AddTaskModel.filterRemoveDone(checkForDeleted)
 
                                         viewModel.numberOfTodayTasks.value = checkForDeleted.size
+
+                                        var numberOfCompletedTasks = 0
+                                        for( task in checkForDeleted){
+                                            if(AddTaskModel.checkTaskIsCompleted(task)){
+                                                numberOfCompletedTasks++
+                                            }
+                                        }
+
+                                        viewModel.numberOfCompletedTodayTasks.value = numberOfCompletedTasks
+
                                         main_recycler_view.also {
                                             it.layoutManager = LinearLayoutManager(applicationContext)
                                             it.adapter = TasksAdaptor(checkForDeleted, this)

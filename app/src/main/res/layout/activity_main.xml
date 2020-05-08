@@ -264,13 +264,15 @@
                             app:layout_constraintTop_toBottomOf="@+id/today_view_goals_heading"
                             app:layout_constraintStart_toStartOf="@+id/today_view_goals_heading"
                             app:layout_constraintBottom_toTopOf="@id/guideline_today_view"
-                            android:text="@{`You have ` + viewModel.numberOfTodayTasks + ` tasks today!`}"
+                            app:layout_constraintEnd_toStartOf="@+id/today_view_goals_tick_icon"
+                            android:text="@{viewModel.numberOfTodayTasks + ` tasks today! Completed ` + viewModel.numberOfCompletedTodayTasks}"
                             android:textSize="16sp"
                             android:textColor="@color/white"
                             app:layout_constraintVertical_chainStyle="packed"
                             />
 
                     <ImageView
+                            android:id="@+id/today_view_goals_tick_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="@+id/today_view_goals_heading"
