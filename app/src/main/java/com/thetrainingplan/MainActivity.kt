@@ -304,6 +304,11 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         val dialog = builder.show()
         dialog.setCancelable(false)
 
+        val close : ImageView = inflatedLayout.findViewById(R.id.completion_task_exit)
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
+
         val timeTaken : Button = inflatedLayout.findViewById(R.id.completion_task_complete_button)
         timeTaken.setOnClickListener {
             val numberOfHours : EditText = inflatedLayout.findViewById(R.id.completion_task_task_input)
