@@ -385,21 +385,6 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                     }
                 }
             }
-
-
-            /*biggy?.let {
-                val longVal: Long = it
-                val hourss = longVal.toInt() / 3600
-                val ioi = hourss
-                var remainder = longVal.toInt() - hourss * 3600
-                val mins = remainder / 60
-                remainder = remainder - mins * 60
-                val secs = remainder
-
-                val ints = intArrayOf(hourss, mins, secs)
-            }*/
-
-
         }
     }
 

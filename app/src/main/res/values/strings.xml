@@ -93,6 +93,7 @@
     <string name="sun">Sun</string>
     <string name="submit_task">Submit task</string>
     <string name="set_task_to_a_goal">Set task to a goal</string>
+    <string name="statistics">Statistics</string>
 
     <plurals name="numberOfGoals">
         <item quantity="one">YOU HAVE %d OPEN GOAL</item>
