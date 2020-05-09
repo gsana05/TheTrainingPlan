@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -24,7 +25,6 @@ import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.design.scrimInsetsFrameLayout
 import org.jetbrains.anko.okButton
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -308,7 +308,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         startActivity(i)
     }*/
 
-    private fun alertCompletionTime(){
+    private fun alertCompletionTime(task : AddTask, taskName: String, goalId: String, taskId : String, dialogUpdate: AlertDialog){
         val builder = AlertDialog.Builder(this)
         val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
         val inflatedLayout: View = layoutInflater.inflate(R.layout.alert_completion_time, viewGroup, false)
@@ -325,6 +325,9 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             val numberOfMinutes: EditText = inflatedLayout.findViewById(R.id.completion_task_task_towards_spinner)
             val minutes = numberOfMinutes.text.toString().trim()
 
+            var timeMinuets : Long? = null
+            var timeHours : Long? = null
+
             if(hours.isEmpty()){
                 numberOfHours.requestFocus()
                 numberOfHours.error = "Enter a number of hours"
@@ -339,20 +342,87 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
             if(hours.toLong() > 0){
                 val hour = TimeUnit.HOURS.toSeconds(hours.toLong())
-
                 val h = TimeUnit.SECONDS.toDays(hour)
 
-                val test = h
+                timeHours = hour
             }
 
             if(minutes.toLong() > 0){
-                val mins = TimeUnit.MINUTES.toMillis(minutes.toLong())
-                val min = TimeUnit.MINUTES.toMillis(minutes.toLong())
+                val mins = TimeUnit.MINUTES.toSeconds(minutes.toLong())
+                val min = TimeUnit.SECONDS.toMinutes(mins)
+
+                timeMinuets = mins
             }
 
-            val i = 22
+            var completionTime : Long? = null
+            val op = timeHours
+            val p = timeMinuets
+            op?.let { h ->
+                p?.let { m ->
+                    completionTime = h + m
+                }
+            }
+
+
+            val userId = FirebaseAuth.getInstance().uid
+            if(userId != null){
+                AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
+                    if(data != null && data){
+                        completionTime?.let { it1 ->
+                            AddTaskModel.setTimeCompletionDoneDates(userId, goalId, taskId, it1){ data : Boolean?, exc : Exception? ->
+
+                                if(data != null && data){
+                                    alert ("success"){
+                                        okButton {  }
+                                    }.show()
+
+                                    dismissKeyboard(dialog, it)
+                                    dialog.dismiss()
+                                    dialogUpdate.dismiss()
+                                }
+                                else{
+                                    alert ("error"){
+                                        okButton {  }
+                                    }.show()
+                                    dismissKeyboard(dialog, it)
+                                    dialog.dismiss()
+                                    dialogUpdate.dismiss()
+                                }
+
+                            }
+                        }
+                    }
+                    else{
+                        alert ("error"){
+                            okButton {  }
+                        }.show()
+                        dismissKeyboard(dialog, it)
+                        dialog.dismiss()
+                        dialogUpdate.dismiss()
+                    }
+                }
+            }
+
+
+            /*biggy?.let {
+                val longVal: Long = it
+                val hourss = longVal.toInt() / 3600
+                val ioi = hourss
+                var remainder = longVal.toInt() - hourss * 3600
+                val mins = remainder / 60
+                remainder = remainder - mins * 60
+                val secs = remainder
+
+                val ints = intArrayOf(hourss, mins, secs)
+            }*/
+
 
         }
+    }
+
+    private fun dismissKeyboard(alertDialog: AlertDialog, view: View){
+        val imm = alertDialog.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
         private fun taskUpdateAlert(task : AddTask, taskName: String, goalId: String, taskId : String){
@@ -391,23 +461,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 else{
                     completed.visibility = View.VISIBLE
                     completed.setOnClickListener {
-
-                        alertCompletionTime()
-                       /* AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
-                            if(data != null && data){
-                                alert ("success"){
-                                    okButton {  }
-                                }.show()
-                                dialog.dismiss()
-                            }
-                            else{
-                                alert ("fail"){
-                                    okButton {  }
-                                }.show()
-                                dialog.dismiss()
-                            }
-                        }*/
-
+                        alertCompletionTime(task, taskName, goalId, taskId, dialog)
                     }
                 }
 
@@ -420,12 +474,14 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                             alert ("success"){
                                 okButton {  }
                             }.show()
+                            dismissKeyboard(dialog, it)
                             dialog.dismiss()
                         }
                         else{
                             alert ("fail"){
                                 okButton {  }
                             }.show()
+                            dismissKeyboard(dialog, it)
                             dialog.dismiss()
                         }
                     }

@@ -104,6 +104,17 @@ object AddTaskModel {
         }
     }
 
+    fun setTimeCompletionDoneDates(userId: String, goalId: String, taskId: String, timeCompletion : Long, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
+        firebaseRefAddTask(userId, goalId).document(taskId).update("completionTime", timeCompletion).addOnCompleteListener {
+            if(it.isSuccessful){
+                onComplete(true, null)
+            }
+            else{
+                onComplete(false, null)
+            }
+        }
+    }
+
     fun addToDoneDates(task : AddTask, userId: String, goalId: String, taskId : String, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
         val newDoneTasks = ArrayList<Date>()
         val currentDoneTasks = task.doneDates
