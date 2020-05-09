@@ -1,8 +1,6 @@
 package com.thetrainingplan
 
-import android.app.AlarmManager
 import android.app.AlertDialog
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -37,10 +35,9 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
     override fun onRecyclerViewItemClick(view: View, any : Any) {
 
         if(any is AddTask){
-            val task = any as AddTask
             when(view.id){
                 R.id.recycler_view_button -> {
-                    task.goalId?.let { task.id?.let { it1 -> taskUpdateAlert(task, task.name, it, it1) } }
+                    any.goalId?.let { any.id?.let { it1 -> taskUpdateAlert(any, any.name, it, it1) } }
                 }
             }
         }
@@ -180,19 +177,9 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                     // display today's tasks
                                     callbackForAllGoalTasks = { tasks : ArrayList<AddTask?>?, _ : Exception? ->
 
+                                        tasks?.let {ta ->
 
-
-
-                                        tasks?.let {
-
-
-                                            // workout which task has been deleted and remove from the cache
-                                            if(tasks.size > ArrayList(mapOfAllTasks.values).size){
-
-                                            }
-
-
-                                            for( i in it){
+                                            for( i in ta){
                                                 i?.let { t ->
                                                     t.id?.let {taskId ->
                                                         mapOfAllTasks[taskId] = t
@@ -218,9 +205,9 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                                         viewModel.numberOfCompletedTodayTasks.value = numberOfCompletedTasks
 
-                                        main_recycler_view.also {
-                                            it.layoutManager = LinearLayoutManager(applicationContext)
-                                            it.adapter = TasksAdaptor(checkForDeleted, this)
+                                        main_recycler_view.also {recyclerView ->
+                                            recyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                                            recyclerView.adapter = TasksAdaptor(checkForDeleted, this)
                                             if(checkForDeleted.size < 1){
                                                 main_recycler_view_no_tasks_signage.visibility = View.VISIBLE
                                             }
@@ -288,7 +275,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         }
     }
 
-    private fun setAlarm(date: Date) {
+/*    private fun setAlarm(date: Date) {
         val alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, ActivityAlarmBroadcastReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0,  intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -297,10 +284,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             date.time, 86400000,
             pendingIntent)
 
-        /*alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+        *//*alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
             date.time, AlarmManager.INTERVAL_DAY,
-            pendingIntent)*/
-    }
+            pendingIntent)*//*
+    }*/
 
     /*private fun goToUrl(url: String){
         val i = Intent(Intent.ACTION_VIEW)
@@ -308,7 +295,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         startActivity(i)
     }*/
 
-    private fun alertCompletionTime(task : AddTask, taskName: String, goalId: String, taskId : String, dialogUpdate: AlertDialog){
+    private fun alertCompletionTime(task : AddTask, goalId: String, taskId : String, dialogUpdate: AlertDialog){
         val builder = AlertDialog.Builder(this)
         val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
         val inflatedLayout: View = layoutInflater.inflate(R.layout.alert_completion_time, viewGroup, false)
@@ -342,15 +329,11 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
             if(hours.toLong() > 0){
                 val hour = TimeUnit.HOURS.toSeconds(hours.toLong())
-                val h = TimeUnit.SECONDS.toDays(hour)
-
                 timeHours = hour
             }
 
             if(minutes.toLong() > 0){
                 val mins = TimeUnit.MINUTES.toSeconds(minutes.toLong())
-                val min = TimeUnit.SECONDS.toMinutes(mins)
-
                 timeMinuets = mins
             }
 
@@ -366,10 +349,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
             val userId = FirebaseAuth.getInstance().uid
             if(userId != null){
-                AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
+                AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, _: java.lang.Exception? ->
                     if(data != null && data){
                         completionTime?.let { it1 ->
-                            AddTaskModel.setTimeCompletionDoneDates(userId, goalId, taskId, it1){ data : Boolean?, exc : Exception? ->
+                            AddTaskModel.setTimeCompletionDoneDates(userId, goalId, taskId, it1){ data : Boolean?, _: Exception? ->
 
                                 if(data != null && data){
                                     alert ("success"){
@@ -446,10 +429,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
             val userId = FirebaseAuth.getInstance().uid
             if(userId != null){
-                GoalModel.getGoal(userId, goalId){ data : Goal?, exc : Exception? ->
+                GoalModel.getGoal(userId, goalId){ data : Goal?, _: Exception? ->
                     if(data != null){
-                        val goalId : TextView = inflatedLayout.findViewById(R.id.update_task_task_towards_spinner)
-                        goalId.text = data.goal
+                        val idGoal: TextView = inflatedLayout.findViewById(R.id.update_task_task_towards_spinner)
+                        idGoal.text = data.goal
                     }
                 }
 
@@ -461,7 +444,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 else{
                     completed.visibility = View.VISIBLE
                     completed.setOnClickListener {
-                        alertCompletionTime(task, taskName, goalId, taskId, dialog)
+                        alertCompletionTime(task, goalId, taskId, dialog)
                     }
                 }
 
@@ -469,7 +452,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
                 delete.setOnClickListener {
 
-                    AddTaskModel.addToDeletedDates(task, userId, goalId, taskId){ data: Boolean?, exc: java.lang.Exception? ->
+                    AddTaskModel.addToDeletedDates(task, userId, goalId, taskId){ data: Boolean?, _: java.lang.Exception? ->
                         if(data != null && data){
                             alert ("success"){
                                 okButton {  }
