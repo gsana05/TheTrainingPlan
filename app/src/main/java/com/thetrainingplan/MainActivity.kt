@@ -217,6 +217,24 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                                             val checkForDeleted = AddTaskModel.filterForDeleted(filteredTaskForToday)
 
+                                            if(data.isDeleted != null || data.isCompleted != null){
+                                                // this means the goal is NOT open - so remove those tasks
+                                                val tasksToRemove = ArrayList<AddTask>()
+                                                for( i in checkForDeleted){
+                                                    if(i.goalId == data.id){
+                                                        tasksToRemove.add(i)
+                                                    }
+                                                }
+
+                                                for (k in tasksToRemove){
+                                                    if(checkForDeleted.contains(k)){
+                                                        mapOfAllTasks.remove(k.id)
+                                                        checkForDeleted.remove(k)
+                                                    }
+                                                }
+
+                                            }
+
                                             //val checkForDone = AddTaskModel.filterRemoveDone(checkForDeleted)
 
                                             viewModel.numberOfTodayTasks.value = checkForDeleted.size
@@ -245,7 +263,6 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                                         //listen to all the tasks for that goal
                                         AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
-
                                     }
                                 }
                             }
