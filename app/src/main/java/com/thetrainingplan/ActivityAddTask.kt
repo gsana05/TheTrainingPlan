@@ -186,116 +186,6 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
         dpd.show()
     }
 
-  /*  inner class DiaryTask: AsyncTask<Hub, Void, ArrayList<DiaryEntry>>(){
-        override fun doInBackground(vararg p0: Hub?): ArrayList<DiaryEntry> {
-
-            val diary = p0[0]?.diary
-
-            val diaries = ArrayList<DiaryEntry>()
-            diary?.let{
-                mDiaryRequests.clear()
-                for (d in it) {
-                    // filters so only accepted requests show
-                    if(d.diaryStatus == DiaryEntry.PENDING){
-                        mDiaryRequests.add(d)
-                    }
-                }
-
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DAY_OF_YEAR,-7)
-
-                for(i in 0..365){
-                    val dayEvents = HubsModel.filterEventsForDate(it,calendar)
-                    if(dayEvents.size>0){
-                        for(d in dayEvents){
-
-                            val cal = Calendar.getInstance()
-                            cal.time = d.startDate
-                            cal.set(Calendar.YEAR,calendar.get(Calendar.YEAR))
-                            cal.set(Calendar.MONTH,calendar.get(Calendar.MONTH))
-                            cal.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR))
-
-                            val event = DiaryEntry(d.requestUserId,d.name,cal.time,d.repeatType,d.description,d.endDate,d.repeatEvery,d.repeatWeekdays,d.diaryStatus)
-
-                            event.deletedDates = d.deletedDates
-                            event.doneDates = d.doneDates
-                            event.id = d.id
-
-                            diaries.add(event)
-                        }
-                    }
-
-                    val doneDates = ArrayList<DiaryEntry>()
-
-                    for(d in diaries){
-                        d.doneDates?.let{dates->
-                            for(t in dates) {
-                                val format = SimpleDateFormat("yyyyMMMdd")
-                                if (format.format(t.time)==format.format(d.startDate*//*calendar.time*//*)) {
-                                    doneDates.add(d)
-                                    break
-                                }
-                            }
-                        }
-                    }
-
-                    for(d in doneDates){
-                        diaries.remove(d)
-                    }
-
-                    val deletedDates = ArrayList<DiaryEntry>()
-
-                    for(d in diaries){
-                        d.deletedDates?.let{dates->
-                            for(t in dates) {
-                                val format = SimpleDateFormat("yyyyMMMdd")
-                                if (format.format(t.time)==format.format(calendar.time)) {
-                                    deletedDates.add(d)
-                                    break
-                                }
-                            }
-                        }
-                    }
-
-                    for(d in deletedDates){
-                        diaries.remove(d)
-                    }
-
-                    if(diaries.size>=4){
-                        break
-                    }
-
-                    calendar.add(Calendar.DAY_OF_YEAR,1)
-                }
-
-            }
-
-            //diaries.sortWith ( compareBy<DiaryEntry>{ DiaryEntry.getTimePortionAsMillis(it.startDate) } )
-            diaries.sortWith ( compareBy<DiaryEntry>{ it.startDate.time } )
-
-            return diaries
-        }
-
-        override fun onPostExecute(diaries: ArrayList<DiaryEntry>?) {
-            diaries?.let {
-                if (dashboard_diary_list.adapter == null) {
-                    dashboard_diary_list.adapter = DiaryDayItemListAdapter(it)
-                } else {
-                    (dashboard_diary_list.adapter as DiaryDayItemListAdapter).updateData(it)
-                }
-
-                if (mDiaryRequests.size > 0) {
-                    dashboard_diary_notification.visibility = View.VISIBLE
-
-                    dashboard_diary_notification_text.text = resources.getQuantityString(R.plurals.request_count, mDiaryRequests.size, mDiaryRequests.size)
-                    *//*dashboard_diary_notification_text.text = getString(R.string.x_new_diary_requests,mDiaryRequests.size)*//*
-                } else {
-                    dashboard_diary_notification.visibility = View.GONE
-                }
-            }
-        }
-    }*/
-
 
     fun addTask(){
         mIsSaving = true
@@ -437,10 +327,16 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
 
         sortedListByDeadlineDate.sortBy { list -> list.goalDateDeadline }
 
-            val setGoalId = sortedListByDeadlineDate[0].id
-            setGoalId?.let {
-                viewModel.goalSelectedAddTask.value = it
+            if(sortedListByDeadlineDate.size > 0){
+                val setGoalId = sortedListByDeadlineDate[0].id
+                setGoalId?.let {
+                    viewModel.goalSelectedAddTask.value = it
+                }
             }
+            else{
+                viewModel.goalSelectedAddTask.value = null
+            }
+
 
         it.adapter = AddTaskGoalsAdapter(sortedListByDeadlineDate, this)
 
@@ -459,6 +355,7 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
         super.onPause()
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
+            GoalModel.removeAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
             for(pin in listOfGoalPins){
                 GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)
             }

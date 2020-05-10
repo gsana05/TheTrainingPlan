@@ -34,7 +34,7 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
 
     val addTaskState = MutableLiveData<Int>().apply { value = ADD_TASK_NEVER.value }
 
-    var goalSelectedAddTask = MutableLiveData<String>().apply { value = "84fd28e1-36e3-404b-b201-a2736a88eb33" }
+    var goalSelectedAddTask = MutableLiveData<String>()
 
     var isTaskCompleted = MutableLiveData<Boolean>().apply { value = false }
 
