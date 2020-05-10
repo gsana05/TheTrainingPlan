@@ -133,16 +133,16 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         })
 
         viewModel.startAddTaskActivityEvent.observe(this, Observer {
-            val intent = Intent(this, ActivityAddTask::class.java)
-            startActivity(intent)
-            /*if(listOpenGoals.size > 0){
 
+            if(listOpenGoals.size > 0){
+                val intent = Intent(this, ActivityAddTask::class.java)
+                startActivity(intent)
             }
             else{
                 alert ("You need to set a Goal before adding a task"){
                     okButton {  }
                 }.show()
-            }*/
+            }
 
 
         })
