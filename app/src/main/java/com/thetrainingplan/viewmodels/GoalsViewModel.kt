@@ -5,6 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.thetrainingplan.models.AddTask
+import com.thetrainingplan.models.AddTaskModel
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.util.LiveEvent
@@ -213,12 +217,23 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     fun permanentlyDeleteGoal(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
         GoalModel.permanentlyDeleteGoal(userId, goalPin){ data : Boolean?, exc : Exception? ->
             if(data != null && data){
-                callback(true, null)
+                AddTaskModel.deleteAllTasksInAGoal(userId, goalPin){ data : Boolean?, exc : Exception? ->
+
+                    if(data != null && data){
+                        callback(true, null)
+                    }
+                    else{
+                        callback(false, Exception("Goal completed but tasks have not"))
+                    }
+
+                }
             }
             else{
                 callback(false, exc)
             }
         }
     }
+
+
 
 }

@@ -203,7 +203,6 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                         callbackForAllGoalTasks = { tasks : ArrayList<AddTask?>?, _ : Exception? ->
 
                                             tasks?.let {ta ->
-
                                                 for( i in ta){
                                                     i?.let { t ->
                                                         t.id?.let {taskId ->

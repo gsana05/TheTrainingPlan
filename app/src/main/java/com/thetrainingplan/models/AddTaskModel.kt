@@ -1,5 +1,7 @@
 package com.thetrainingplan.models
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
+import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -472,18 +474,68 @@ object AddTaskModel {
 
     }
 
+    fun deleteAllTasksInAGoal(userId: String, goalId: String, onComplete : (data : Boolean?, exc : Exception?) -> Unit){
 
-    fun deleteTask(userId: String, goalId: String, taskId : String, onComplete : (data : Boolean?, exc : Exception?) -> Unit){
-        firebaseRefAddTask(userId, goalId).document(taskId).delete().addOnCompleteListener {
-            if(it.isSuccessful){
-                onComplete(true, null)
+        getAllTasksForGoal(userId, goalId){ data : ArrayList<AddTask>?, _ : Exception? ->
+
+            if(data != null && data.size > 0){
+
+                for( document in data){
+                    document.id?.let { taskId ->
+                        deleteTask(userId, goalId, taskId)
+                    }
+                }
+
+                getAllTasksForGoal(userId, goalId){ data1 : ArrayList<AddTask>?, _ : Exception? ->
+                    if(data1 == null || data1.size < 1){
+                        onComplete(true, null)
+                    }
+                    else{
+                        onComplete(false, Exception("Tasks have not been deleted"))
+                    }
+
+
+                }
+
             }
             else{
-                onComplete(false, it.exception)
+                onComplete(true, null)
+            }
+
+        }
+    }
+
+    private fun getAllTasksForGoal(userId: String, goalId: String, onComplete : (data : ArrayList<AddTask>?, exc : Exception?) -> Unit){
+        firebaseRefAddTask(userId, goalId).get().addOnCompleteListener {
+            if(it.isSuccessful){
+                val documents = it.result?.documents
+                if(documents != null){
+                    val listOfTasks = ArrayList<AddTask>()
+                    for( document in documents){
+                        val task = getTask(document)
+                        task?.let {
+                            listOfTasks.add(it)
+                        }
+                    }
+                    onComplete(listOfTasks, null)
+                }
+            }
+            else{
+                onComplete(ArrayList(), it.exception)
             }
         }
     }
 
+    private fun deleteTask(userId: String, goalId: String, taskId : String){
+        firebaseRefAddTask(userId, goalId).document(taskId).delete().addOnCompleteListener {
+            if(it.isSuccessful){
+                Log.v("TAG", "Task deleted")
+            }
+            else{
+                Log.v("TAG", "Task NOT deleted")
+            }
+        }
+    }
 
 
     fun addTask(userId: String, goalId: String, addTask: AddTask, onComplete : (data : Boolean?, exc : Exception?) -> Unit){
