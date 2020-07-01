@@ -106,6 +106,10 @@ object AddTaskModel {
         }
     }
 
+    fun numberOfTasksListeners() : Int {
+        return mFirebaseRefsAllTasks.size
+    }
+
     fun setTimeCompletionDoneDates(userId: String, goalId: String, taskId: String, timeCompletion : Long, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
         firebaseRefAddTask(userId, goalId).document(taskId).update("completionTime", timeCompletion).addOnCompleteListener {
             if(it.isSuccessful){

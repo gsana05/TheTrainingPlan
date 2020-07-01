@@ -62,6 +62,10 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
     private var mapOfAllTasks = HashMap<String, AddTask>()
     private var listOpenGoals = ArrayList<Goal>()
 
+    private var listOfGoalIds = ArrayList<String?>()
+
+    private val listOfTaskCallbacks = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
@@ -168,8 +172,8 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             if(data != null){
 
                 //to get the number of goals
-                val listOfPinIds = data
-                listOfPinIds.let {
+                listOfGoalIds = data
+                listOfGoalIds.let {
                     listOpenGoals.clear()
                     if(it.size > 0){
                         for(goalId in it){
@@ -259,9 +263,14 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                             }
 
                                         }
-
                                         //listen to all the tasks for that goal
-                                        AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
+
+                                        if(!listOfTaskCallbacks.contains(goalId)){
+                                            AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
+                                            listOfTaskCallbacks.add(goalId)
+                                        }
+
+
                                     }
                                 }
                             }
@@ -519,9 +528,11 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
             GoalModel.removeAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
 
-            for ((key, _) in mapOfTasksForGoals) {
-                AddTaskModel.removeAllGoalTasksListeners(key, callbackForAllGoalTasks)
+            for(goalId in listOfTaskCallbacks){
+                AddTaskModel.removeAllGoalTasksListeners(goalId, callbackForAllGoalTasks)
             }
+
+            val listeners = AddTaskModel.numberOfTasksListeners()
         }
     }
 
