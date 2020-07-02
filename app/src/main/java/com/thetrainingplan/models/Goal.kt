@@ -8,5 +8,6 @@ class Goal(
     val goalType : Int?,
     val goalDateDeadline : Long?,
     val isDeleted : Long?,
-    val isCompleted : Long?
+    val isCompleted : Long?,
+    val isPermanentlyDeleted : Boolean?
 )

@@ -168,7 +168,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                 }
                 2 -> {
                     listOfGoals.forEach {goalThree ->
-                        if(goalThree.isDeleted != null){
+                        if(goalThree.isDeleted != null && goalThree.isPermanentlyDeleted != true){
                             filteredListOfGoals.add(goalThree)
                         }
                     }

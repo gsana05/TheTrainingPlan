@@ -264,19 +264,27 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                                         }
                                         //listen to all the tasks for that goal
-
-                                        if(!listOfTaskCallbacks.contains(goalId)){
-                                            AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
-                                            listOfTaskCallbacks.add(goalId)
-                                        }
-
-
+                                        AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
+                                        listOfTaskCallbacks.add(goalId)
                                     }
                                 }
                             }
                         }
                     }
                     else{
+
+                        main_recycler_view.also {recyclerView ->
+                            mapOfAllTasks.clear()
+                            recyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                            recyclerView.adapter = TasksAdaptor(ArrayList(mapOfAllTasks.values), this)
+                            if(ArrayList(mapOfAllTasks.values).size < 1){
+                                main_recycler_view_no_tasks_signage.visibility = View.VISIBLE
+                            }
+                            else{
+                                main_recycler_view_no_tasks_signage.visibility = View.GONE
+                            }
+                        }
+
                         //go goals mean no tasks outstanding or completed
                         viewModel.numberOfOpenGoals.value = listOpenGoals.size
                         viewModel.numberOfTodayTasks.value = 0
@@ -528,9 +536,13 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
             GoalModel.removeAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
 
+            val listeners1 = AddTaskModel.numberOfTasksListeners()
+
             for(goalId in listOfTaskCallbacks){
                 AddTaskModel.removeAllGoalTasksListeners(goalId, callbackForAllGoalTasks)
             }
+
+            mapOfAllTasks.clear()
 
             val listeners = AddTaskModel.numberOfTasksListeners()
         }

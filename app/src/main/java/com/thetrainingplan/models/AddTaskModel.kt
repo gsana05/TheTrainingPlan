@@ -466,9 +466,11 @@ object AddTaskModel {
 
             val deletedDates = data["deletedDates"] as ArrayList<Date>?
 
+            val isPermanentlyDeleted = data["isPermanentlyDeleted"] as? Boolean?
+
             return repeatType?.let {
                 AddTask(id,requestUserId, name, description, startDate, endDate,
-                    it, repeatEvery, repeatWeekdays, deletedDates, doneDates, goalId, completionTime )
+                    it, repeatEvery, repeatWeekdays, deletedDates, doneDates, goalId, completionTime, isPermanentlyDeleted )
             }
         }
         else{
@@ -490,16 +492,7 @@ object AddTaskModel {
                     }
                 }
 
-                getAllTasksForGoal(userId, goalId){ data1 : ArrayList<AddTask>?, _ : Exception? ->
-                    if(data1 == null || data1.size < 1){
-                        onComplete(true, null)
-                    }
-                    else{
-                        onComplete(false, Exception("Tasks have not been deleted"))
-                    }
-
-
-                }
+                onComplete(true, null)
 
             }
             else{
@@ -531,7 +524,7 @@ object AddTaskModel {
     }
 
     private fun deleteTask(userId: String, goalId: String, taskId : String){
-        firebaseRefAddTask(userId, goalId).document(taskId).delete().addOnCompleteListener {
+        firebaseRefAddTask(userId, goalId).document(taskId).update("isPermanentlyDeleted", true).addOnCompleteListener {
             if(it.isSuccessful){
                 Log.v("TAG", "Task deleted")
             }
@@ -574,6 +567,7 @@ object AddTaskModel {
         map["repeatWeekdays"]=task.repeatWeekdays
         map["goalId"]=task.goalId
         map["completionTime"]=task.completionTime
+        map["isPermanentlyDeleted"] = task.isPermanentlyDeleted
 
 
         var mappedDeletedDates = ArrayList<Timestamp>()

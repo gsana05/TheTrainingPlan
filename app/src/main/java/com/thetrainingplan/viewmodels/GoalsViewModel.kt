@@ -148,12 +148,12 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
             var setGoal : Goal? = null
             if(isNew){ // new goal
                 // you can only update existing goals thats why isDeleted and isCompleted can be set to null
-                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, null, null)
+                setGoal = Goal(null, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, null, null, null)
             }
             else{ // update goal
                 goal.value?.id?.let {goalPin ->
                     // you can only update existing goals thats why isDeleted and isCompleted can be set to null
-                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, null, null)
+                    setGoal = Goal(goalPin, userId ,dateOfGoalSetInMillie.value, goalSet.value, spinnerPosition.value, dateGoalDeadlineInMillie.value, null, null, null)
                 }
 
             }

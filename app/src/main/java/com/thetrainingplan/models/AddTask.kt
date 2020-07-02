@@ -20,5 +20,6 @@ class AddTask( var id: String?,
                var deletedDates: ArrayList<Date>? = null,
                var doneDates: ArrayList<Date>? =null,
                var goalId : String? = null,
-               var completionTime : Long? = null
+               var completionTime : Long? = null,
+               var isPermanentlyDeleted : Boolean? = null
                )

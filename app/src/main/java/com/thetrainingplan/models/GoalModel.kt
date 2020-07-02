@@ -305,7 +305,19 @@ object GoalModel {
     }
 
    fun permanentlyDeleteGoal(userId : String, goalPin : String, callback : (Boolean?, Exception?) -> Unit){
-       getDatabaseRefUserGoalsIds(userId).document(goalPin).delete() // delete goal from the goals collection
+
+       getDatabaseRefUserGoalsIds(userId).document(goalPin).update("isPermanentlyDeleted", true)  .addOnCompleteListener {task ->
+           if(task.isSuccessful){
+               //remove listener
+               mCachedGoals.remove(goalPin)
+               callback(true, null)
+           }
+           else{
+               callback(false, task.exception)
+           }
+       }
+
+       /*getDatabaseRefUserGoalsIds(userId).document(goalPin).delete() // delete goal from the goals collection
             .addOnCompleteListener {task ->
                 if(task.isSuccessful){
                     //remove listener
@@ -315,7 +327,7 @@ object GoalModel {
                 else{
                     callback(false, task.exception)
                 }
-            }
+            }*/
     }
 
     private fun getGoal(snapshot: DocumentSnapshot) : Goal?{
@@ -323,16 +335,17 @@ object GoalModel {
         val checkIfSnapshotHasNotBeenDeleted = snapshot.data
         if(checkIfSnapshotHasNotBeenDeleted != null){ // this check is needed for when you delete a goals document from database
             val data: HashMap<String, Any> = snapshot.data as HashMap<String, Any>
-            val id = data["id"] as String?
-            val userId = data["userId"] as String?
-            val goalSetDate = data["goalSetDate"] as Long?
-            val goal = data["goal"] as String?
+            val id = data["id"] as? String?
+            val userId = data["userId"] as? String?
+            val goalSetDate = data["goalSetDate"] as? Long?
+            val goal = data["goal"] as? String?
             val typeValue = data["goalType"] as Number
             val goalType = typeValue.toInt()
-            val goalDateDeadline =data["goalDateDeadline"] as Long?
-            val isDeleted = data["isDeleted"] as Long?
-            val isCompleted =data["isCompleted"] as Long?
-            return Goal(id, userId, goalSetDate, goal, goalType, goalDateDeadline, isDeleted, isCompleted)
+            val goalDateDeadline =data["goalDateDeadline"] as? Long?
+            val isDeleted = data["isDeleted"] as? Long?
+            val isCompleted =data["isCompleted"] as? Long?
+            val isPermanentlyDeleted = data["isPermanentlyDeleted"] as? Boolean?
+            return Goal(id, userId, goalSetDate, goal, goalType, goalDateDeadline, isDeleted, isCompleted, isPermanentlyDeleted)
         }
         else{
             return null
@@ -351,6 +364,7 @@ object GoalModel {
         map["goalDateDeadline"]=goal.goalDateDeadline
         map["isDeleted"]=goal.isDeleted
         map["isCompleted"]=goal.isCompleted
+        map["isPermanentlyDeleted"]=goal.isPermanentlyDeleted
         return map
     }
 
