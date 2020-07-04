@@ -367,12 +367,12 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 return@setOnClickListener
             }
 
-            if(hours.toLong() > 0){
+            if(hours.toLong() >= 0){
                 val hour = TimeUnit.HOURS.toSeconds(hours.toLong())
                 timeHours = hour
             }
 
-            if(minutes.toLong() > 0){
+            if(minutes.toLong() >= 0){
                 val mins = TimeUnit.MINUTES.toSeconds(minutes.toLong())
                 timeMinuets = mins
             }
