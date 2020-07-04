@@ -536,15 +536,11 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             UserModel.removeCurrentUserListener(userId, mCallbackCurrentUser)
             GoalModel.removeAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
 
-            val listeners1 = AddTaskModel.numberOfTasksListeners()
-
             for(goalId in listOfTaskCallbacks){
                 AddTaskModel.removeAllGoalTasksListeners(goalId, callbackForAllGoalTasks)
             }
 
             mapOfAllTasks.clear()
-
-            val listeners = AddTaskModel.numberOfTasksListeners()
         }
     }
 

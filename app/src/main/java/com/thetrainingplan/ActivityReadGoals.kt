@@ -107,8 +107,7 @@ class ActivityReadGoals : AppCompatActivity(), RecyclerViewClickListener {
                         val userId = FirebaseAuth.getInstance().uid
                         if(userId != null){
                             pin?.let { it1 ->
-                                GoalModel.addGoalSingleListener(userId,
-                                    it1, mCallbackCurrentGoal)
+                                GoalModel.addGoalSingleListener(userId, it1, mCallbackCurrentGoal)
                             }
                         }
 
