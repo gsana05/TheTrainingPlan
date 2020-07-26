@@ -7,18 +7,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.thetrainingplan.adapters.GoalsAdapter
 import com.thetrainingplan.adapters.TasksAdaptor
 import com.thetrainingplan.databinding.ActivityStatsBinding
 import com.thetrainingplan.models.AddTask
 import com.thetrainingplan.models.AddTaskModel
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
+import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.StatsViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_stats.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ActivityStats : AppCompatActivity() {
+class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
 
     private lateinit var viewModel: StatsViewModel
 
@@ -40,6 +43,11 @@ class ActivityStats : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        statistics_goals_icon.setOnClickListener {
+            finish()
+        }
+
+
         mCallbackCurrentGoal = { data : Goal?, _: Exception? ->
             if(data != null){
                 data.id?.let { mapGoalList.put(it, data) }
@@ -47,6 +55,17 @@ class ActivityStats : AppCompatActivity() {
             //setUpRecyclerView()
             if(listOfGoalPins.size == mapGoalList.size){
                 val listOfGoals = ArrayList(mapGoalList.values)
+
+                statistics_heading_individual_recycler_view.also {recyclerView ->
+                    recyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                    recyclerView.adapter = GoalsAdapter(ArrayList(mapGoalList.values), this)
+                    /*  if(checkForDeleted.size < 1){
+                          main_recycler_view_no_tasks_signage.visibility = View.VISIBLE
+                      }
+                      else{
+                          main_recycler_view_no_tasks_signage.visibility = View.GONE
+                      }*/
+                }
 
 
                 listOfGoals.forEach { goal ->
@@ -219,5 +238,9 @@ class ActivityStats : AppCompatActivity() {
 
             val ints = intArrayOf(hourss, mins, secs)
         }
+    }
+
+    override fun onRecyclerViewItemClick(view: View, any: Any) {
+        TODO("Not yet implemented")
     }
 }
