@@ -14,13 +14,149 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <Button
+        <View
+                android:id="@+id/stats_goals_item_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/white_button_blue_border"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+                android:id="@+id/stats_goals_item_heading_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/stats_goals_item_view"
+                app:layout_constraintStart_toStartOf="@+id/stats_goals_item_view"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:textSize="16sp"
+                android:text="@string/goal"
+                android:textColor="@color/blue"
+                />
+
+        <TextView
+                android:id="@+id/stats_goals_item_goal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/stats_goals_item_heading_label"
+                app:layout_constraintBottom_toBottomOf="@+id/stats_goals_item_heading_label"
+                app:layout_constraintStart_toEndOf="@+id/stats_goals_item_heading_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/black"
+                android:text="@{goal.goal}"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                />
+
+        <TextView
+                android:id="@+id/stats_goals_type_item_heading_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/stats_goals_item_heading_label"
+                app:layout_constraintStart_toStartOf="@id/stats_goals_item_heading_label"
+                app:layout_constraintBottom_toTopOf="@+id/stats_goal_item_set_date"
+                android:layout_marginTop="10dp"
+                android:text="@string/type"
+                android:textSize="16sp"
+                android:textColor="@color/blue"
+                />
+
+        <TextView
+                android:id="@+id/goals_item_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@{U.goalType(goal.goalType)}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/stats_goals_type_item_heading_label"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/stats_goals_type_item_heading_label"
+                app:layout_constraintTop_toTopOf="@+id/stats_goals_type_item_heading_label"
+                app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+                android:id="@+id/stats_goal_item_set_date_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/stats_goals_type_item_heading_label"
+                app:layout_constraintStart_toStartOf="@id/stats_goals_type_item_heading_label"
+                app:layout_constraintBottom_toTopOf="@id/stats_goals_item_button_completed"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/set"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                />
+
+        <TextView
+                android:id="@+id/stats_goal_item_set_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/stats_goal_item_set_date_heading"
+                app:layout_constraintBottom_toBottomOf="@+id/stats_goal_item_set_date_heading"
+                app:layout_constraintStart_toEndOf="@+id/stats_goal_item_set_date_heading"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"
+                android:text="@{U.formatDate(goal.goalSetDate, false)}"
+                />
+
+        <TextView
+                android:id="@+id/stats_goal_item_deadline_date_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/stats_goal_item_set_date"
+                app:layout_constraintBottom_toBottomOf="@+id/stats_goal_item_set_date"
+                app:layout_constraintStart_toEndOf="@+id/stats_goal_item_set_date"
+                android:layout_marginStart="10dp"
+                android:text="@string/deadline"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                />
+
+        <TextView
+                android:id="@+id/stats_goal_item_deadline_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/stats_goal_item_deadline_date_heading"
+                app:layout_constraintBottom_toBottomOf="@+id/stats_goal_item_deadline_date_heading"
+                app:layout_constraintStart_toEndOf="@+id/stats_goal_item_deadline_date_heading"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"
+                android:text="@{U.formatDate(goal.goalDateDeadline, false)}"
+                />
+
+        <Button
+                android:id="@+id/stats_goals_item_button_completed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/stats_goal_item_set_date_heading"
+                app:layout_constraintStart_toStartOf="@+id/stats_goal_item_set_date_heading"
+                app:layout_constraintEnd_toEndOf="@id/stats_goals_item_view"
+                app:layout_constraintBottom_toTopOf="@+id/stats_goal_item_set_date_heading"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:text="View stats"
+                android:backgroundTint="@color/green_success"
+                android:background="@drawable/blue_button"
                 />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

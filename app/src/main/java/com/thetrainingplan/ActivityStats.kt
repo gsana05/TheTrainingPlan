@@ -61,10 +61,9 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
 
                 statistics_heading_individual_recycler_view.also {recyclerView ->
 
-                    val goals = ArrayList(mapGoalList.values)
-
+                    val goals = ArrayList(mapGoalList.values).filter { it.isDeleted == null }
                     recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    recyclerView.adapter = StatsGoalAdapter(ArrayList(mapGoalList.values), this)
+                    recyclerView.adapter = StatsGoalAdapter(ArrayList(goals), this)
                     /*  if(checkForDeleted.size < 1){
                           main_recycler_view_no_tasks_signage.visibility = View.VISIBLE
                       }
