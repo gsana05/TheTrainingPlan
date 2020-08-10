@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.adapters.GoalsAdapter
+import com.thetrainingplan.adapters.StatsGoalAdapter
 import com.thetrainingplan.adapters.TasksAdaptor
 import com.thetrainingplan.databinding.ActivityStatsBinding
 import com.thetrainingplan.models.AddTask
@@ -18,6 +19,8 @@ import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.StatsViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_stats.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.okButton
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -57,8 +60,11 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
                 val listOfGoals = ArrayList(mapGoalList.values)
 
                 statistics_heading_individual_recycler_view.also {recyclerView ->
+
+                    val goals = ArrayList(mapGoalList.values)
+
                     recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    recyclerView.adapter = GoalsAdapter(ArrayList(mapGoalList.values), this)
+                    recyclerView.adapter = StatsGoalAdapter(ArrayList(mapGoalList.values), this)
                     /*  if(checkForDeleted.size < 1){
                           main_recycler_view_no_tasks_signage.visibility = View.VISIBLE
                       }
@@ -241,6 +247,8 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
     }
 
     override fun onRecyclerViewItemClick(view: View, any: Any) {
-        TODO("Not yet implemented")
+        alert ("pressed"){
+            okButton {  }
+        }.show()
     }
 }

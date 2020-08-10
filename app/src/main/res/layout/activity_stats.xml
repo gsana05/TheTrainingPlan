@@ -144,7 +144,7 @@
                 app:layout_constraintStart_toStartOf="@+id/statistics_goals_view"
                 app:layout_constraintEnd_toEndOf="@+id/statistics_goals_view"
                 android:layout_marginTop="40dp"
-                android:text="Individual stats"
+                android:text="Individual stats per goal"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/blue"
