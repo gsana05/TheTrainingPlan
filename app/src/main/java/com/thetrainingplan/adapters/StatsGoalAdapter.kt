@@ -32,6 +32,10 @@ class StatsGoalAdapter(private val goals : ArrayList<Goal>, private val listener
 
         holder.recyclerviewMovieBinding.goal = goal
 
+        holder.recyclerviewMovieBinding.statsGoalsItemButtonCompleted.setOnClickListener {
+            listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.statsGoalsItemButtonCompleted, goals[position])
+        }
+
         /*holder.recyclerviewMovieBinding.goalsItemButton.setOnClickListener {
             listener.onRecyclerViewItemClick(holder.recyclerviewMovieBinding.goalsItemButton, goals[position])
         }

@@ -1,5 +1,6 @@
 package com.thetrainingplan
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.thetrainingplan.adapters.GoalsAdapter
 import com.thetrainingplan.adapters.StatsGoalAdapter
-import com.thetrainingplan.adapters.TasksAdaptor
 import com.thetrainingplan.databinding.ActivityStatsBinding
 import com.thetrainingplan.models.AddTask
 import com.thetrainingplan.models.AddTaskModel
@@ -17,10 +16,11 @@ import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.util.RecyclerViewClickListener
 import com.thetrainingplan.viewmodels.StatsViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_stats.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.okButton
+import org.jetbrains.anko.yesButton
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -51,6 +51,13 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
         }
 
 
+
+        viewModel.startAllStatsActivityEvent.observe(this, androidx.lifecycle.Observer {
+            val intent = Intent(this, ActivityStatisticsBoard::class.java)
+            startActivity(intent)
+        })
+
+
         mCallbackCurrentGoal = { data : Goal?, _: Exception? ->
             if(data != null){
                 data.id?.let { mapGoalList.put(it, data) }
@@ -64,12 +71,6 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
                     val goals = ArrayList(mapGoalList.values).filter { it.isDeleted == null }
                     recyclerView.layoutManager = LinearLayoutManager(applicationContext)
                     recyclerView.adapter = StatsGoalAdapter(ArrayList(goals), this)
-                    /*  if(checkForDeleted.size < 1){
-                          main_recycler_view_no_tasks_signage.visibility = View.VISIBLE
-                      }
-                      else{
-                          main_recycler_view_no_tasks_signage.visibility = View.GONE
-                      }*/
                 }
 
 
@@ -132,16 +133,8 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
                             listOfTaskCallbacks.add(goalId)
 
                         }
-
-
                     }
-
-
-
                 }
-
-
-
             }
 
         }
@@ -246,8 +239,19 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
     }
 
     override fun onRecyclerViewItemClick(view: View, any: Any) {
-        alert ("pressed"){
-            okButton {  }
-        }.show()
+
+        val mGoal = any as Goal
+        when(view.id){
+            R.id.stats_goals_item_button_completed -> {
+                alert ("${mGoal.goal}"){
+                    okButton {  }
+                }.show()
+            }
+            else -> {
+                alert ("Something went wrong"){
+                    okButton {  }
+                }.show()
+            }
+        }
     }
 }
