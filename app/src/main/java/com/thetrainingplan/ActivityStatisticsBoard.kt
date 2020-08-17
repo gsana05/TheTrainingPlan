@@ -101,12 +101,12 @@ class ActivityStatisticsBoard : AppCompatActivity() {
             if(listOfGoalPins.size == mapGoalList.size){
                 val listOfGoals = ArrayList(mapGoalList.values)
 
-                statistics_heading_individual_recycler_view.also {recyclerView ->
+              /*  statistics_heading_individual_recycler_view.also {recyclerView ->
 
                     val goals = ArrayList(mapGoalList.values).filter { it.isDeleted == null }
-                   /* recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    recyclerView.adapter = StatsGoalAdapter(ArrayList(goals), this)*/
-                }
+                   *//* recyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                    recyclerView.adapter = StatsGoalAdapter(ArrayList(goals), this)*//*
+                }*/
 
 
                 listOfGoals.forEach { goal ->
@@ -164,8 +164,11 @@ class ActivityStatisticsBoard : AppCompatActivity() {
 
                             }
                             //listen to all the tasks for that goal
-                            AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
-                            listOfTaskCallbacks.add(goalId)
+                            if(!listOfTaskCallbacks.contains(goalId)){
+                                AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
+                                listOfTaskCallbacks.add(goalId)
+                            }
+
 
                         }
                     }
