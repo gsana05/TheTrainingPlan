@@ -14,6 +14,7 @@ import com.thetrainingplan.models.AddTaskModel
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.viewmodels.StatsViewModel
+import kotlinx.android.synthetic.main.activity_statistics_board.*
 import kotlinx.android.synthetic.main.activity_stats.*
 import java.util.HashMap
 
@@ -100,6 +101,7 @@ class ActivityStatisticsBoard : AppCompatActivity() {
             //setUpRecyclerView()
             if(listOfGoalPins.size == mapGoalList.size){
                 val listOfGoals = ArrayList(mapGoalList.values)
+                statistics_board_goals_view_number_of_goals.text = listOfGoals.size.toString()
 
               /*  statistics_heading_individual_recycler_view.also {recyclerView ->
 
@@ -129,6 +131,7 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                 }
 
                                 val tasks = ArrayList(mapOfAllTasks.values)
+                                statistics_board_goals_view_number_of_tasks.text = tasks.size.toString()
 
                                 /*  val filteredTaskForToday = AddTaskModel.filterEventsForDate(ArrayList(mapOfAllTasks.values), Calendar.getInstance())
 
