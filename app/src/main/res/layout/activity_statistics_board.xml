@@ -151,7 +151,189 @@
             android:background="@drawable/white_button_blue_border"
             />
 
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_of_open_goals_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_goals"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_open_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_open_goals"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text="Open goals"
+            />
 
+    <Button
+            android:id="@+id/statistics_board_goals_view_number_of_open_goals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_open_goals_heading"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_goals"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:background="@drawable/white_button_blue_border"
+            />
+
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_of_completed_tasks_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_tasks"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_tasks"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_tasks"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text="Completed tasks"
+            />
+
+    <Button
+            android:id="@+id/statistics_board_goals_view_number_of_completed_tasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_completed_tasks_heading"
+            app:layout_constraintStart_toEndOf="@+id/statistics_board_goals_view_number_of_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:background="@drawable/white_button_blue_border"
+            />
+
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_of_completed_goals_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_open_goals"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_open_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_open_goals"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text="Completed goals"
+            />
+
+    <Button
+            android:id="@+id/statistics_board_goals_view_number_of_completed_goals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_completed_goals_heading"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_goals"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:background="@drawable/white_button_blue_border"
+            />
+
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_of_open_tasks_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_completed_tasks"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_tasks"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_tasks"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text="Open tasks"
+            />
+
+    <Button
+            android:id="@+id/statistics_board_goals_view_number_of_open_tasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_open_tasks_heading"
+            app:layout_constraintStart_toEndOf="@+id/statistics_board_goals_view_number_of_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:background="@drawable/white_button_blue_border"
+            />
+
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_hours_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_open_tasks"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/blue"
+            android:textSize="24sp"
+            android:text="Total time towards all goals"
+            android:textStyle="bold"
+            />
+
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_of_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_hours_heading"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_hours_heading"
+            app:layout_constraintEnd_toStartOf="@+id/statistics_board_goals_view_number_of_minutes"
+            android:text="HOURS"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            />
+
+    <Button
+            android:id="@+id/statistics_board_goals_view_number_of_hours_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_hours"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_hours_heading"
+            app:layout_constraintEnd_toStartOf="@+id/statistics_board_goals_view_number_of_minutes_result"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:background="@drawable/white_button_blue_border"
+            />
+
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_of_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_hours_heading"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_hours_heading"
+            app:layout_constraintStart_toEndOf="@+id/statistics_board_goals_view_number_of_hours"
+            android:text="MINUTES"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            />
+
+    <Button
+            android:id="@+id/statistics_board_goals_view_number_of_minutes_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_hours"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_hours_heading"
+            app:layout_constraintStart_toEndOf="@+id/statistics_board_goals_view_number_of_hours_result"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:background="@drawable/white_button_blue_border"
+            />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
