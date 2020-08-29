@@ -240,6 +240,59 @@ object AddTaskModel {
         return listOfTasks
     }
 
+    fun numberOfDaysBetweenDates(startDate : Date, endDate : Date) : Long {
+        //milliseconds
+        var different = endDate.time - startDate.time
+
+        val secondsInMilli = 1000
+        val minutesInMilli = secondsInMilli * 60
+        val hoursInMilli = minutesInMilli * 60
+        val daysInMilli = hoursInMilli * 24
+
+        val elapsedDays = different / daysInMilli
+        different %= daysInMilli
+
+        val elapsedHours = different / hoursInMilli
+        different %= hoursInMilli
+
+        //val elapsedMinutes = different / minutesInMilli
+        different %= minutesInMilli
+
+        //val elapsedSeconds = different / secondsInMilli
+
+        return elapsedDays
+    }
+
+    fun filterToGetDeletedTasks(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
+
+        val todayDate = Date(Calendar.getInstance().timeInMillis)
+        val listOfTasks = ArrayList<AddTask>()
+
+        for(task in tasks){
+            if(task.deletedDates == null){
+                continue
+            }
+            else{
+                val format = SimpleDateFormat("yyyyMMMdd")
+
+                task.deletedDates?.let {dates ->
+
+                    if(dates.size > 0){
+                        val timeStampDates = dates as ArrayList<Timestamp>
+
+                        for(stamp in timeStampDates){
+
+                            listOfTasks.add(task)
+
+                        }
+                    }
+                }
+            }
+        }
+
+        return listOfTasks
+    }
+
     fun filterForDeleted(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
 
         val todayDate = Date(Calendar.getInstance().timeInMillis)

@@ -13,6 +13,9 @@ class StatsViewModel(application : Application) : AndroidViewModel(application) 
     val completedGoals = MutableLiveData<Int>()
     val deletedGoals = MutableLiveData<Int>()
     val totalNumberOfTasks = MutableLiveData<Int>()
+    val openTasks = MutableLiveData<Int>()
+    val completedTasks = MutableLiveData<Int>()
+    val deletedTasks = MutableLiveData<Int>()
 
     fun startAllStatsActivity(){
         startAllStatsActivityEvent.call()

@@ -16,7 +16,8 @@ import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.viewmodels.StatsViewModel
 import kotlinx.android.synthetic.main.activity_statistics_board.*
 import kotlinx.android.synthetic.main.activity_stats.*
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ActivityStatisticsBoard : AppCompatActivity() {
 
@@ -133,39 +134,54 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                 }
 
                                 val tasks = ArrayList(mapOfAllTasks.values)
-                                viewModel.totalNumberOfTasks.value = tasks.size
+                                var repeatingTasks = 0L
+                                // from the tasks get number of repeating tasks
+                                // get all repeating tasks
+                                val allTasksWithRepeating = tasks.filter { it.repeatEvery != null }
+                                //workout how many times they repeat until the end date
+                                allTasksWithRepeating.filter {
+                                    it.startDate?.let {start ->
+                                        val st = Date(start)
 
-                                /*  val filteredTaskForToday = AddTaskModel.filterEventsForDate(ArrayList(mapOfAllTasks.values), Calendar.getInstance())
+                                        it.endDate?.let { end ->
+                                            val en = Date(end)
 
-                                  val checkForDeleted = AddTaskModel.filterForDeleted(filteredTaskForToday)
+                                            val daysBetween = AddTaskModel.numberOfDaysBetweenDates(st, en)
+                                            val i = daysBetween
 
-                                  if(goal.isDeleted != null || goal.isCompleted != null){
-                                      // this means the goal is NOT open - so remove those tasks
-                                      val tasksToRemove = ArrayList<AddTask>()
-                                      for( i in checkForDeleted){
-                                          if(i.goalId == goal.id){
-                                              tasksToRemove.add(i)
-                                          }
-                                      }
+                                            it.repeatEvery?.let { repeat ->
 
-                                      for (k in tasksToRemove){
-                                          if(checkForDeleted.contains(k)){
-                                              mapOfAllTasks.remove(k.id)
-                                              checkForDeleted.remove(k)
-                                          }
-                                      }
+                                                val numberOfRepeatTasks = daysBetween / repeat
+                                                val ans = numberOfRepeatTasks
+                                                repeatingTasks += ans
+                                                //take one away as you would have added the same task twice - once in repeating and once in tasks
+                                                repeatingTasks--
 
-                                  }
+                                            }
 
-                                  //val checkForDone = AddTaskModel.filterRemoveDone(checkForDeleted)
+                                        }
 
-                                  var numberOfCompletedTasks = 0
-                                  for( task in checkForDeleted){
-                                      if(AddTaskModel.checkTaskIsCompleted(task)){
-                                          numberOfCompletedTasks++
-                                      }
-                                  }*/
+                                    }
 
+
+
+                                    true
+                                }
+
+                                viewModel.totalNumberOfTasks.value = tasks.size + repeatingTasks.toInt()
+
+                                val checkForDeleted = AddTaskModel.filterToGetDeletedTasks(tasks)
+
+                                val i = checkForDeleted
+
+                                /*val listOfOpenTasks = tasks.filter { }
+                                viewModel.openTasks.value = listOfOpenTasks.size
+
+                                val listOfCompletedTasks = tasks.filter { it.doneDates }
+                                viewModel.completedTasks.value = listOfCompletedTasks.size
+
+                                val listOfDeletedTasks = tasks.filter { it.isDeleted != null }
+                                viewModel.deletedTasks.value = listOfDeletedTasks.size*/
 
                             }
                             //listen to all the tasks for that goal
