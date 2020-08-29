@@ -101,14 +101,16 @@ class ActivityStatisticsBoard : AppCompatActivity() {
             //setUpRecyclerView()
             if(listOfGoalPins.size == mapGoalList.size){
                 val listOfGoals = ArrayList(mapGoalList.values)
-                statistics_board_goals_view_number_of_goals.text = listOfGoals.size.toString()
+                viewModel.totalNumberOfGoals.value = listOfGoals.size
 
-              /*  statistics_heading_individual_recycler_view.also {recyclerView ->
+                val listOfOpenGoals = listOfGoals.filter { it.isDeleted == null && it.isCompleted == null }
+                viewModel.openGoals.value = listOfOpenGoals.size
 
-                    val goals = ArrayList(mapGoalList.values).filter { it.isDeleted == null }
-                   *//* recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    recyclerView.adapter = StatsGoalAdapter(ArrayList(goals), this)*//*
-                }*/
+                val listOfCompletedGoals = listOfGoals.filter { it.isCompleted != null }
+                viewModel.completedGoals.value = listOfCompletedGoals.size
+
+                val listOfDeletedGoals = listOfGoals.filter { it.isDeleted != null }
+                viewModel.deletedGoals.value = listOfDeletedGoals.size
 
 
                 listOfGoals.forEach { goal ->
@@ -131,7 +133,7 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                 }
 
                                 val tasks = ArrayList(mapOfAllTasks.values)
-                                statistics_board_goals_view_number_of_tasks.text = tasks.size.toString()
+                                viewModel.totalNumberOfTasks.value = tasks.size
 
                                 /*  val filteredTaskForToday = AddTaskModel.filterEventsForDate(ArrayList(mapOfAllTasks.values), Calendar.getInstance())
 
