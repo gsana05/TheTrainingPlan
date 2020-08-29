@@ -180,7 +180,7 @@
             />
 
     <TextView
-            android:id="@+id/statistics_board_goals_view_number_of_completed_tasks_heading"
+            android:id="@+id/statistics_board_goals_view_number_of_open_tasks_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_tasks"
@@ -189,14 +189,14 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/blue"
             android:textStyle="bold"
-            android:text="Completed tasks"
+            android:text="Open tasks"
             />
 
     <Button
-            android:id="@+id/statistics_board_goals_view_number_of_completed_tasks"
+            android:id="@+id/statistics_board_goals_view_number_of_open_tasks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_completed_tasks_heading"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_open_tasks_heading"
             app:layout_constraintStart_toEndOf="@+id/statistics_board_goals_view_number_of_goals"
             app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view"
             android:text="0"
@@ -236,7 +236,63 @@
             />
 
     <TextView
-            android:id="@+id/statistics_board_goals_view_number_of_open_tasks_heading"
+            android:id="@+id/statistics_board_goals_view_number_of_deleted_goals_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_completed_goals"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_open_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_open_goals"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text="Deleted goals"
+            />
+
+    <Button
+            android:id="@+id/statistics_board_goals_view_number_of_deleted_goals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_deleted_goals_heading"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_goals"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:background="@drawable/white_button_blue_border"
+            />
+
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_of_completed_tasks_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_open_tasks"
+            app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view_number_of_tasks"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view_number_of_tasks"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text="Completed tasks"
+            />
+
+    <Button
+            android:id="@+id/statistics_board_goals_view_number_of_completed_tasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_completed_tasks_heading"
+            app:layout_constraintStart_toEndOf="@+id/statistics_board_goals_view_number_of_goals"
+            app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:background="@drawable/white_button_blue_border"
+            />
+
+    <TextView
+            android:id="@+id/statistics_board_goals_view_number_of_deleted_tasks_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_completed_tasks"
@@ -245,14 +301,14 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/blue"
             android:textStyle="bold"
-            android:text="Open tasks"
+            android:text="deleted tasks"
             />
 
     <Button
-            android:id="@+id/statistics_board_goals_view_number_of_open_tasks"
+            android:id="@+id/statistics_board_goals_view_number_of_deleted_tasks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_open_tasks_heading"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_deleted_tasks_heading"
             app:layout_constraintStart_toEndOf="@+id/statistics_board_goals_view_number_of_goals"
             app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view"
             android:text="0"
@@ -267,7 +323,7 @@
             android:id="@+id/statistics_board_goals_view_number_hours_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_open_tasks"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_board_goals_view_number_of_deleted_tasks"
             app:layout_constraintStart_toStartOf="@+id/statistics_board_goals_view"
             app:layout_constraintEnd_toEndOf="@+id/statistics_board_goals_view"
             android:layout_marginTop="20dp"
@@ -334,6 +390,5 @@
             android:textAllCaps="false"
             android:background="@drawable/white_button_blue_border"
             />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
