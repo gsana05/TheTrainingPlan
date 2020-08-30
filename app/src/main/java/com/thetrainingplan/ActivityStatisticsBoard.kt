@@ -141,8 +141,7 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                 val allTasksWithRepeating = tasksForGoals.filter { it.repeatEvery != null }
                                 //workout how many times they repeat until the end date
                                 if(allTasksWithRepeating.isNotEmpty()){ // repeating task
-                                    allTasksWithRepeating.filter {
-
+                                    allTasksWithRepeating.map {
                                         // tasks that have been deleted
                                         it.deletedDates?.let { tasksDel ->
                                             tasksDeleted += tasksDel.size
@@ -171,16 +170,15 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                             }
 
                                         }
-
-                                        true
                                     }
                                 }
-                                else{ // one off task
-                                    tasksForGoals.map {task ->
-                                        task.deletedDates?.let { taskDeleted ->
-                                            if(taskDeleted.size > 0){
-                                                tasksDeleted += taskDeleted.size
-                                            }
+
+                                val allTasksNotRepeating = tasksForGoals.filter { it.repeatEvery == null }
+                                allTasksNotRepeating.map {task ->
+                                    // tasks that have been deleted
+                                    task.deletedDates?.let { taskDeleted ->
+                                        if(taskDeleted.size > 0){
+                                            tasksDeleted += taskDeleted.size
                                         }
                                     }
                                 }
