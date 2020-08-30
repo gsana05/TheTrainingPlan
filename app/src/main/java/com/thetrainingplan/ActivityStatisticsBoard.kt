@@ -133,44 +133,62 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                     }
                                 }
 
-                                val tasks = ArrayList(mapOfAllTasks.values)
+                                val tasksForGoals = ArrayList(mapOfAllTasks.values)
                                 var repeatingTasks = 0L
+                                var tasksDeleted = 0
                                 // from the tasks get number of repeating tasks
                                 // get all repeating tasks
-                                val allTasksWithRepeating = tasks.filter { it.repeatEvery != null }
+                                val allTasksWithRepeating = tasksForGoals.filter { it.repeatEvery != null }
                                 //workout how many times they repeat until the end date
-                                allTasksWithRepeating.filter {
-                                    it.startDate?.let {start ->
-                                        val st = Date(start)
+                                if(allTasksWithRepeating.isNotEmpty()){ // repeating task
+                                    allTasksWithRepeating.filter {
 
-                                        it.endDate?.let { end ->
-                                            val en = Date(end)
+                                        // tasks that have been deleted
+                                        it.deletedDates?.let { tasksDel ->
+                                            tasksDeleted += tasksDel.size
+                                        }
 
-                                            val daysBetween = AddTaskModel.numberOfDaysBetweenDates(st, en)
-                                            val i = daysBetween
+                                        // total number of tasks including repeating tasks
+                                        it.startDate?.let {start ->
+                                            val st = Date(start)
 
-                                            it.repeatEvery?.let { repeat ->
+                                            it.endDate?.let { end ->
+                                                val en = Date(end)
 
-                                                val numberOfRepeatTasks = daysBetween / repeat
-                                                val ans = numberOfRepeatTasks
-                                                repeatingTasks += ans
-                                                //take one away as you would have added the same task twice - once in repeating and once in tasks
-                                                repeatingTasks--
+                                                val daysBetween = AddTaskModel.numberOfDaysBetweenDates(st, en)
+                                                val i = daysBetween
+
+                                                it.repeatEvery?.let { repeat ->
+
+                                                    val numberOfRepeatTasks = daysBetween / repeat
+                                                    val ans = numberOfRepeatTasks
+                                                    repeatingTasks += ans
+                                                    //take one away as you would have added the same task twice - once in repeating and once in tasks
+                                                    repeatingTasks--
+
+                                                }
 
                                             }
 
                                         }
 
+                                        true
                                     }
-
-
-
-                                    true
+                                }
+                                else{ // one off task
+                                    tasksForGoals.map {task ->
+                                        task.deletedDates?.let { taskDeleted ->
+                                            if(taskDeleted.size > 0){
+                                                tasksDeleted += taskDeleted.size
+                                            }
+                                        }
+                                    }
                                 }
 
-                                viewModel.totalNumberOfTasks.value = tasks.size + repeatingTasks.toInt()
+                                viewModel.deletedTasks.value = tasksDeleted
+                                viewModel.totalNumberOfTasks.value = tasksForGoals.size + repeatingTasks.toInt()
 
-                                val checkForDeleted = AddTaskModel.filterToGetDeletedTasks(tasks)
+                                val checkForDeleted = AddTaskModel.filterToGetDeletedTasks(tasksForGoals)
 
                                 val i = checkForDeleted
 
