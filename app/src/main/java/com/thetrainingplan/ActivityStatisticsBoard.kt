@@ -136,6 +136,7 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                 val tasksForGoals = ArrayList(mapOfAllTasks.values)
                                 var repeatingTasks = 0L
                                 var tasksDeleted = 0
+                                var tasksDone = 0
                                 // from the tasks get number of repeating tasks
                                 // get all repeating tasks
                                 val allTasksWithRepeating = tasksForGoals.filter { it.repeatEvery != null }
@@ -145,6 +146,11 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                         // tasks that have been deleted
                                         it.deletedDates?.let { tasksDel ->
                                             tasksDeleted += tasksDel.size
+                                        }
+
+                                        // tasks done
+                                        it.doneDates?.let {donedates ->
+                                            tasksDone += donedates.size
                                         }
 
                                         // total number of tasks including repeating tasks
@@ -181,8 +187,15 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                             tasksDeleted += taskDeleted.size
                                         }
                                     }
+
+                                    // tasks done
+                                    task.doneDates?.let {donedates ->
+                                        tasksDone += donedates.size
+                                    }
+
                                 }
 
+                                viewModel.completedTasks.value = tasksDone
                                 viewModel.deletedTasks.value = tasksDeleted
                                 viewModel.totalNumberOfTasks.value = tasksForGoals.size + repeatingTasks.toInt()
 
