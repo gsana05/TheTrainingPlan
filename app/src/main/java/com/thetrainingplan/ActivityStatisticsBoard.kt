@@ -212,18 +212,16 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                 viewModel.deletedTasks.value = tasksDeleted
                                 viewModel.totalNumberOfTasks.value = totalTasks
 
-                                val checkForDeleted = AddTaskModel.filterToGetDeletedTasks(tasksForGoals)
+                                var time = 0
+                                tasksForGoals.map {
+                                    it.completionTime?.let {completion ->
+                                        time += completion.toInt()
+                                    }
+                                }
 
-                                val i = checkForDeleted
-
-                                /*val listOfOpenTasks = tasks.filter { }
-                                viewModel.openTasks.value = listOfOpenTasks.size
-
-                                val listOfCompletedTasks = tasks.filter { it.doneDates }
-                                viewModel.completedTasks.value = listOfCompletedTasks.size
-
-                                val listOfDeletedTasks = tasks.filter { it.isDeleted != null }
-                                viewModel.deletedTasks.value = listOfDeletedTasks.size*/
+                                val timeSpent = convertLongToTime(time.toLong())
+                                statistics_board_goals_view_number_of_hours_result.text = timeSpent[0].toString()
+                                statistics_board_goals_view_number_of_minutes_result.text = timeSpent[1].toString()
 
                             }
                             //listen to all the tasks for that goal
@@ -240,6 +238,21 @@ class ActivityStatisticsBoard : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun convertLongToTime(timeCompletion : Long) : IntArray{
+        timeCompletion.let {
+            val longVal: Long = it
+            val hourss = longVal.toInt() / 3600
+            val ioi = hourss
+            var remainder = longVal.toInt() - hourss * 3600
+            val mins = remainder / 60
+            remainder = remainder - mins * 60
+            val secs = remainder
+
+            val ints = intArrayOf(hourss, mins, secs)
+            return ints
+        }
     }
 
     override fun onPause() {

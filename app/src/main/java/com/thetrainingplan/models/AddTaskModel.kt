@@ -263,36 +263,6 @@ object AddTaskModel {
         return elapsedDays
     }
 
-    fun filterToGetDeletedTasks(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
-
-        val todayDate = Date(Calendar.getInstance().timeInMillis)
-        val listOfTasks = ArrayList<AddTask>()
-
-        for(task in tasks){
-            if(task.deletedDates == null){
-                continue
-            }
-            else{
-                val format = SimpleDateFormat("yyyyMMMdd")
-
-                task.deletedDates?.let {dates ->
-
-                    if(dates.size > 0){
-                        val timeStampDates = dates as ArrayList<Timestamp>
-
-                        for(stamp in timeStampDates){
-
-                            listOfTasks.add(task)
-
-                        }
-                    }
-                }
-            }
-        }
-
-        return listOfTasks
-    }
-
     fun filterForDeleted(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
 
         val todayDate = Date(Calendar.getInstance().timeInMillis)
