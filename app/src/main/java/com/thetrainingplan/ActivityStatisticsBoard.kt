@@ -137,21 +137,27 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                 var repeatingTasks = 0L
                                 var tasksDeleted = 0
                                 var tasksDone = 0
+                                var openTasks = 0
                                 // from the tasks get number of repeating tasks
                                 // get all repeating tasks
                                 val allTasksWithRepeating = tasksForGoals.filter { it.repeatEvery != null }
                                 //workout how many times they repeat until the end date
                                 if(allTasksWithRepeating.isNotEmpty()){ // repeating task
                                     allTasksWithRepeating.map {
+
+                                        val datesDeleted  = it.deletedDates
+                                        val datesDone = it.doneDates
+
                                         // tasks that have been deleted
-                                        it.deletedDates?.let { tasksDel ->
+                                        datesDeleted?.let { tasksDel ->
                                             tasksDeleted += tasksDel.size
                                         }
 
                                         // tasks done
-                                        it.doneDates?.let {donedates ->
+                                        datesDone?.let {donedates ->
                                             tasksDone += donedates.size
                                         }
+
 
                                         // total number of tasks including repeating tasks
                                         it.startDate?.let {start ->
@@ -166,10 +172,11 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                                 it.repeatEvery?.let { repeat ->
 
                                                     val numberOfRepeatTasks = daysBetween / repeat
-                                                    val ans = numberOfRepeatTasks
-                                                    repeatingTasks += ans
-                                                    //take one away as you would have added the same task twice - once in repeating and once in tasks
-                                                    repeatingTasks--
+                                                    val repeatTasksForThisOneTask = numberOfRepeatTasks.toInt()
+                                                    repeatingTasks += repeatTasksForThisOneTask
+                                                    //inclusive of the start day
+                                                    repeatingTasks++
+
 
                                                 }
 
@@ -181,23 +188,29 @@ class ActivityStatisticsBoard : AppCompatActivity() {
 
                                 val allTasksNotRepeating = tasksForGoals.filter { it.repeatEvery == null }
                                 allTasksNotRepeating.map {task ->
+
+                                    val datesDeleted  = task.deletedDates
+                                    val datesDone = task.doneDates
+
                                     // tasks that have been deleted
-                                    task.deletedDates?.let { taskDeleted ->
+                                    datesDeleted?.let { taskDeleted ->
                                         if(taskDeleted.size > 0){
                                             tasksDeleted += taskDeleted.size
                                         }
                                     }
 
                                     // tasks done
-                                    task.doneDates?.let {donedates ->
+                                    datesDone?.let {donedates ->
                                         tasksDone += donedates.size
                                     }
 
                                 }
 
+                                val totalTasks = allTasksNotRepeating.size + repeatingTasks.toInt()
+                                viewModel.openTasks.value = totalTasks - (tasksDone + tasksDeleted)
                                 viewModel.completedTasks.value = tasksDone
                                 viewModel.deletedTasks.value = tasksDeleted
-                                viewModel.totalNumberOfTasks.value = tasksForGoals.size + repeatingTasks.toInt()
+                                viewModel.totalNumberOfTasks.value = totalTasks
 
                                 val checkForDeleted = AddTaskModel.filterToGetDeletedTasks(tasksForGoals)
 
