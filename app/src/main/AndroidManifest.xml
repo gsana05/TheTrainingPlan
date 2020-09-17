@@ -12,12 +12,18 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".ActivityStatisticsBoard"
+                android:name=".ActivityStatisticsPerGoal"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden"
                 tools:ignore="LockedOrientationActivity"
                 />
+        <activity
+                android:name=".ActivityStatisticsBoard"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden"
+                tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ActivityStats"
                 android:screenOrientation="portrait"

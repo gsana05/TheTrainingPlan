@@ -61,7 +61,7 @@
             app:layout_constraintHorizontal_weight="0.7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="Test"
+            android:text="All Statistics"
             android:textAlignment="center"
             android:textColor="#ffffff"
             android:textSize="24sp"
@@ -92,6 +92,7 @@
             android:textSize="24sp"
             android:text="All Statistics"
             android:textStyle="bold"
+            android:visibility="gone"
             />
 
 

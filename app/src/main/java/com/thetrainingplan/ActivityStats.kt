@@ -245,9 +245,8 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
         val mGoal = any as Goal
         when(view.id){
             R.id.stats_goals_item_button_completed -> {
-                alert ("${mGoal.goal}"){
-                    okButton {  }
-                }.show()
+                val intent = Intent(this, ActivityStatisticsPerGoal::class.java)
+                startActivity(intent)
             }
             else -> {
                 alert ("Something went wrong"){

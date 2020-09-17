@@ -40,6 +40,9 @@ class ActivityStatisticsBoard : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        statistics_board_goals_fragment_toolbar_profile_profile_name.setOnClickListener {
+            finish()
+        }
 
         mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
             data?.let {
@@ -229,15 +232,11 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                                 AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
                                 listOfTaskCallbacks.add(goalId)
                             }
-
-
                         }
                     }
                 }
             }
-
         }
-
     }
 
     private fun convertLongToTime(timeCompletion : Long) : IntArray{
