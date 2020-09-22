@@ -246,6 +246,8 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
         when(view.id){
             R.id.stats_goals_item_button_completed -> {
                 val intent = Intent(this, ActivityStatisticsPerGoal::class.java)
+                intent.putExtra("goalId", mGoal.id)
+                intent.putExtra("userId", mGoal.userId)
                 startActivity(intent)
             }
             else -> {
