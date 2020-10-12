@@ -264,8 +264,11 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                                         }
                                         //listen to all the tasks for that goal
-                                        AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
-                                        listOfTaskCallbacks.add(goalId)
+                                        if(!listOfTaskCallbacks.contains(goalId)){
+                                            AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
+                                            listOfTaskCallbacks.add(goalId)
+                                        }
+
                                     }
                                 }
                             }
@@ -540,6 +543,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 AddTaskModel.removeAllGoalTasksListeners(goalId, callbackForAllGoalTasks)
             }
 
+            listOfTaskCallbacks.clear()
             mapOfAllTasks.clear()
         }
     }

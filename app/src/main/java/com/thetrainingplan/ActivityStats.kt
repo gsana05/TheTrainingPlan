@@ -28,12 +28,10 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
 
     private lateinit var viewModel: StatsViewModel
 
-    private var callbackForAllGoalTasks = { _:ArrayList<AddTask?>?, _: Exception? -> Unit}
     private var mCallbackAllUserGoalIds = { _:ArrayList<String?>?, _: Exception? -> Unit}
     private val mapGoalList = HashMap<String, Goal>()
     private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
     private var listOfGoalPins = ArrayList<String>()
-    private val listOfTaskCallbacks = ArrayList<String>()
     private var mapOfAllTasks = HashMap<String, AddTask>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +62,6 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
             }
             //setUpRecyclerView()
             if(listOfGoalPins.size == mapGoalList.size){
-                val listOfGoals = ArrayList(mapGoalList.values)
 
                 statistics_heading_individual_recycler_view.also {recyclerView ->
 
@@ -72,71 +69,7 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
                     recyclerView.layoutManager = LinearLayoutManager(applicationContext)
                     recyclerView.adapter = StatsGoalAdapter(ArrayList(goals), this)
                 }
-
-
-                listOfGoals.forEach { goal ->
-                    val userId = FirebaseAuth.getInstance().uid
-                    if(userId != null){
-
-                        goal.id?.let { goalId ->
-
-                            // display today's tasks
-                            callbackForAllGoalTasks = { tasks : ArrayList<AddTask?>?, _ : Exception? ->
-
-                                tasks?.let {ta ->
-                                    for( i in ta){
-                                        i?.let { t ->
-                                            t.id?.let {taskId ->
-                                                mapOfAllTasks[taskId] = t
-                                            }
-                                        }
-                                    }
-                                }
-
-                                val tasks = ArrayList(mapOfAllTasks.values)
-
-                              /*  val filteredTaskForToday = AddTaskModel.filterEventsForDate(ArrayList(mapOfAllTasks.values), Calendar.getInstance())
-
-                                val checkForDeleted = AddTaskModel.filterForDeleted(filteredTaskForToday)
-
-                                if(goal.isDeleted != null || goal.isCompleted != null){
-                                    // this means the goal is NOT open - so remove those tasks
-                                    val tasksToRemove = ArrayList<AddTask>()
-                                    for( i in checkForDeleted){
-                                        if(i.goalId == goal.id){
-                                            tasksToRemove.add(i)
-                                        }
-                                    }
-
-                                    for (k in tasksToRemove){
-                                        if(checkForDeleted.contains(k)){
-                                            mapOfAllTasks.remove(k.id)
-                                            checkForDeleted.remove(k)
-                                        }
-                                    }
-
-                                }
-
-                                //val checkForDone = AddTaskModel.filterRemoveDone(checkForDeleted)
-
-                                var numberOfCompletedTasks = 0
-                                for( task in checkForDeleted){
-                                    if(AddTaskModel.checkTaskIsCompleted(task)){
-                                        numberOfCompletedTasks++
-                                    }
-                                }*/
-
-
-                            }
-                            //listen to all the tasks for that goal
-                            AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
-                            listOfTaskCallbacks.add(goalId)
-
-                        }
-                    }
-                }
             }
-
         }
 
         mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
@@ -208,35 +141,15 @@ class ActivityStats : AppCompatActivity(), RecyclerViewClickListener {
             GoalModel.removeGoalSingleListener(pin, mCallbackCurrentGoal)
         }
 
-        for(goalId in listOfTaskCallbacks){
-            AddTaskModel.removeAllGoalTasksListeners(goalId, callbackForAllGoalTasks)
-        }
-
         mapOfAllTasks.clear()
 
     }
 
     override fun onResume() {
         super.onResume()
-
         val userId = FirebaseAuth.getInstance().uid
         if(userId != null){
             GoalModel.addAllUsersGoalIdsListeners(userId, mCallbackAllUserGoalIds)
-        }
-
-    }
-
-    private fun convertLongToTime(timeCompletion : Long){
-        timeCompletion.let {
-            val longVal: Long = it
-            val hourss = longVal.toInt() / 3600
-            val ioi = hourss
-            var remainder = longVal.toInt() - hourss * 3600
-            val mins = remainder / 60
-            remainder = remainder - mins * 60
-            val secs = remainder
-
-            val ints = intArrayOf(hourss, mins, secs)
         }
     }
 

@@ -12,6 +12,7 @@ import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.viewmodels.StatsViewModel
 import kotlinx.android.synthetic.main.activity_statistics_per_goal.*
+import java.util.HashMap
 
 class ActivityStatisticsPerGoal : AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class ActivityStatisticsPerGoal : AppCompatActivity() {
     private var mCallbackCurrentGoal = { _: Goal?, _: Exception? -> Unit}
     private lateinit var userId : String
     private lateinit var goalId : String
+    private var mapOfAllTasks = HashMap<String, AddTask>()
 
     private var callbackForAllGoalTasks = { _:ArrayList<AddTask?>?, _: Exception? -> Unit}
 
@@ -48,10 +50,52 @@ class ActivityStatisticsPerGoal : AppCompatActivity() {
         }
 
         callbackForAllGoalTasks = { tasks : ArrayList<AddTask?>?, _ : Exception? ->
-            tasks?.let {
-                statistics_per_goal_view_total_tasks_value.text = it.size.toString()
-            }?: run{
-                statistics_per_goal_view_total_tasks_value.text = "Error"
+            tasks?.let { tasksForGoal ->
+
+                tasksForGoal?.let {ta ->
+                    for( i in ta){
+                        i?.let { t ->
+                            t.id?.let {taskId ->
+                                mapOfAllTasks[taskId] = t
+                            }
+                        }
+                    }
+                }
+
+                val tasksForGoals = ArrayList(mapOfAllTasks.values)
+                var repeatingTasks = 0L
+                var tasksDeleted = 0
+                var tasksDone = 0
+
+
+                val allTasksNotRepeating = tasksForGoals.filter { it.repeatEvery == null }
+                allTasksNotRepeating.map {task ->
+
+                    val datesDeleted  = task.deletedDates
+                    val datesDone = task.doneDates
+
+                    // tasks that have been deleted
+                    datesDeleted?.let { taskDeleted ->
+                        if(taskDeleted.size > 0){
+                            tasksDeleted += taskDeleted.size
+                        }
+                    }
+
+                    // tasks done
+                    datesDone?.let {donedates ->
+                        tasksDone += donedates.size
+                    }
+
+                }
+
+                val doneDeleted = tasksDone + tasksDeleted
+                val open = tasksForGoal.size - doneDeleted
+
+                viewModel.totalNumberOfTasksPerGoal.value = tasksForGoal.size
+                viewModel.totalNumberOfTasksPerGoalOpenTasks.value = open
+                viewModel.totalNumberOfTasksPerGoalCompletedTasks.value = tasksDone
+                viewModel.totalNumberOfTasksPerGoalDeletedTasks.value = tasksDeleted
+
             }
         }
 
