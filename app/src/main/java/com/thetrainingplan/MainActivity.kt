@@ -132,8 +132,16 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
         }, 10000)*/
 
         viewModel.startStatsActivityEvent.observe(this, Observer{
-            val intent = Intent(this, ActivityStats::class.java)
-            startActivity(intent)
+
+            if(listOpenGoals.size > 0){
+                val intent = Intent(this, ActivityStats::class.java)
+                startActivity(intent)
+            }
+            else{
+                alert ("You need to create a goal before looking at stats"){
+                    okButton {  }
+                }.show()
+            }
         })
 
         viewModel.startAddTaskActivityEvent.observe(this, Observer {
@@ -143,7 +151,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                 startActivity(intent)
             }
             else{
-                alert ("You need to set a Goal before adding a task"){
+                alert ("You need to create a goal before adding a task"){
                     okButton {  }
                 }.show()
             }

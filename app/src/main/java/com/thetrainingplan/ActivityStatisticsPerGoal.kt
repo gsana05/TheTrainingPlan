@@ -11,6 +11,7 @@ import com.thetrainingplan.models.AddTaskModel
 import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.viewmodels.StatsViewModel
+import kotlinx.android.synthetic.main.activity_statistics_board.*
 import kotlinx.android.synthetic.main.activity_statistics_per_goal.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -145,9 +146,36 @@ class ActivityStatisticsPerGoal : AppCompatActivity() {
                 viewModel.totalNumberOfTasksPerGoalCompletedTasks.value = tasksDone
                 viewModel.totalNumberOfTasksPerGoalDeletedTasks.value = tasksDeleted
 
+                // number of hours and minuets towards the goal
+                var time = 0
+                tasksForGoals.map {
+                    it.completionTime?.let {completion ->
+                        time += completion.toInt()
+                    }
+                }
+
+                val timeSpent = convertLongToTime(time.toLong())
+                statistics_per_goals_view_number_of_hours_result.text = timeSpent[0].toString()
+                statistics_per_goals_view_number_of_minutes_result.text = timeSpent[1].toString()
+
             }
         }
 
+    }
+
+    private fun convertLongToTime(timeCompletion : Long) : IntArray{
+        timeCompletion.let {
+            val longVal: Long = it
+            val hourss = longVal.toInt() / 3600
+            val ioi = hourss
+            var remainder = longVal.toInt() - hourss * 3600
+            val mins = remainder / 60
+            remainder = remainder - mins * 60
+            val secs = remainder
+
+            val ints = intArrayOf(hourss, mins, secs)
+            return ints
+        }
     }
 
     override fun onResume() {
