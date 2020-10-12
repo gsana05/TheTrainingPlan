@@ -100,7 +100,9 @@ class ActivityStatisticsBoard : AppCompatActivity() {
 
         mCallbackCurrentGoal = { data : Goal?, _: Exception? ->
             if(data != null){
-                data.id?.let { mapGoalList.put(it, data) }
+                data.id?.let {
+                    mapGoalList.put(it, data)
+                }
             }
             //setUpRecyclerView()
             if(listOfGoalPins.size == mapGoalList.size){
@@ -116,8 +118,9 @@ class ActivityStatisticsBoard : AppCompatActivity() {
                 val listOfDeletedGoals = listOfGoals.filter { it.isDeleted != null }
                 viewModel.deletedGoals.value = listOfDeletedGoals.size
 
-
-                listOfGoals.forEach { goal ->
+                // tasks stats in a goal - remove delete goal stats
+                val listOfCompletedOpenGoals = listOfGoals.filter { it.isDeleted == null }
+                listOfCompletedOpenGoals.forEach { goal ->
                     val userId = FirebaseAuth.getInstance().uid
                     if(userId != null){
 
