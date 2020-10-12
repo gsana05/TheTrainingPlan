@@ -138,11 +138,10 @@ class ActivityStatisticsPerGoal : AppCompatActivity() {
 
                 val sizeOfRepeating = repeatingTasks.toInt()
 
-                val doneDeleted = tasksDone + tasksDeleted
-                val open = tasksForGoal.size - doneDeleted
+                val totalTasks = allTasksNotRepeating.size + sizeOfRepeating
 
-                viewModel.totalNumberOfTasksPerGoal.value = allTasksNotRepeating.size + sizeOfRepeating
-                viewModel.totalNumberOfTasksPerGoalOpenTasks.value = open
+                viewModel.totalNumberOfTasksPerGoal.value = totalTasks
+                viewModel.totalNumberOfTasksPerGoalOpenTasks.value = totalTasks - (tasksDone + tasksDeleted)
                 viewModel.totalNumberOfTasksPerGoalCompletedTasks.value = tasksDone
                 viewModel.totalNumberOfTasksPerGoalDeletedTasks.value = tasksDeleted
 
