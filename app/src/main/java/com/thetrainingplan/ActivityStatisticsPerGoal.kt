@@ -12,7 +12,8 @@ import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.viewmodels.StatsViewModel
 import kotlinx.android.synthetic.main.activity_statistics_per_goal.*
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ActivityStatisticsPerGoal : AppCompatActivity() {
 
@@ -85,13 +86,62 @@ class ActivityStatisticsPerGoal : AppCompatActivity() {
                     datesDone?.let {donedates ->
                         tasksDone += donedates.size
                     }
-
                 }
+
+                // from the tasks get number of repeating tasks
+                // get all repeating tasks
+                val allTasksWithRepeating = tasksForGoals.filter { it.repeatEvery != null }
+                //workout how many times they repeat until the end date
+                if(allTasksWithRepeating.isNotEmpty()){ // repeating task
+                    allTasksWithRepeating.map {
+
+                        val datesDeleted  = it.deletedDates
+                        val datesDone = it.doneDates
+
+                        // tasks that have been deleted
+                        datesDeleted?.let { tasksDel ->
+                            tasksDeleted += tasksDel.size
+                        }
+
+                        // tasks done
+                        datesDone?.let {donedates ->
+                            tasksDone += donedates.size
+                        }
+
+
+                        // total number of tasks including repeating tasks
+                        it.startDate?.let {start ->
+                            val st = Date(start)
+
+                            it.endDate?.let { end ->
+                                val en = Date(end)
+
+                                val daysBetween = AddTaskModel.numberOfDaysBetweenDates(st, en)
+                                val i = daysBetween
+
+                                it.repeatEvery?.let { repeat ->
+
+                                    val numberOfRepeatTasks = daysBetween / repeat
+                                    val repeatTasksForThisOneTask = numberOfRepeatTasks.toInt()
+                                    repeatingTasks += repeatTasksForThisOneTask
+                                    //inclusive of the start day
+                                    repeatingTasks++
+
+
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
+                val sizeOfRepeating = repeatingTasks.toInt()
 
                 val doneDeleted = tasksDone + tasksDeleted
                 val open = tasksForGoal.size - doneDeleted
 
-                viewModel.totalNumberOfTasksPerGoal.value = tasksForGoal.size
+                viewModel.totalNumberOfTasksPerGoal.value = allTasksNotRepeating.size + sizeOfRepeating
                 viewModel.totalNumberOfTasksPerGoalOpenTasks.value = open
                 viewModel.totalNumberOfTasksPerGoalCompletedTasks.value = tasksDone
                 viewModel.totalNumberOfTasksPerGoalDeletedTasks.value = tasksDeleted
