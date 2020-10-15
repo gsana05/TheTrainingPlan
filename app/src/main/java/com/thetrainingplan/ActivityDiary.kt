@@ -1,9 +1,15 @@
 package com.thetrainingplan
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.PagerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.thetrainingplan.databinding.ActivityDiaryBinding
 import com.thetrainingplan.databinding.ActivityMainBinding
@@ -13,7 +19,12 @@ import com.thetrainingplan.models.Goal
 import com.thetrainingplan.models.GoalModel
 import com.thetrainingplan.viewmodels.DiaryViewModel
 import com.thetrainingplan.viewmodels.MainViewModel
+import kotlinx.android.synthetic.main.activity_diary.*
 import kotlinx.android.synthetic.main.activity_statistics_board.*
+import kotlinx.android.synthetic.main.diary_page_item.*
+import kotlinx.android.synthetic.main.diary_page_item.view.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,6 +38,8 @@ class ActivityDiary : AppCompatActivity() {
     private var listOfGoalPins = ArrayList<String>()
     private var mapOfAllTasks = HashMap<String, AddTask>()
     private val listOfTaskCallbacks = ArrayList<String>()
+    var mDiaryEntries: java.util.ArrayList<AddTask>?=null
+    val mDiarySize = 730
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +50,10 @@ class ActivityDiary : AppCompatActivity() {
         val binding: ActivityDiaryBinding = DataBindingUtil.setContentView(this, R.layout.activity_diary)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        diary_page_item_day_today_btn.setOnClickListener {
+            showToday()
+        }
 
         mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
             data?.let {
@@ -121,21 +138,24 @@ class ActivityDiary : AppCompatActivity() {
                                         i?.let { t ->
                                             t.id?.let {taskId ->
                                                 mapOfAllTasks[taskId] = t
+                                                mDiaryEntries = ArrayList(mapOfAllTasks.values)
+                                                diary_page_list.adapter = DiaryPagerAdaper()
+                                                showToday()
+                                                /*if(listOfTaskCallbacks.size == mapGoalList.size){ // set the adapter only when we have all tasks from goal
+                                                    val endResult = mapOfAllTasks[taskId]
+                                                }*/
                                             }
                                         }
                                     }
                                 }
                             }
 
-                            val goals = listOfCompletedOpenGoals
-                            val tasksForGoals = ArrayList(mapOfAllTasks.values)
 
-                            val i = 10
 
                             //listen to all the tasks for that goal
                             if(!listOfTaskCallbacks.contains(goalId)){
-                                AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
                                 listOfTaskCallbacks.add(goalId)
+                                AddTaskModel.addAllGoalTaskListeners(userId, goalId, callbackForAllGoalTasks)
                             }
                         }
                     }
@@ -169,5 +189,83 @@ class ActivityDiary : AppCompatActivity() {
 
         mapOfAllTasks.clear()
 
+    }
+
+    fun showToday(){
+        diary_page_list.currentItem = mDiarySize/2
+    }
+
+    fun getCurrentDate(position: Int) : Calendar{
+
+        val size = mDiarySize/2
+        val daysToRemove = size-position
+
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DAY_OF_YEAR, -daysToRemove)
+
+        return cal
+    }
+
+    inner class DiaryPagerAdaper(): PagerAdapter(){
+
+        override fun getCount(): Int {
+            return mDiarySize
+        }
+
+        override fun isViewFromObject(view: View, `object`: Any): Boolean {
+            return view == `object`
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            var items = java.util.ArrayList<AddTask>()
+
+            val layout = LayoutInflater.from(this@ActivityDiary).inflate(R.layout.diary_page_item, container, false)
+
+            val cal = getCurrentDate(position)
+
+            val formatDay = SimpleDateFormat("EEEE")
+
+            val dateFormat = DateFormat.getDateInstance(DateFormat.DATE_FIELD)
+
+            val date = Date(cal.timeInMillis)
+
+            val dayPrefix = if(position == (mDiarySize / 2 )) "Today - " else ""
+            /*layout.diary_page_item_day.text =  dayPrefix + formatDay.format(date)*/
+            layout.diary_page_item_day.text =  dayPrefix + formatDay.format(date)
+            layout.diary_page_item_date.text = dateFormat.format(date)
+
+
+
+
+            /*mDiaryEntries?.let {
+                items = DiaryModel.filterEventsForDate(it,cal)
+
+                items = DiaryModel.filterDeletedEvents(cal,items)
+
+                layout.diary_page_item_events_list.adapter = DiaryDayItemListAdapter(items)
+
+
+                layout.diary_page_item_up_arrow.setOnClickListener{
+                    scrollEventsList(layout.diary_page_item_events_list, -1)
+                }
+
+                layout.diary_page_item_down_arrow.setOnClickListener{
+                    scrollEventsList(layout.diary_page_item_events_list, 1)
+                }
+            }*/
+
+
+            container.addView(layout)
+            return layout
+        }
+
+        private fun scrollEventsList(recyclerView: RecyclerView, numPositions: Int) {
+            recyclerView.scrollBy(0, (recyclerView.height - 20) * numPositions)
+        }
+
+        override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
+            container.removeView(view as View)
+        }
     }
 }
