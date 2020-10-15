@@ -5,6 +5,7 @@
         <import type="android.view.View"/>
         <variable name="viewModel" type="com.thetrainingplan.viewmodels.MainViewModel"/>
     </data>
+    <!--side nav bar -->
     <androidx.drawerlayout.widget.DrawerLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -424,6 +425,7 @@
                             android:textAllCaps="false"
                             android:background="@drawable/white_button_blue_border"
                             android:text="@string/view_diary"
+                            android:onClick="@{() -> viewModel.startDiaryActivity()}"
                             />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

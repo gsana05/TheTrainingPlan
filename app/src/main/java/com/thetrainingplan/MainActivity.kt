@@ -144,6 +144,11 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
             }
         })
 
+        viewModel.startDiaryActivityEvent.observe(this, Observer {
+            val intent = Intent(this, ActivityDiary::class.java)
+            startActivity(intent)
+        })
+
         viewModel.startAddTaskActivityEvent.observe(this, Observer {
 
             if(listOpenGoals.size > 0){

@@ -52,6 +52,11 @@ class MainViewModel(application : Application) : AndroidViewModel(application) {
         startStatsActivityEvent.call()
     }
 
+    val startDiaryActivityEvent = LiveEvent<Void>()
+    fun startDiaryActivity(){
+        startDiaryActivityEvent.call()
+    }
+
 
     /*var filteredAgreements: LiveData<List<User?>>? = Transformations.switchMap(listOfUser) { users  ->
         getFilteredList(users)
