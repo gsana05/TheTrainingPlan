@@ -1,11 +1,20 @@
 package com.thetrainingplan
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -21,11 +30,15 @@ import com.thetrainingplan.viewmodels.DiaryViewModel
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_diary.*
 import kotlinx.android.synthetic.main.activity_statistics_board.*
+import kotlinx.android.synthetic.main.diary_item.view.*
 import kotlinx.android.synthetic.main.diary_page_item.*
 import kotlinx.android.synthetic.main.diary_page_item.view.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.okButton
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class ActivityDiary : AppCompatActivity() {
@@ -51,8 +64,20 @@ class ActivityDiary : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        diary_header_icon.setOnClickListener {
+            finish()
+        }
+
         diary_page_item_day_today_btn.setOnClickListener {
             showToday()
+        }
+
+        diary_previous_arrow_button.setOnClickListener {
+            showPreviousDay()
+        }
+
+        diary_next_arrow_button.setOnClickListener {
+            showNextDay()
         }
 
         mCallbackAllUserGoalIds = { data : ArrayList<String?>?, _ : Exception? ->
@@ -191,6 +216,14 @@ class ActivityDiary : AppCompatActivity() {
 
     }
 
+    fun showNextDay(){
+        diary_page_list.currentItem += 1
+    }
+
+    fun showPreviousDay(){
+        diary_page_list.currentItem -= 1
+    }
+
     fun showToday(){
         diary_page_list.currentItem = mDiarySize/2
     }
@@ -238,22 +271,13 @@ class ActivityDiary : AppCompatActivity() {
 
 
 
-            /*mDiaryEntries?.let {
-                items = DiaryModel.filterEventsForDate(it,cal)
+            mDiaryEntries?.let {
+                items = AddTaskModel.filterEventsForDate(it,cal)
 
-                items = DiaryModel.filterDeletedEvents(cal,items)
+                items = AddTaskModel.filterForDeleted(items)
 
-                layout.diary_page_item_events_list.adapter = DiaryDayItemListAdapter(items)
-
-
-                layout.diary_page_item_up_arrow.setOnClickListener{
-                    scrollEventsList(layout.diary_page_item_events_list, -1)
-                }
-
-                layout.diary_page_item_down_arrow.setOnClickListener{
-                    scrollEventsList(layout.diary_page_item_events_list, 1)
-                }
-            }*/
+                layout.diary_page_item_events_list.adapter = DiaryDayItemListAdapter(items, date)
+            }
 
 
             container.addView(layout)
@@ -268,4 +292,227 @@ class ActivityDiary : AppCompatActivity() {
             container.removeView(view as View)
         }
     }
+
+    inner class DiaryDayItemListAdapter(val entries: java.util.ArrayList<AddTask>, val dateOfDiary: Date): RecyclerView.Adapter <DiaryDayItemListAdapter.ViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.diary_item, parent, false))
+        }
+
+        override fun getItemCount(): Int {
+            return entries.size
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val entry = entries[position]
+
+            if(entry.repeatEvery != null){
+                holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.nka_red))
+                holder.itemView.testdate.text = dateOfDiary.toString()
+            }
+            else{
+                val isCompleted = AddTaskModel.checkTaskIsCompleted(entry)
+
+                if(isCompleted){
+                    holder.itemView.diary_item_layout.setBackgroundResource(R.drawable.green_border_thick)
+                }
+                else{
+                    holder.itemView.diary_item_layout.setBackgroundResource(R.drawable.blue_border_thick)
+                }
+            }
+
+
+
+            holder.itemView.diary_entry_title.text = entry.name
+
+            val format = DateFormat.getTimeInstance(DateFormat.SHORT)
+
+            holder.itemView.diary_item_ago.text = format.format(entry.startDate)
+            //holder.itemView.diary_item_type.setImageResource(if(entry.repeatType!=null && entry.repeatType!=DiaryEntry.NEVER) R.drawable.ic_refresh_arrow else R.drawable.ic_calendar)
+            //holder.itemView.diary_item_type.setBackgroundColor(ResourcesCompat.getColor(resources,if(entry.repeatType!=null && entry.repeatType!=AddTaskModel.NEVER) R.color.nka_red else R.color.light_blue,null))
+
+            // click on specific accepted request event
+            holder.itemView.setOnClickListener {
+                val i = entry
+                entry.goalId?.let { goalId -> entry.id?.let { taskId ->
+                    taskUpdateAlert(entry,
+                        entry.name,
+                        goalId,
+                        taskId
+                    )
+                } }
+            }
+        }
+
+        inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){ }
+    }
+
+    private fun taskUpdateAlert(task : AddTask, taskName: String, goalId: String, taskId : String){
+
+        val builder = AlertDialog.Builder(this)
+        val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
+        val inflatedLayout: View = layoutInflater.inflate(R.layout.task_update_alert, viewGroup, false)
+        builder.setView(inflatedLayout)
+
+        val dialog = builder.show()
+        dialog.setCancelable(false)
+
+        val exit : ImageView
+                = inflatedLayout.findViewById(R.id.update_task_exit)
+        exit.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val name: TextView = inflatedLayout.findViewById(R.id.update_task_task_input)
+        name.text = taskName
+
+        val userId = FirebaseAuth.getInstance().uid
+        if(userId != null){
+            GoalModel.getGoal(userId, goalId){ data : Goal?, _: Exception? ->
+                if(data != null){
+                    val idGoal: TextView = inflatedLayout.findViewById(R.id.update_task_task_towards_spinner)
+                    idGoal.text = data.goal
+                }
+            }
+
+            val completed : Button = inflatedLayout.findViewById(R.id.update_task_complete_button)
+            val isCompleted = AddTaskModel.checkTaskIsCompleted(task)
+            if(isCompleted){
+                completed.visibility = View.GONE
+            }
+            else{
+                completed.visibility = View.VISIBLE
+                completed.setOnClickListener {
+                    alertCompletionTime(task, goalId, taskId, dialog)
+                }
+            }
+
+
+            val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
+            delete.setOnClickListener {
+
+                AddTaskModel.addToDeletedDates(task, userId, goalId, taskId){ data: Boolean?, _: java.lang.Exception? ->
+                    if(data != null && data){
+                        alert ("success"){
+                            okButton {  }
+                        }.show()
+                        dismissKeyboard(dialog, it)
+                        dialog.dismiss()
+                    }
+                    else{
+                        alert ("fail"){
+                            okButton {  }
+                        }.show()
+                        dismissKeyboard(dialog, it)
+                        dialog.dismiss()
+                    }
+                }
+            }
+
+        }
+    }
+
+    private fun alertCompletionTime(task : AddTask, goalId: String, taskId : String, dialogUpdate: AlertDialog){
+        val builder = AlertDialog.Builder(this)
+        val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
+        val inflatedLayout: View = layoutInflater.inflate(R.layout.alert_completion_time, viewGroup, false)
+        builder.setView(inflatedLayout)
+
+        val dialog = builder.show()
+        dialog.setCancelable(false)
+
+        val close : ImageView = inflatedLayout.findViewById(R.id.completion_task_exit)
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val timeTaken : Button = inflatedLayout.findViewById(R.id.completion_task_complete_button)
+        timeTaken.setOnClickListener {
+            val numberOfHours : EditText = inflatedLayout.findViewById(R.id.completion_task_task_input)
+            val hours = numberOfHours.text.toString().trim()
+
+            val numberOfMinutes: EditText = inflatedLayout.findViewById(R.id.completion_task_task_towards_spinner)
+            val minutes = numberOfMinutes.text.toString().trim()
+
+            var timeMinuets : Long? = null
+            var timeHours : Long? = null
+
+            if(hours.isEmpty()){
+                numberOfHours.requestFocus()
+                numberOfHours.error = "Enter a number of hours"
+                return@setOnClickListener
+            }
+
+            if(minutes.isEmpty()){
+                numberOfMinutes.requestFocus()
+                numberOfMinutes.error = "Enter a number of minutes"
+                return@setOnClickListener
+            }
+
+            if(hours.toLong() >= 0){
+                val hour = TimeUnit.HOURS.toSeconds(hours.toLong())
+                timeHours = hour
+            }
+
+            if(minutes.toLong() >= 0){
+                val mins = TimeUnit.MINUTES.toSeconds(minutes.toLong())
+                timeMinuets = mins
+            }
+
+            var completionTime : Long? = null
+            val op = timeHours
+            val p = timeMinuets
+            op?.let { h ->
+                p?.let { m ->
+                    completionTime = h + m
+                }
+            }
+
+
+            val userId = FirebaseAuth.getInstance().uid
+            if(userId != null){
+                AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, _: java.lang.Exception? ->
+                    if(data != null && data){
+                        completionTime?.let { it1 ->
+                            AddTaskModel.setTimeCompletionDoneDates(userId, goalId, taskId, it1){ data : Boolean?, _: Exception? ->
+
+                                if(data != null && data){
+                                    alert ("success"){
+                                        okButton {  }
+                                    }.show()
+
+                                    dismissKeyboard(dialog, it)
+                                    dialog.dismiss()
+                                    dialogUpdate.dismiss()
+                                }
+                                else{
+                                    alert ("error"){
+                                        okButton {  }
+                                    }.show()
+                                    dismissKeyboard(dialog, it)
+                                    dialog.dismiss()
+                                    dialogUpdate.dismiss()
+                                }
+
+                            }
+                        }
+                    }
+                    else{
+                        alert ("error"){
+                            okButton {  }
+                        }.show()
+                        dismissKeyboard(dialog, it)
+                        dialog.dismiss()
+                        dialogUpdate.dismiss()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun dismissKeyboard(alertDialog: AlertDialog, view: View){
+        val imm = alertDialog.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+    }
+
 }
