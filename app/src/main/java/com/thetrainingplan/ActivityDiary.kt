@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.diary_page_item.*
 import kotlinx.android.synthetic.main.diary_page_item.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
+import java.sql.Timestamp
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -293,7 +294,7 @@ class ActivityDiary : AppCompatActivity() {
         }
     }
 
-    inner class DiaryDayItemListAdapter(val entries: java.util.ArrayList<AddTask>, val dateOfDiary: Date): RecyclerView.Adapter <DiaryDayItemListAdapter.ViewHolder>() {
+    inner class DiaryDayItemListAdapter(val entries: ArrayList<AddTask>, val dateOfDiary: Date): RecyclerView.Adapter <DiaryDayItemListAdapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.diary_item, parent, false))
         }
@@ -306,15 +307,33 @@ class ActivityDiary : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val entry = entries[position]
 
+
             if(entry.repeatEvery != null){
                 holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.nka_red))
-                holder.itemView.testdate.text = dateOfDiary.toString()
+
+                val format = SimpleDateFormat("dd-MMMM-yyyy")
+                val timestamps = entry.doneDates as? ArrayList<com.google.firebase.Timestamp>
+
+                timestamps?.let {
+                    for(i in timestamps){
+                        val doneDate = i.toDate()
+                        val dd = format.format(doneDate)
+                        val td = format.format(dateOfDiary)
+                        if(dd == td){
+                            holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.aqua))
+                        }
+                    }
+                }
+
+
+                //holder.itemView.testdate.text = dateOfDiary.toString()
             }
             else{
                 val isCompleted = AddTaskModel.checkTaskIsCompleted(entry)
 
                 if(isCompleted){
                     holder.itemView.diary_item_layout.setBackgroundResource(R.drawable.green_border_thick)
+                    holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.green_success))
                 }
                 else{
                     holder.itemView.diary_item_layout.setBackgroundResource(R.drawable.blue_border_thick)
@@ -326,7 +345,6 @@ class ActivityDiary : AppCompatActivity() {
             holder.itemView.diary_entry_title.text = entry.name
 
             val format = DateFormat.getTimeInstance(DateFormat.SHORT)
-
             holder.itemView.diary_item_ago.text = format.format(entry.startDate)
             //holder.itemView.diary_item_type.setImageResource(if(entry.repeatType!=null && entry.repeatType!=DiaryEntry.NEVER) R.drawable.ic_refresh_arrow else R.drawable.ic_calendar)
             //holder.itemView.diary_item_type.setBackgroundColor(ResourcesCompat.getColor(resources,if(entry.repeatType!=null && entry.repeatType!=AddTaskModel.NEVER) R.color.nka_red else R.color.light_blue,null))
