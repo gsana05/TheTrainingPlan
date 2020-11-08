@@ -405,7 +405,8 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
             val userId = FirebaseAuth.getInstance().uid
             if(userId != null){
-                AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, _: java.lang.Exception? ->
+                val date = Calendar.getInstance().time
+                AddTaskModel.addToDoneDates(task, userId, goalId, taskId, date){ data: Boolean?, _: java.lang.Exception? ->
                     if(data != null && data){
                         completionTime?.let { it1 ->
                             AddTaskModel.setTimeCompletionDoneDates(userId, goalId, taskId, it1){ data : Boolean?, _: Exception? ->
@@ -492,8 +493,8 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
 
                 val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
                 delete.setOnClickListener {
-
-                    AddTaskModel.addToDeletedDates(task, userId, goalId, taskId){ data: Boolean?, _: java.lang.Exception? ->
+                    val date = Calendar.getInstance().time
+                    AddTaskModel.addToDeletedDates(task, userId, goalId, taskId, date){ data: Boolean?, _: java.lang.Exception? ->
                         if(data != null && data){
                             alert ("success"){
                                 okButton {  }

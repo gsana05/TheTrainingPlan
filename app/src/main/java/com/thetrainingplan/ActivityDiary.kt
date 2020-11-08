@@ -275,7 +275,7 @@ class ActivityDiary : AppCompatActivity() {
             mDiaryEntries?.let {
                 items = AddTaskModel.filterEventsForDate(it,cal)
 
-                items = AddTaskModel.filterForDeleted(items)
+                //items = AddTaskModel.filterForDeleted(items)
 
                 layout.diary_page_item_events_list.adapter = DiaryDayItemListAdapter(items, date)
             }
@@ -307,7 +307,6 @@ class ActivityDiary : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val entry = entries[position]
 
-
             if(entry.repeatEvery != null){
                 holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.nka_red))
 
@@ -321,6 +320,20 @@ class ActivityDiary : AppCompatActivity() {
                         val td = format.format(dateOfDiary)
                         if(dd == td){
                             holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.aqua))
+                        }
+                    }
+                }
+
+
+                val timestampsDelete = entry.deletedDates as? ArrayList<com.google.firebase.Timestamp>
+
+                val i = dateOfDiary
+                timestampsDelete?.let { deletedTaskDates ->
+                    for(deleteDate in deletedTaskDates){
+                        val i = format.format(deleteDate.toDate())
+                        val x = format.format(dateOfDiary)
+                        if(i == x){
+                            holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.black))
                         }
                     }
                 }
@@ -356,7 +369,8 @@ class ActivityDiary : AppCompatActivity() {
                     taskUpdateAlert(entry,
                         entry.name,
                         goalId,
-                        taskId
+                        taskId,
+                        dateOfDiary
                     )
                 } }
             }
@@ -365,7 +379,7 @@ class ActivityDiary : AppCompatActivity() {
         inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){ }
     }
 
-    private fun taskUpdateAlert(task : AddTask, taskName: String, goalId: String, taskId : String){
+    private fun taskUpdateAlert(task : AddTask, taskName: String, goalId: String, taskId : String, dateOfDiary: Date){
 
         val builder = AlertDialog.Builder(this)
         val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
@@ -401,7 +415,7 @@ class ActivityDiary : AppCompatActivity() {
             else{
                 completed.visibility = View.VISIBLE
                 completed.setOnClickListener {
-                    alertCompletionTime(task, goalId, taskId, dialog)
+                    alertCompletionTime(task, goalId, taskId, dialog, dateOfDiary)
                 }
             }
 
@@ -409,7 +423,7 @@ class ActivityDiary : AppCompatActivity() {
             val delete : Button = inflatedLayout.findViewById(R.id.update_task_complete_delete)
             delete.setOnClickListener {
 
-                AddTaskModel.addToDeletedDates(task, userId, goalId, taskId){ data: Boolean?, _: java.lang.Exception? ->
+                AddTaskModel.addToDeletedDates(task, userId, goalId, taskId, dateOfDiary){ data: Boolean?, _: java.lang.Exception? ->
                     if(data != null && data){
                         alert ("success"){
                             okButton {  }
@@ -430,7 +444,7 @@ class ActivityDiary : AppCompatActivity() {
         }
     }
 
-    private fun alertCompletionTime(task : AddTask, goalId: String, taskId : String, dialogUpdate: AlertDialog){
+    private fun alertCompletionTime(task : AddTask, goalId: String, taskId : String, dialogUpdate: AlertDialog, dateOfDiary: Date){
         val builder = AlertDialog.Builder(this)
         val viewGroup = findViewById<View>(android.R.id.content) as ViewGroup
         val inflatedLayout: View = layoutInflater.inflate(R.layout.alert_completion_time, viewGroup, false)
@@ -489,7 +503,7 @@ class ActivityDiary : AppCompatActivity() {
 
             val userId = FirebaseAuth.getInstance().uid
             if(userId != null){
-                AddTaskModel.addToDoneDates(task, userId, goalId, taskId){ data: Boolean?, _: java.lang.Exception? ->
+                AddTaskModel.addToDoneDates(task, userId, goalId, taskId, dateOfDiary){ data: Boolean?, _: java.lang.Exception? ->
                     if(data != null && data){
                         completionTime?.let { it1 ->
                             AddTaskModel.setTimeCompletionDoneDates(userId, goalId, taskId, it1){ data : Boolean?, _: Exception? ->

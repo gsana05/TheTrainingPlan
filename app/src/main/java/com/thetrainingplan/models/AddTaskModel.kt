@@ -121,16 +121,15 @@ object AddTaskModel {
         }
     }
 
-    fun addToDoneDates(task : AddTask, userId: String, goalId: String, taskId : String, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
+    fun addToDoneDates(task : AddTask, userId: String, goalId: String, taskId : String, dateOfDiary : Date,  onComplete: (data: Boolean?, exc: Exception?) -> Unit){
         val newDoneTasks = ArrayList<Date>()
         val currentDoneTasks = task.doneDates
-        val date = Calendar.getInstance().time
 
         currentDoneTasks?.let {
             newDoneTasks.addAll(currentDoneTasks)
         }
 
-        newDoneTasks.add(date)
+        newDoneTasks.add(dateOfDiary)
 
         firebaseRefAddTask(userId, goalId).document(taskId).update("doneDates", newDoneTasks).addOnCompleteListener {
             if(it.isSuccessful){
@@ -142,11 +141,9 @@ object AddTaskModel {
         }
     }
 
-    fun addToDeletedDates(task : AddTask, userId: String, goalId: String, taskId : String, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
+    fun addToDeletedDates(task : AddTask, userId: String, goalId: String, taskId : String, date : Date, onComplete: (data: Boolean?, exc: Exception?) -> Unit){
         val newDeletedTasks = ArrayList<Date>()
         val currentDeletedTasks = task.deletedDates
-        val date = Calendar.getInstance().time
-
 
        currentDeletedTasks?.let {
            newDeletedTasks.addAll(currentDeletedTasks)
