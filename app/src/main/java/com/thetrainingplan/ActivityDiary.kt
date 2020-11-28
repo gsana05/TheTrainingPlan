@@ -364,15 +364,38 @@ class ActivityDiary : AppCompatActivity() {
 
             // click on specific accepted request event
             holder.itemView.setOnClickListener {
-                val i = entry
-                entry.goalId?.let { goalId -> entry.id?.let { taskId ->
-                    taskUpdateAlert(entry,
-                        entry.name,
-                        goalId,
-                        taskId,
-                        dateOfDiary
-                    )
-                } }
+
+                val formatDates = SimpleDateFormat("yyyyMMMdd")
+
+                val timeStampDeletedDates = entry.deletedDates as? ArrayList<com.google.firebase.Timestamp>
+                val deletedDates = timeStampDeletedDates?.map { formatDates.format(it.toDate()) }
+
+                val timeStampDoneDates = entry.doneDates as? ArrayList<com.google.firebase.Timestamp>
+                val completedDates = timeStampDoneDates?.map { formatDates.format(it.toDate()) }
+
+                val diaryDate = formatDates.format(dateOfDiary)
+
+                val delete = deletedDates?.contains(diaryDate) ?: false // if its null then set to false
+                val done = completedDates?.contains(diaryDate) ?: false
+
+                if(delete == false && done == false){ // if a date is either in deleted or done dates do not show pop up
+                    entry.goalId?.let { goalId -> entry.id?.let { taskId ->
+                            taskUpdateAlert(entry,
+                                entry.name,
+                                goalId,
+                                taskId,
+                                dateOfDiary
+                            )
+                        }
+                    }
+                }
+                else{
+                    alert ("This task has been resolved"){
+                        okButton {  }
+                    }.show()
+                }
+
+
             }
         }
 
