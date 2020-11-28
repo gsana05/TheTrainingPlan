@@ -232,6 +232,7 @@ class MainActivity : TrainingPlanActivity(), RecyclerViewClickListener {
                                             val filteredTaskForToday = AddTaskModel.filterEventsForDate(ArrayList(mapOfAllTasks.values), Calendar.getInstance())
 
                                             val checkForDeleted = AddTaskModel.filterForDeleted(filteredTaskForToday)
+                                            //val checkForDeleted = filteredTaskForToday
 
                                             if(data.isDeleted != null || data.isCompleted != null){
                                                 // this means the goal is NOT open - so remove those tasks

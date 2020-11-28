@@ -260,6 +260,7 @@ object AddTaskModel {
         return elapsedDays
     }
 
+    // creates a new list of tasks that are open or completed for today - deleted tasks are removed
     fun filterForDeleted(tasks : ArrayList<AddTask>) : ArrayList<AddTask>{
 
         val todayDate = Date(Calendar.getInstance().timeInMillis)
@@ -277,6 +278,16 @@ object AddTaskModel {
                     if(dates.size > 0){
                         val timeStampDates = dates as ArrayList<Timestamp>
 
+                        val deletedDates = timeStampDates.map { format.format(it.toDate()) }
+                        val dateToday = format.format(todayDate)
+
+                        if (deletedDates.contains(dateToday)) {
+                            // do not add task
+                        } else {
+                            listOfTasks.add(task)
+                        }
+
+                        /*
                         for(stamp in timeStampDates){
 
                             val date = stamp.toDate()
@@ -284,12 +295,24 @@ object AddTaskModel {
                             val deletedDate = format.format(date)
                             val dateToday = format.format(todayDate)
 
-                            if(deletedDate != dateToday){
-                                listOfTasks.add(task)
-                                //tasks.remove(task)
+                            if(deletedDate == dateToday){
+
                             }
 
+                            if(deletedDate != dateToday){
+
+                                val currentTaskIds = listOfTasks.map { it.id }
+                                if(!currentTaskIds.contains(task.id)){
+                                    listOfTasks.add(task)
+                                }
+
+                                //tasks.remove(task)
+                            }
+                            else{
+                                val i = task
+                            }
                         }
+                        */
                     }
                     else{
                         listOfTasks.add(task)
