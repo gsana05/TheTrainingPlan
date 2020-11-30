@@ -37,6 +37,7 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
     val finishUpdateGoalsActivityEvent = LiveEvent<Void>()
     val finishUpdateGoals = LiveEvent<Void>()
     var numberOfOpenGoals = MutableLiveData<Int>()
+    val resetSpinnerValues = LiveEvent<Void>()
 
     init {
         getCurrentDate()
@@ -171,6 +172,10 @@ class GoalsViewModel(application : Application) : AndroidViewModel(application) 
                             hasGoalSavedToDatabase.value = true
                             if(isNew){
                                 switchPressed()
+                                goalSet.value = ""
+                                dateGoalDeadlineInMillie.value = null
+                                dateGoalDeadline.value = null
+                                resetSpinnerValues.call()
                             }
                             else{
                                 finishUpdateGoals.call()

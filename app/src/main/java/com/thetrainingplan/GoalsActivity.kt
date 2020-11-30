@@ -247,7 +247,13 @@ class GoalsActivity : AppCompatActivity(), RecyclerViewClickListener {
 
         //disable slide finger on switch
         settings_switch.setOnTouchListener { _, event -> event.actionMasked == MotionEvent.ACTION_MOVE }
+        setUpSpinner()
+        viewModel.resetSpinnerValues.observe(this, Observer {
+            setUpSpinner()
+        })
+    }
 
+    private fun setUpSpinner(){
         // min deal size
         val listOfGoalTypes = ArrayList<GoalTypeSpinner?>()
         listOfGoalTypes.add(null)
