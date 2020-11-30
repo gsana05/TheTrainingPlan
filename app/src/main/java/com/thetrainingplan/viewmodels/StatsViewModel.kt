@@ -17,10 +17,10 @@ class StatsViewModel(application : Application) : AndroidViewModel(application) 
     val completedTasks = MutableLiveData<Int>()
     val deletedTasks = MutableLiveData<Int>()
 
-    val totalNumberOfTasksPerGoal = MutableLiveData<Int>()
-    val totalNumberOfTasksPerGoalOpenTasks = MutableLiveData<Int>()
-    val totalNumberOfTasksPerGoalCompletedTasks = MutableLiveData<Int>()
-    val totalNumberOfTasksPerGoalDeletedTasks = MutableLiveData<Int>()
+    val totalNumberOfTasksPerGoal = MutableLiveData<Int>().apply { value = 0 }
+    val totalNumberOfTasksPerGoalOpenTasks = MutableLiveData<Int>().apply { value = 0 }
+    val totalNumberOfTasksPerGoalCompletedTasks = MutableLiveData<Int>().apply { value = 0 }
+    val totalNumberOfTasksPerGoalDeletedTasks = MutableLiveData<Int>().apply { value = 0 }
 
     fun startAllStatsActivity(){
         startAllStatsActivityEvent.call()
