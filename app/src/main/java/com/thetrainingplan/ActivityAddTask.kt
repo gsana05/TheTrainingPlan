@@ -1,9 +1,11 @@
 package com.thetrainingplan
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
@@ -53,6 +55,7 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
         binding.viewModel = viewModel
 
         viewModel.finishAddTaskActivityEvent.observe(this, Observer {
+            dismissKeyboard()
             finish()
         })
 
@@ -187,7 +190,7 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
     }
 
 
-    fun addTask(){
+    private fun addTask(){
         mIsSaving = true
 
         if(add_task_name.text.isBlank()){
@@ -287,6 +290,7 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
                         alert ("Task has been saved"){
                             okButton {  }
                         }.show()
+                        dismissKeyboard()
                         finish()
                     }
                     else{
@@ -298,6 +302,11 @@ class ActivityAddTask : AppCompatActivity(), RecyclerViewClickListener {
             }
         }
 
+    }
+
+    private fun dismissKeyboard(){
+        val inputManager: InputMethodManager =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
     fun setUpRecyclerView(mapGoalList : HashMap<String, Goal>){
