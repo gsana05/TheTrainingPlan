@@ -158,13 +158,13 @@ class ActivityDiary : AppCompatActivity() {
 
                             // display today's tasks
                             callbackForAllGoalTasks = { tasks : ArrayList<AddTask?>?, _ : Exception? ->
-
                                 tasks?.let {ta ->
                                     for( i in ta){
                                         i?.let { t ->
                                             t.id?.let {taskId ->
                                                 mapOfAllTasks[taskId] = t
                                                 mDiaryEntries = ArrayList(mapOfAllTasks.values)
+
                                                 diary_page_list.adapter = DiaryPagerAdaper()
                                                 showToday()
                                                 /*if(listOfTaskCallbacks.size == mapGoalList.size){ // set the adapter only when we have all tasks from goal
@@ -294,7 +294,7 @@ class ActivityDiary : AppCompatActivity() {
         }
     }
 
-    inner class DiaryDayItemListAdapter(val entries: ArrayList<AddTask>, val dateOfDiary: Date): RecyclerView.Adapter <DiaryDayItemListAdapter.ViewHolder>() {
+    inner class DiaryDayItemListAdapter(private val entries: ArrayList<AddTask>, private val dateOfDiary: Date): RecyclerView.Adapter <DiaryDayItemListAdapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.diary_item, parent, false))
         }
@@ -453,6 +453,7 @@ class ActivityDiary : AppCompatActivity() {
                         }.show()
                         dismissKeyboard(dialog, it)
                         dialog.dismiss()
+                        finish()
                     }
                     else{
                         alert ("fail"){
