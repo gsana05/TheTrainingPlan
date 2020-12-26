@@ -556,7 +556,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:fitsSystemWindows="true"
-                app:headerLayout="@layout/nav_header_nka_activity"
+                app:headerLayout="@layout/nav_header_training_plan"
                 app:menu="@menu/activity_nka_activity_drawer" />
 
        <!-- <fragment

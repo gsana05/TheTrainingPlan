@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.nav_header_nka_activity.view.*
+import kotlinx.android.synthetic.main.nav_header_training_plan.view.*
 
 
 open class TrainingPlanActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

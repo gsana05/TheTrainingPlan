@@ -12,15 +12,15 @@
     <color name="light_blue">#f5faff</color>
 
     <color name="background_grey">#090909</color>
-    <color name="nka_red">#E4002B</color>
+    <color name="training_plan_red">#E4002B</color>
 
     <color name="white">#ffffff</color>
     <color name="registration_page_backgrounf">#F1F1F2</color>
 
     <color name="aqua">#57c5e9</color>
 
-    <color name="nka_black">#090909</color>
+    <color name="training_plan_black">#090909</color>
 
-    <color name="nka_grey">#8d8d8d</color>
+    <color name="training_plan_grey">#8d8d8d</color>
     <color name="green_success">#4BB543</color>
 </resources>

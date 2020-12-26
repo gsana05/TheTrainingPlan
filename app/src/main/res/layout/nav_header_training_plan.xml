@@ -168,7 +168,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="20dp"
-                    android:textColor="@color/nka_grey"
+                    android:textColor="@color/training_plan_grey"
                     />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
