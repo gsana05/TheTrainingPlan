@@ -85,6 +85,7 @@
                     android:tint="@color/blue"
                     android:src="@drawable/ic_accounticon"
                     app:layout_constraintDimensionRatio="1:1"
+                    android:visibility="gone"
                     />
 
             <TextView
@@ -97,6 +98,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:text="Statistics"
+                    android:visibility="gone"
                     />
 
             <ImageView
@@ -154,6 +156,7 @@
                     android:textSize="18sp"
                     android:text="Log out"
                     android:textAllCaps="false"
+                    android:visibility="gone"
                     />
 
 
