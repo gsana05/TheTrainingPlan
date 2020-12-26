@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ActivitySignUp"
-            android:background="@color/light_grey"
+            android:background="@color/blue"
     >
 
         <ScrollView
@@ -35,7 +35,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="50dp"
                         android:src="@mipmap/ic_launcher"
-                        android:backgroundTint="@color/light_grey"
+                        android:backgroundTint="@color/blue"
                         android:textSize="30sp"
                         android:textStyle="bold"
                         app:layout_constraintDimensionRatio="1:1"
@@ -54,7 +54,7 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/the_training_plan"
                         android:textSize="30sp"
-                        android:textColor="@color/blue"
+                        android:textColor="@color/white"
                         android:textStyle="italic"
                 />
 
@@ -68,7 +68,7 @@
                         android:layout_marginTop="20dp"
                         android:text="@string/sign_up"
                         android:textSize="24sp"
-                        android:textColor="@color/blue"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                 />
 
@@ -102,11 +102,12 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/sign_up_password_text"
                         android:text="@={viewModel.joinName}"
-                        android:backgroundTint="@color/blue"
+                        android:backgroundTint="@color/white"
                         android:inputType="text"
                         android:hint="@string/name"
+                        android:textColorHint="@color/white"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:autofillHints=""
                         tools:targetApi="o"
                 />
@@ -136,7 +137,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:padding="6dp"
-                        android:backgroundTint="@color/blue"
+                        android:backgroundTint="@color/white"
                         app:layout_constraintTop_toBottomOf="@id/sign_up_email_title"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -144,8 +145,9 @@
                         android:text="@={viewModel.joinEmail}"
                         android:inputType="textEmailAddress"
                         android:hint="@string/email"
+                        android:textColorHint="@color/white"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:autofillHints=""
                         tools:targetApi="o"
                 />
@@ -174,15 +176,18 @@
                         app:layout_constraintEnd_toEndOf="@+id/sign_up_email_input"
                         app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
                         android:text="@={viewModel.joinPassword}"
-                        android:backgroundTint="@color/blue"
+                        android:backgroundTint="@color/white"
                         android:layout_marginTop="20dp"
                         android:padding="6dp"
                         android:hint="@string/password"
-                        android:textColor="@color/black"
+                        android:textColorHint="@color/white"
+                        android:textColor="@color/white"
                         android:textAlignment="center"
                         android:inputType="textPassword"
                         android:autofillHints=""
-                        tools:targetApi="o"/>
+                        tools:targetApi="o"
+
+                        />
 
                 <ProgressBar
                         android:id="@+id/sign_up_button_progress"
@@ -193,7 +198,7 @@
                         app:layout_constraintStart_toStartOf="@+id/sign_up_button"
                         app:layout_constraintEnd_toEndOf="@+id/sign_up_button"
                         android:visibility="@{viewModel.isJoiningProgress == false ? View.INVISIBLE : View.VISIBLE}"
-                        android:indeterminateTint="@color/blue"
+                        android:indeterminateTint="@color/white"
                 />
 
                 <Button
@@ -206,11 +211,11 @@
                         app:layout_constraintStart_toStartOf="@+id/sign_up_password_input"
                         app:layout_constraintTop_toBottomOf="@+id/sign_up_password_input"
                         android:background="@drawable/white_border"
-                        android:backgroundTint="@color/blue"
+                        android:backgroundTint="@color/white"
                         android:layout_marginTop="40dp"
                         android:text="@string/sign_up"
                         android:textAllCaps="false"
-                        android:textColor="@color/ssWhite"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:visibility="@{viewModel.isJoiningProgress == true ? View.INVISIBLE : View.VISIBLE}"
                         android:onClick="@{() -> viewModel.joinAndSignIn()}"
@@ -226,11 +231,11 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginTop="10dp"
                         android:text="@string/cancel"
-                        android:textColor="@color/ssWhite"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textAllCaps="false"
                         android:background="@drawable/white_border"
-                        android:backgroundTint="@color/blue"
+                        android:backgroundTint="@color/white"
                         android:onClick="@{() -> viewModel.finishCreateAccountActivity()}"
                 />
 
