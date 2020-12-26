@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ActivityProfile"
-            android:background="@color/light_grey"
+            android:background="@color/blue"
             >
 
         <fragment
@@ -66,6 +66,8 @@
                 android:autofillHints=""
                 tools:targetApi="o"
                 android:hint="@string/name"
+                android:textColor="@color/white"
+                android:backgroundTint="@android:color/white"
             />
 
         <EditText
@@ -81,7 +83,9 @@
                 android:text="@={viewModel.currentProfileUser.email}"
                 android:autofillHints=""
                 tools:targetApi="o"
+                android:textColor="@color/white"
                 android:hint="@string/email"
+                android:backgroundTint="@android:color/white"
                 />
 
         <Button
@@ -92,9 +96,8 @@
                 app:layout_constraintStart_toStartOf="@+id/profile_email"
                 app:layout_constraintEnd_toEndOf="@+id/profile_email"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/ssWhite"
-                android:backgroundTint="@color/blue"
-                android:background="@drawable/blue_button"
+                android:textColor="@color/black"
+                android:background="@drawable/blue_border_thick"
                 android:text="@string/save"
                 android:textAllCaps="false"
                 android:onClick="@{() -> viewModel.updateUserProfile()}"
@@ -109,7 +112,7 @@
                 app:layout_constraintStart_toStartOf="@+id/profile_save_button"
                 app:layout_constraintEnd_toEndOf="@+id/profile_save_button"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_save_button"
-                android:indeterminateTint="@color/blue"
+                android:indeterminateTint="@color/white"
                 android:visibility="@{viewModel.isUpdatingUserProfile == true ? View.VISIBLE : View.INVISIBLE}"
                 />
 
