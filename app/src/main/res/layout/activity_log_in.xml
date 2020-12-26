@@ -8,7 +8,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ActivityLogIn">
+            tools:context=".ActivityLogIn"
+            android:background="@color/blue"
+            >
 
         <ImageView
                 android:id="@+id/log_in_title"
@@ -25,7 +27,7 @@
                 android:scaleType="fitCenter"
                 android:background="#04090f"
                 android:contentDescription="@string/app_name"
-                android:backgroundTint="@color/light_grey"
+                android:backgroundTint="@color/blue"
         />
 
         <TextView
@@ -38,7 +40,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/the_training_plan"
                 android:textSize="30sp"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textStyle="italic"
         />
 
@@ -52,7 +54,7 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/log_in"
                 android:textSize="24sp"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textStyle="bold"
         />
 
@@ -88,11 +90,12 @@
                 android:inputType="textEmailAddress"
                 android:hint="@string/email"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:autofillHints=""
                 tools:targetApi="o"
-                android:backgroundTint="@color/blue"
                 android:text="@={viewModel.signInEmail}"
+                android:backgroundTint="@android:color/white"
         />
 
         <TextView
@@ -121,8 +124,9 @@
                 android:layout_marginTop="20dp"
                 android:padding="6dp"
                 android:hint="@string/password"
-                android:backgroundTint="@color/blue"
-                android:textColor="@color/black"
+                android:textColorHint="@color/white"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/white"
                 android:textAlignment="center"
                 android:inputType="textPassword"
                 android:autofillHints=""
@@ -138,7 +142,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/log_in_button"
                 app:layout_constraintStart_toStartOf="@+id/log_in_button"
                 app:layout_constraintEnd_toEndOf="@+id/log_in_button"
-                android:indeterminateTint="@color/blue"
+                android:indeterminateTint="@color/white"
                 android:visibility="@{viewModel.isSigningIn == false ? View.INVISIBLE : View.VISIBLE}"
         />
 
@@ -152,11 +156,11 @@
                 app:layout_constraintStart_toStartOf="@+id/log_in_password_input"
                 app:layout_constraintTop_toBottomOf="@+id/log_in_password_input"
                 android:background="@drawable/white_border"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/white"
                 android:layout_marginTop="40dp"
                 android:text="@string/log_in"
                 android:textAllCaps="false"
-                android:textColor="@color/ssWhite"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:onClick="@{() -> viewModel.signIn()}"
                 android:visibility="@{viewModel.isSigningIn == true ? View.INVISIBLE : View.VISIBLE}"
@@ -170,10 +174,10 @@
                 app:layout_constraintStart_toStartOf="@+id/log_in_password_input"
                 app:layout_constraintEnd_toEndOf="@+id/log_in_password_input"
                 android:background="@drawable/white_border"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/white"
                 android:layout_marginTop="10dp"
                 android:text="@string/create_account"
-                android:textColor="@color/ssWhite"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textAllCaps="false"
                 android:onClick="@{() -> viewModel.startActivityCreateAccount()}"
