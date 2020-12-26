@@ -73,9 +73,7 @@ class ActivityProfile : AppCompatActivity() {
             if(!isLoggedIn){
                 UserModel.logOut{data:Boolean?, _ : Exception? ->
                     if(data != null && data){
-                        alert ("Logged out"){
-                            okButton {  }
-                        }.show()
+
                     }
 
                 }
