@@ -30,6 +30,7 @@ import com.thetrainingplan.viewmodels.DiaryViewModel
 import com.thetrainingplan.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_diary.*
 import kotlinx.android.synthetic.main.activity_statistics_board.*
+import kotlinx.android.synthetic.main.diary_item.*
 import kotlinx.android.synthetic.main.diary_item.view.*
 import kotlinx.android.synthetic.main.diary_page_item.*
 import kotlinx.android.synthetic.main.diary_page_item.view.*
@@ -307,8 +308,10 @@ class ActivityDiary : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val entry = entries[position]
 
+            holder.itemView.diary_item_layout.setBackgroundResource(R.drawable.blue_border_thick)
+
             if(entry.repeatEvery != null){
-                holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.nka_red))
+                holder.itemView.diary_entry_status.text = "Open"
 
                 val format = SimpleDateFormat("dd-MMMM-yyyy")
                 val timestamps = entry.doneDates as? ArrayList<com.google.firebase.Timestamp>
@@ -319,7 +322,7 @@ class ActivityDiary : AppCompatActivity() {
                         val dd = format.format(doneDate)
                         val td = format.format(dateOfDiary)
                         if(dd == td){
-                            holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.aqua))
+                            holder.itemView.diary_entry_status.text = "Completed"
                         }
                     }
                 }
@@ -333,7 +336,7 @@ class ActivityDiary : AppCompatActivity() {
                         val i = format.format(deleteDate.toDate())
                         val x = format.format(dateOfDiary)
                         if(i == x){
-                            holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.black))
+                            holder.itemView.diary_entry_status.text = "Deleted"
                         }
                     }
                 }
@@ -345,11 +348,10 @@ class ActivityDiary : AppCompatActivity() {
                 val isCompleted = AddTaskModel.checkTaskIsCompleted(entry)
 
                 if(isCompleted){
-                    holder.itemView.diary_item_layout.setBackgroundResource(R.drawable.green_border_thick)
-                    holder.itemView.diary_item_layout.setBackgroundColor(resources.getColor(R.color.green_success))
+                    holder.itemView.diary_entry_status.text = "Completed"
                 }
                 else{
-                    holder.itemView.diary_item_layout.setBackgroundResource(R.drawable.blue_border_thick)
+                    holder.itemView.diary_entry_status.text = "Open"
                 }
             }
 
