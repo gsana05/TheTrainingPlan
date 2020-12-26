@@ -57,7 +57,7 @@ class AuthViewModel (application : Application) : AndroidViewModel(application) 
             return
         }
 
-        if(password.length > 6){
+        if(password.length < 6){
             isUserJoined.value = false
             return
         }
